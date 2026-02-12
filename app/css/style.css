@@ -12,6 +12,11 @@
   --font-inter: Inter, sans-serif;
   --font-mono: Roboto Mono, monospace;
 
+  --color-vmg-navy: #012a9e;
+  --color-vmg-blue: #023bef;
+  --color-vmg-green: #75d648;
+  --color-vmg-white: #fffdfd;
+
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.5;
   --text-sm: 0.875rem;

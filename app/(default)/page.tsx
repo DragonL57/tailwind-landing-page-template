@@ -1,22 +1,14 @@
 export const metadata = {
-  title: "Home - Simple",
-  description: "Page description",
+  title: "VMG TESOL e-PATH - Lộ trình giảng dạy tiếng Anh chuẩn quốc tế",
+  description: "Chương trình TESOL trực tuyến 100% online với chứng chỉ ALAP quốc tế, mentor đồng hành, livestream hàng tuần và cam kết việc làm.",
 };
 
-import Hero from "@/components/hero-home";
-import BusinessCategories from "@/components/business-categories";
-import FeaturesPlanet from "@/components/features-planet";
-import LargeTestimonial from "@/components/large-testimonial";
-import Cta from "@/components/cta";
+import HeroTesol from "@/components/hero-tesol";
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <BusinessCategories />
-      <FeaturesPlanet />
-      <LargeTestimonial />
-      <Cta />
+      <HeroTesol />
     </>
   );
 }
