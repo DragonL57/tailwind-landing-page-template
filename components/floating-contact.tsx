@@ -6,7 +6,7 @@ export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-5 right-8 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-3 right-8 z-50 flex flex-col items-end gap-3">
       {/* Contact Options - Show when open */}
       {isOpen && (
         <div className="flex flex-col gap-3 animate-in slide-in-from-bottom-4 fade-in">

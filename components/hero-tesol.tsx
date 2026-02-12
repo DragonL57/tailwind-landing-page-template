@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import LogoBand from "./logo-band";
 import PaymentSidebar from "./payment-sidebar";
-import ProductOverview from "./product-overview";
+import CourseContent from "./course-content";
+import TesolBenefits from "./tesol-benefits";
 import ConsultationForm from "./consultation-form";
 import DealBanner from "./deal-banner";
 
@@ -129,15 +130,18 @@ export default function HeroTesol() {
       </div>
     </section>
 
-    {/* Deal Banner Section */}
-    <DealBanner />
-
     {/* 70/30 Layout Section */}
     <section id="pricing" className="w-full bg-gray-50 border-t border-gray-200 py-12 scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-10 gap-12">
-        {/* Left: Product Overview + Logo Band (70%) */}
+        {/* Left: Course Content + Deal Banner + TESOL Benefits + Logo Band (70%) */}
         <div className="lg:col-span-7 space-y-12">
-          <ProductOverview />
+          <CourseContent />
+          
+          {/* Deal Banner Section */}
+          <DealBanner />
+          
+          <TesolBenefits />
+          
           <LogoBand />
         </div>
         {/* Right: Payment Sidebar (30%) */}

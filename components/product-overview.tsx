@@ -122,46 +122,36 @@ export default function ProductOverview() {
 
       {/* Vì sao TESOL */}
       <div className="relative">
-        {/* Decorative gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-vmg-blue/[0.02] to-vmg-green/[0.02] rounded-3xl"></div>
-        <div className="absolute top-10 right-10 w-40 h-40 bg-vmg-navy/5 rounded-full blur-3xl"></div>
-        
         <div className="relative py-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-8 relative">
-            <span className="relative z-10">Vì sao TESOL Online tại VMG là một lựa chọn khác biệt</span>
-            <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-vmg-blue to-vmg-green rounded-full"></div>
+          <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-8 text-center">
+            Vì sao TESOL Online tại VMG là một lựa chọn khác biệt
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-          {features.map((feature, index) => (
-            <div key={index} className="group relative bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-2xl hover:border-vmg-blue/30 transition-all duration-300">
-              {/* Decorative corner accent */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-vmg-blue/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <button
-                onClick={() => toggleAccordion(index)}
-                className="relative w-full flex items-center justify-between p-6 text-left hover:bg-gradient-to-r hover:from-vmg-blue/5 hover:to-transparent transition-all duration-300"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 bg-${feature.color}/10 rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    {feature.icon}
+            {features.map((feature, index) => (
+              <div key={index} className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-md hover:shadow-xl border border-gray-200 hover:border-vmg-blue/40 transition-all duration-300 p-6">
+                {/* Icon and Title Row */}
+                <div className="flex items-start gap-4 mb-4">
+                  <div className={`w-14 h-14 bg-${feature.color}/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="scale-125">
+                      {feature.icon}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-vmg-navy">{feature.title}</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-vmg-navy group-hover:text-vmg-blue transition-colors">
+                      {feature.title}
+                    </h3>
+                  </div>
                 </div>
-                <svg
-                  className={`w-6 h-6 text-vmg-navy transition-transform ${openAccordion.includes(index) ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {openAccordion.includes(index) && (
-                <div className="px-6 pb-6 pt-0">
-                  <p className="text-gray-700 leading-relaxed pl-16">{feature.description}</p>
-                </div>
-              )}
-            </div>
-          ))}
+                
+                {/* Description */}
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+                
+                {/* Bottom accent line */}
+                <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-vmg-blue to-vmg-green rounded-full transition-all duration-500"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
