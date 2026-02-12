@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useUI } from "@/context/ui-context";
 
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isCartOpen } = useUI();
 
   return (
-    <div className="fixed bottom-3 right-8 z-50 flex flex-col items-end gap-3">
+    <div className={`fixed bottom-3 z-[60] flex flex-col items-end gap-3 transition-all duration-300 ${
+      isCartOpen ? 'right-[32rem]' : 'right-8'
+    }`}>
       {/* Contact Options - Show when open */}
       {isOpen && (
         <div className="flex flex-col gap-3 animate-in slide-in-from-bottom-4 fade-in">

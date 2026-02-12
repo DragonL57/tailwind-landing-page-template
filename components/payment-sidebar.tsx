@@ -1,9 +1,14 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
+import { useCart } from "@/context/cart-context";
 
 export default function PaymentSidebar() {
+  const { addItem } = useCart();
   const [coupon, setCoupon] = useState("");
   const [price, setPrice] = useState(5000000);
   const [discount, setDiscount] = useState(0);
+  const [showAddedMessage, setShowAddedMessage] = useState(false);
 
   // Check for applied coupon on mount and listen for storage changes
   useEffect(() => {
@@ -34,6 +39,21 @@ export default function PaymentSidebar() {
     }
   }
 
+  const handleAddToCart = () => {
+    const finalPrice = Math.round(price * (1 - discount));
+    addItem({
+      id: "tesol-online",
+      name: "TESOL Online - Lộ trình giảng dạy tiếng Anh chuẩn quốc tế",
+      price: finalPrice,
+      quantity: 1,
+      image: "/images/VMG_LOGO.svg"
+    });
+    
+    // Show success message
+    setShowAddedMessage(true);
+    setTimeout(() => setShowAddedMessage(false), 2000);
+  };
+
   const finalPrice = Math.round(price * (1 - discount));
 
   return (
@@ -58,21 +78,22 @@ export default function PaymentSidebar() {
         {/* CTA Buttons */}
         <div className="space-y-2">
           <button
-            onClick={() => {
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
+            onClick={handleAddToCart}
             className="w-full bg-vmg-green hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
           >
             Mua ngay
           </button>
           <button
-            onClick={() => {
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
+            onClick={handleAddToCart}
             className="w-full bg-white border-2 border-vmg-blue text-vmg-blue hover:bg-vmg-blue hover:text-white font-bold py-2.5 rounded-lg transition-all"
           >
             Thêm vào giỏ hàng
           </button>
+          {showAddedMessage && (
+            <div className="bg-vmg-green/10 border border-vmg-green text-vmg-green text-center font-semibold py-2 rounded-lg animate-pulse">
+              ✓ Đã thêm vào giỏ hàng
+            </div>
+          )}
         </div>
 
         {/* Course Includes */}

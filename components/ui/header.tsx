@@ -3,11 +3,16 @@
 import { useState } from "react";
 import Logo from "./logo";
 import AuthModal from "@/components/auth-modal";
+import CartModal from "@/components/cart-modal";
+import { useCart } from "@/context/cart-context";
+import { useUI } from "@/context/ui-context";
 
 export default function Header() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const { itemCount } = useCart();
+  const { isCartOpen, setIsCartOpen } = useUI();
 
   const openAuthModal = (mode: "login" | "register") => {
     setAuthMode(mode);
@@ -75,10 +80,19 @@ export default function Header() {
 
             {/* Right: Sign in links & Cart */}
             <ul className="flex items-center justify-end gap-4">
-              {/* Shopping Cart */}
+              {/* Shopping Cart Button */}
               <li>
-                <button className="relative p-2 text-gray-700 hover:text-vmg-blue transition-colors hover:bg-vmg-blue/10 rounded-lg">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative p-2 text-gray-700 hover:text-vmg-blue transition-colors hover:bg-vmg-blue/10 rounded-lg"
+                  aria-label="Giỏ hàng"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -86,9 +100,11 @@ export default function Header() {
                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
-                  <span className="absolute top-1 right-1 w-5 h-5 bg-vmg-green text-white text-xs rounded-full flex items-center justify-center font-bold">
-                    0
-                  </span>
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-vmg-green text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg">
+                      {itemCount}
+                    </span>
+                  )}
                 </button>
               </li>
 
@@ -113,6 +129,9 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onCloseAction={() => setIsCartOpen(false)} />
 
       {/* Auth Modal */}
       <AuthModal

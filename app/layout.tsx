@@ -3,6 +3,8 @@ import "./css/style.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/ui/header";
 import FloatingContact from "@/components/floating-contact";
+import { CartProvider } from "@/context/cart-context";
+import { UIProvider } from "@/context/ui-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,11 +27,15 @@ export default function RootLayout({
       <body
         className={`${inter.variable} bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
       >
-        <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
-          <Header />
-          {children}
-          <FloatingContact />
-        </div>
+        <UIProvider>
+          <CartProvider>
+            <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
+              <Header />
+              {children}
+              <FloatingContact />
+            </div>
+          </CartProvider>
+        </UIProvider>
       </body>
     </html>
   );
