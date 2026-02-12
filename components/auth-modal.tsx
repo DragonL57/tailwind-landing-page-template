@@ -11,6 +11,7 @@ interface AuthModalProps {
 export default function AuthModal({ isOpen, onCloseAction, initialMode = "login" }: AuthModalProps) {
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [formData, setFormData] = useState({
+    phone: "",
     email: "",
     password: "",
     name: "",
@@ -57,7 +58,7 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
           <div className="flex items-center justify-center mb-6">
             <div className="w-12 h-12 bg-gradient-to-br from-vmg-blue to-vmg-navy rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
             </div>
           </div>
@@ -67,8 +68,8 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
           </h2>
           <p className="text-center text-gray-600">
             {mode === "login" 
-              ? "Chào mừng trở lại! Đăng nhập để tiếp tục" 
-              : "Tạo tài khoản để bắt đầu học tập"}
+              ? "Nhập số điện thoại để đăng nhập" 
+              : "Đăng ký tài khoản bằng số điện thoại"}
           </p>
         </div>
 
@@ -77,7 +78,7 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
           {mode === "register" && (
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                Họ và tên
+                Họ và tên <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -93,24 +94,43 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-              Email
+            <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+              Số điện thoại <span className="text-red-500">*</span>
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="tel"
+              id="phone"
+              name="phone"
               required
-              value={formData.email}
+              value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
-              placeholder="email@example.com"
+              className="w-full px-4 py-3 border-2 border-vmg-blue rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-navy focus:border-transparent transition-all"
+              placeholder="0912 345 678"
+              pattern="[0-9]{10,11}"
             />
+            <p className="mt-1 text-xs text-gray-500">Số điện thoại sẽ được dùng để đăng nhập</p>
           </div>
+
+          {mode === "register" && (
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                Email (không bắt buộc)
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                placeholder="email@example.com"
+              />
+            </div>
+          )}
 
           <div>
             <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
-              Mật khẩu
+              Mật khẩu <span className="text-red-500">*</span>
             </label>
             <input
               type="password"
@@ -121,13 +141,17 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
               placeholder="••••••••"
+              minLength={6}
             />
+            {mode === "register" && (
+              <p className="mt-1 text-xs text-gray-500">Tối thiểu 6 ký tự</p>
+            )}
           </div>
 
           {mode === "register" && (
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
-                Xác nhận mật khẩu
+                Xác nhận mật khẩu <span className="text-red-500">*</span>
               </label>
               <input
                 type="password"
@@ -146,11 +170,17 @@ export default function AuthModal({ isOpen, onCloseAction, initialMode = "login"
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2">
                 <input type="checkbox" className="rounded border-gray-300 text-vmg-blue focus:ring-vmg-blue" />
-                <span className="text-gray-600">Ghi nhớ đăng nhập</span>
+                <span className="text-gray-600">Ghi nhớ thiết bị</span>
               </label>
               <button type="button" className="text-vmg-blue hover:text-vmg-navy font-medium">
                 Quên mật khẩu?
               </button>
+            </div>
+          )}
+
+          {mode === "register" && (
+            <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+              <p>Bằng việc đăng ký, bạn đồng ý với <a href="#" className="text-vmg-blue hover:underline">Điều khoản dịch vụ</a> và <a href="#" className="text-vmg-blue hover:underline">Chính sách bảo mật</a> của VMG Education.</p>
             </div>
           )}
 
