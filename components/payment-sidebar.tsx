@@ -39,8 +39,8 @@ export default function PaymentSidebar() {
   return (
     <aside className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
       {/* Price Header Section */}
-      <div className="bg-gradient-to-br from-vmg-navy to-vmg-blue p-6 text-white">
-        <div className="text-sm font-medium opacity-90 mb-2">Học phí khóa học</div>
+      <div className="bg-gradient-to-br from-vmg-navy to-vmg-blue p-4 text-white">
+        <div className="text-sm font-medium opacity-90 mb-1">Học phí khóa học</div>
         <div className="flex items-baseline gap-2">
           {discount > 0 && (
             <span className="text-2xl line-through opacity-70">₫{price.toLocaleString()}</span>
@@ -48,20 +48,20 @@ export default function PaymentSidebar() {
           <span className="text-4xl font-bold">₫{finalPrice.toLocaleString()}</span>
         </div>
         {discount > 0 && (
-          <div className="mt-3 inline-block bg-vmg-green text-white text-sm font-semibold px-3 py-1 rounded-full">
+          <div className="mt-2 inline-block bg-vmg-green text-white text-sm font-semibold px-3 py-1 rounded-full">
             🎉 Tiết kiệm 5%
           </div>
         )}
       </div>
 
-      <div className="p-6 space-y-5">
+      <div className="p-4 space-y-3">
         {/* CTA Buttons */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <button
             onClick={() => {
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className="w-full bg-vmg-green hover:bg-green-600 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
+            className="w-full bg-vmg-green hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
           >
             Mua ngay
           </button>
@@ -69,22 +69,22 @@ export default function PaymentSidebar() {
             onClick={() => {
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className="w-full bg-white border-2 border-vmg-blue text-vmg-blue hover:bg-vmg-blue hover:text-white font-bold py-3 rounded-lg transition-all"
+            className="w-full bg-white border-2 border-vmg-blue text-vmg-blue hover:bg-vmg-blue hover:text-white font-bold py-2.5 rounded-lg transition-all"
           >
             Thêm vào giỏ hàng
           </button>
         </div>
 
         {/* Course Includes */}
-        <div className="pt-4 border-t border-gray-200">
-          <h4 className="font-bold text-vmg-navy mb-4 flex items-center gap-2">
+        <div className="pt-3 border-t border-gray-200">
+          <h4 className="font-bold text-vmg-navy mb-2 flex items-center gap-2">
             <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
               <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/>
             </svg>
             Khóa học bao gồm
           </h4>
-          <ul className="space-y-3">
+          <ul className="space-y-2">
             <li className="flex items-start gap-3 text-sm text-gray-700">
               <svg className="w-5 h-5 text-vmg-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
@@ -113,7 +113,7 @@ export default function PaymentSidebar() {
         </div>
 
         {/* Coupon Section */}
-        <div className="pt-4 border-t border-gray-200">
+        <div className="pt-3 border-t border-gray-200">
           <label className="block text-sm font-semibold text-vmg-navy mb-2 flex items-center gap-2" htmlFor="coupon">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd"/>

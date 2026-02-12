@@ -6,7 +6,7 @@ export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-5 right-8 z-50 flex flex-col items-end gap-3">
       {/* Contact Options - Show when open */}
       {isOpen && (
         <div className="flex flex-col gap-3 animate-in slide-in-from-bottom-4 fade-in">
@@ -50,7 +50,7 @@ export default function FloatingContact() {
           }
           setIsOpen(!isOpen);
         }}
-        className="bg-gradient-to-br from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold px-6 py-4 rounded-full shadow-2xl hover:shadow-vmg-blue/50 transition-all transform hover:scale-105 flex items-center gap-3"
+        className="bg-gradient-to-br from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold px-4 py-2.5 rounded-full shadow-2xl hover:shadow-vmg-blue/50 transition-all transform hover:scale-105 flex items-center gap-2"
       >
         {isOpen ? (
           <>
