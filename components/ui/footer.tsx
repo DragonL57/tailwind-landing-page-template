@@ -11,7 +11,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
         >
           {/* 1st block */}
           <div className="space-y-2 sm:col-span-12 lg:col-span-4">
-            <div>
+            <div className="scale-125">
               <Logo />
             </div>
             <div className="text-sm text-gray-600">
@@ -75,7 +75,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-gray-600 transition hover:text-vmg-blue"
                   href="#0"
                 >
-                  Tầm Nhìn & Sứ Mạng
+                  Tầm Nhìn & Sứ 
                 </Link>
               </li>
               <li>
