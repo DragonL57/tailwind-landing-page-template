@@ -8,6 +8,7 @@ import CourseContent from "./course-content";
 import TesolBenefits from "./tesol-benefits";
 import ConsultationForm from "./consultation-form";
 import DealBanner from "./deal-banner";
+import CourseCurriculum from "./course-curriculum";
 
 export default function HeroTesol() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -143,6 +144,8 @@ export default function HeroTesol() {
           <TesolBenefits />
           
           <LogoBand />
+
+          <CourseCurriculum />
         </div>
         {/* Right: Payment Sidebar (30%) */}
         <div className="lg:col-span-3">

@@ -1,18 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getCouponDaysRemaining, isCouponValid } from "@/lib/coupons";
 
 export default function DealBanner() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
+  
+  const daysRemaining = getCouponDaysRemaining();
+  const couponStillValid = isCouponValid();
+
   const [timeLeft, setTimeLeft] = useState({
-    days: 2,
+    days: daysRemaining,
     hours: 23,
     minutes: 59,
     seconds: 59,
   });
 
-  // Countdown timer
+  // Countdown timer - counts down to day 20
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -43,10 +49,29 @@ export default function DealBanner() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Store coupon in localStorage
+    
+    if (!couponStillValid) {
+      setSubmitMessage("Ưu đãi chỉ áp dụng trước ngày 20 hàng tháng. Vui lòng quay lại tháng sau!");
+      return;
+    }
+
+    if (!phone || phone.length < 10) {
+      setSubmitMessage("Vui lòng nhập số điện thoại hợp lệ");
+      return;
+    }
+
+    // Store coupon and phone in localStorage
     localStorage.setItem('appliedCoupon', 'VMG-SOM');
-    // Scroll to payment sidebar
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    localStorage.setItem('earlyBirdPhone', phone);
+    localStorage.setItem('earlyBirdEmail', email);
+    localStorage.setItem('earlyBirdSubmittedAt', new Date().toISOString());
+    
+    setSubmitMessage("✓ Đã đăng ký thành công! Mã VMG-SOM đã được áp dụng.");
+    
+    // Scroll to payment sidebar after 1 second
+    setTimeout(() => {
+      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 1000);
   };
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
@@ -72,10 +97,14 @@ export default function DealBanner() {
                   Ưu đãi có hạn
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                  Đăng Ký Nhận Ưu Đãi
+                  Đăng Ký Nhận Ưu Đãi EARLY BIRD
                 </h2>
-                <p className="text-xl font-semibold text-vmg-green mb-6">
-                  Giảm giá lên tới 35%
+                <p className="text-xl font-semibold text-vmg-green mb-2">
+                  Giảm ngay 5% cho khóa học từ 5 triệu
+                </p>
+                <p className="text-sm opacity-90 mb-6">
+                  {couponStillValid 
+                  }
                 </p>
                 
                 {/* Compact Countdown */}
@@ -131,10 +160,28 @@ export default function DealBanner() {
                   />
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
+                    disabled={!couponStillValid}
+                    className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    Nhận Ưu Đãi Ngay
+                    {couponStillValid ? 'Nhận Ưu Đãi Ngay' : 'Ưu đãi hết hạn'}
                   </button>
+                  
+                  {/* Success/Error Message */}
+                  {submitMessage && (
+                    <div className={`p-3 rounded-xl text-sm font-medium ${
+                      submitMessage.includes('✓') 
+                        ? 'bg-green-50 text-green-800 border border-green-200' 
+                        : 'bg-yellow-50 text-yellow-800 border border-yellow-200'
+                    }`}>
+                      {submitMessage}
+                      {submitMessage.includes('✓') && (
+                        <div className="mt-2 pt-2 border-t border-green-200">
+                          <p className="font-bold text-lg text-green-900">Mã của bạn: VMG-SOM</p>
+                          <p className="text-xs mt-1">Sử dụng mã này khi thanh toán</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

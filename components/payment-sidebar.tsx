@@ -2,25 +2,42 @@
 
 import React, { useState, useEffect } from "react";
 import { useCart } from "@/context/cart-context";
+import { useRouter } from "next/navigation";
+import { getCouponDaysRemaining, isCouponValid } from "@/lib/coupons";
 
 export default function PaymentSidebar() {
   const { addItem } = useCart();
+  const router = useRouter();
   const [coupon, setCoupon] = useState("");
   const [price, setPrice] = useState(5000000);
   const [discount, setDiscount] = useState(0);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
+  const [couponError, setCouponError] = useState("");
+
+  const daysRemaining = getCouponDaysRemaining();
+  const couponStillValid = isCouponValid();
+  const [hasRegistered, setHasRegistered] = useState(false);
+  const [revealedCode, setRevealedCode] = useState("");
 
   // Check for applied coupon on mount and listen for storage changes
   useEffect(() => {
+    const earlyBirdPhone = localStorage.getItem('earlyBirdPhone');
     const appliedCoupon = localStorage.getItem('appliedCoupon');
-    if (appliedCoupon) {
+    
+    if (earlyBirdPhone && appliedCoupon && couponStillValid) {
+      setHasRegistered(true);
+      setRevealedCode(appliedCoupon);
       setCoupon(appliedCoupon);
       setDiscount(0.05);
     }
 
     // Listen for storage changes from deal banner
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'appliedCoupon' && e.newValue) {
+      if (e.key === 'earlyBirdPhone' && e.newValue) {
+        setHasRegistered(true);
+      }
+      if (e.key === 'appliedCoupon' && e.newValue && couponStillValid) {
+        setRevealedCode(e.newValue);
         setCoupon(e.newValue);
         setDiscount(0.05);
       }
@@ -28,13 +45,30 @@ export default function PaymentSidebar() {
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  }, [couponStillValid]);
 
-  // Dummy coupon logic
+  // Coupon validation logic
   function handleApplyCoupon() {
-    if (coupon.trim().toUpperCase() === "VMG-SOM" || coupon.trim().toUpperCase() === "EARLYBIRD") {
-      setDiscount(0.05);
+    setCouponError("");
+    const code = coupon.trim().toUpperCase();
+
+    if (!couponStillValid) {
+      setCouponError("Mã chỉ áp dụng khi thanh toán trước ngày 20 hàng tháng");
+      setDiscount(0);
+      return;
+    }
+
+    if (code === "VMG-SOM" || code === "EARLYBIRD") {
+      if (price < 5000000) {
+        setCouponError("Đơn hàng phải từ ₫5.000.000 để áp dụng mã");
+        setDiscount(0);
+      } else {
+        setDiscount(0.05);
+        setCouponError("");
+        localStorage.setItem('appliedCoupon', code);
+      }
     } else {
+      setCouponError("Mã giảm giá không hợp lệ");
       setDiscount(0);
     }
   }
@@ -78,7 +112,10 @@ export default function PaymentSidebar() {
         {/* CTA Buttons */}
         <div className="space-y-2">
           <button
-            onClick={handleAddToCart}
+            onClick={() => {
+              handleAddToCart();
+              setTimeout(() => router.push('/checkout'), 500);
+            }}
             className="w-full bg-vmg-green hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
           >
             Mua ngay
@@ -139,25 +176,35 @@ export default function PaymentSidebar() {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd"/>
             </svg>
-            Mã giảm giá
+            Mã EARLY BIRD
           </label>
-          <div className="flex gap-2">
+
+          <div className="flex gap-2 mb-2">
             <input
               id="coupon"
               type="text"
               value={coupon}
-              onChange={e => setCoupon(e.target.value)}
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent"
-              placeholder="Nhập mã giảm giá"
+              onChange={e => setCoupon(e.target.value.toUpperCase())}
+              className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent uppercase"
+              placeholder={hasRegistered ? revealedCode : "Đăng ký để nhận mã"}
+              disabled={!couponStillValid || !hasRegistered}
             />
             <button
               type="button"
               onClick={handleApplyCoupon}
-              className="bg-vmg-blue hover:bg-vmg-navy text-white font-semibold px-5 py-2.5 rounded-lg transition-colors"
+              disabled={!couponStillValid || !hasRegistered}
+              className="bg-vmg-blue hover:bg-vmg-navy text-white font-semibold px-5 py-2.5 rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
               Áp dụng
             </button>
           </div>
+
+          {/* Error Message */}
+          {couponError && (
+            <div className="p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700 font-medium">
+              {couponError}
+            </div>
+          )}
         </div>
       </div>
     </aside>

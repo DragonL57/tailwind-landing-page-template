@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/cart-context";
+import { useRouter } from "next/navigation";
 
 interface CartModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface CartModalProps {
 
 export default function CartModal({ isOpen, onCloseAction }: CartModalProps) {
   const { items, removeItem, updateQuantity, clearCart, total, itemCount } = useCart();
+  const router = useRouter();
 
   if (!isOpen) return null;
 
@@ -149,10 +151,6 @@ export default function CartModal({ isOpen, onCloseAction }: CartModalProps) {
                     <span>Tạm tính:</span>
                     <span className="font-semibold">₫{total.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Phí vận chuyển:</span>
-                    <span className="font-semibold text-vmg-green">Miễn phí</span>
-                  </div>
                   <div className="border-t-2 border-dashed border-gray-200 pt-2 flex justify-between items-baseline">
                     <span className="text-lg font-bold text-gray-900">Tổng cộng:</span>
                     <span className="text-3xl font-bold text-vmg-blue">
@@ -163,7 +161,13 @@ export default function CartModal({ isOpen, onCloseAction }: CartModalProps) {
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
-                  <button className="w-full bg-vmg-blue hover:bg-vmg-navy text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
+                  <button 
+                    onClick={() => {
+                      onCloseAction();
+                      router.push('/checkout');
+                    }}
+                    className="w-full bg-vmg-blue hover:bg-vmg-navy text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                  >
                     Thanh Toán Ngay
                   </button>
                   <button
