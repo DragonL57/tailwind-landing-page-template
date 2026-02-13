@@ -13,18 +13,29 @@ export default function CheckoutPage() {
   const [appliedVoucher, setAppliedVoucher] = useState<{ coupon: Coupon; discount: number } | null>(null);
   const [voucherMessage, setVoucherMessage] = useState("");
   const [voucherError, setVoucherError] = useState(false);
-  const [showVATForm, setShowVATForm] = useState(false);
-  const [showAlternateReceiver, setShowAlternateReceiver] = useState(false);
 
   const daysRemaining = getCouponDaysRemaining();
   const couponStillValid = isCouponValid();
   const [hasRegistered, setHasRegistered] = useState(false);
   const [revealedCode, setRevealedCode] = useState("");
 
-  // Check if user registered from deal banner
+  // Phone verification states
+  const [isVerified, setIsVerified] = useState(false);
+  const [verificationPhone, setVerificationPhone] = useState("");
+  const [verificationError, setVerificationError] = useState("");
+
+  // Check if user registered from deal banner or is already verified
   useEffect(() => {
     const earlyBirdPhone = localStorage.getItem('earlyBirdPhone');
     const appliedCoupon = localStorage.getItem('appliedCoupon');
+    const verifiedPhone = localStorage.getItem('verifiedCheckoutPhone');
+    
+    if (verifiedPhone) {
+      setIsVerified(true);
+      setVerificationPhone(verifiedPhone);
+      setFormData(prev => ({ ...prev, phone: verifiedPhone }));
+    }
+    
     if (earlyBirdPhone && appliedCoupon) {
       setHasRegistered(true);
       setRevealedCode(appliedCoupon);
@@ -40,17 +51,28 @@ export default function CheckoutPage() {
     address: "",
     city: "",
     note: "",
-    // Alternate receiver
-    altName: "",
-    altPhone: "",
-    // VAT info
-    companyName: "",
-    taxCode: "",
-    companyAddress: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePhoneVerification = (e: React.FormEvent) => {
+    e.preventDefault();
+    setVerificationError("");
+
+    // Validate phone number
+    if (!verificationPhone || verificationPhone.length < 10) {
+      setVerificationError("Vui lòng nhập số điện thoại hợp lệ (ít nhất 10 số)");
+      return;
+    }
+
+    // Store verified phone in localStorage
+    localStorage.setItem('verifiedCheckoutPhone', verificationPhone);
+    
+    // Set verified state and pre-fill phone in form
+    setIsVerified(true);
+    setFormData(prev => ({ ...prev, phone: verificationPhone }));
   };
 
   const handleApplyVoucher = () => {
@@ -141,18 +163,95 @@ export default function CheckoutPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Checkout Form */}
+          {/* Left Column - Verification or Checkout Form */}
+          {!isVerified ? (
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-2xl shadow-sm p-8 border-2 border-vmg-blue/20">
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <div className="w-20 h-20 bg-vmg-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-10 h-10 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-vmg-navy mb-3">
+                    Xác Nhận Thông Tin
+                  </h2>
+                  <p className="text-gray-600">
+                    Vui lòng nhập số điện thoại để xác nhận chính chủ và tiếp tục thanh toán
+                  </p>
+                </div>
+
+                {/* Verification Form */}
+                <form onSubmit={handlePhoneVerification} className="space-y-6">
+                  <div>
+                    <label htmlFor="verificationPhone" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Số điện thoại <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="verificationPhone"
+                      value={verificationPhone}
+                      onChange={(e) => setVerificationPhone(e.target.value)}
+                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all text-lg"
+                      placeholder="Nhập số điện thoại của bạn"
+                      required
+                    />
+                  </div>
+
+                  {verificationError && (
+                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+                      {verificationError}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                  >
+                    <span>Xác Nhận & Tiếp Tục</span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+
+                  <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl">
+                    <svg className="w-5 h-5 text-vmg-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    <div className="text-sm text-gray-700">
+                      <strong className="font-semibold">Tại sao cần xác nhận?</strong>
+                      <p className="mt-1">Số điện thoại giúp chúng tôi xác nhận đơn hàng và liên hệ với bạn khi cần thiết.</p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          ) : (
           <div className="lg:col-span-2 space-y-6">
+            {/* Verified Badge */}
+            <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-semibold text-green-900">Đã xác nhận số điện thoại</p>
+                <p className="text-sm text-green-700">{verificationPhone}</p>
+              </div>
+            </div>
+
             {/* Shipping Information */}
             <div className="bg-white rounded-2xl shadow-sm p-6 border-2 border-gray-100">
-              <h2 className="text-xl font-bold text-vmg-navy mb-6 flex items-center gap-2">
-                <svg className="w-6 h-6 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Thông tin học viên
-              </h2>
+                <h2 className="text-xl font-bold text-vmg-navy mb-6 flex items-center gap-2">
+                  <svg className="w-6 h-6 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Thông tin học viên
+                </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Họ tên <span className="text-red-500">*</span>
@@ -172,16 +271,30 @@ export default function CheckoutPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Số điện thoại <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Nhập số điện thoại"
-                    pattern="[0-9]{10,11}"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Nhập số điện thoại"
+                      pattern="[0-9]{10,11}"
+                      className="w-full px-4 py-3 border-2 border-green-200 bg-green-50 rounded-lg focus:outline-none transition-colors cursor-not-allowed"
+                      required
+                      disabled
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Đã xác nhận
+                  </p>
                 </div>
 
                 <div>
@@ -242,101 +355,6 @@ export default function CheckoutPage() {
                   />
                 </div>
               </div>
-
-              {/* Alternate Receiver */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={showAlternateReceiver}
-                    onChange={(e) => setShowAlternateReceiver(e.target.checked)}
-                    className="w-5 h-5 text-vmg-blue border-2 border-gray-300 rounded focus:ring-2 focus:ring-vmg-blue/20"
-                  />
-                  <span className="font-semibold text-gray-700 group-hover:text-vmg-blue transition-colors">
-                    Gọi người khác nhận hàng
-                  </span>
-                </label>
-
-                {showAlternateReceiver && (
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 pl-8">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Họ tên người nhận</label>
-                      <input
-                        type="text"
-                        name="altName"
-                        value={formData.altName}
-                        onChange={handleInputChange}
-                        placeholder="Nhập họ tên"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">SĐT người nhận</label>
-                      <input
-                        type="tel"
-                        name="altPhone"
-                        value={formData.altPhone}
-                        onChange={handleInputChange}
-                        placeholder="Nhập số điện thoại"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* VAT Invoice */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={showVATForm}
-                    onChange={(e) => setShowVATForm(e.target.checked)}
-                    className="w-5 h-5 text-vmg-blue border-2 border-gray-300 rounded focus:ring-2 focus:ring-vmg-blue/20"
-                  />
-                  <span className="font-semibold text-gray-700 group-hover:text-vmg-blue transition-colors">
-                    Xuất hóa đơn VAT
-                  </span>
-                </label>
-
-                {showVATForm && (
-                  <div className="mt-4 grid grid-cols-1 gap-4 pl-8">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Tên công ty</label>
-                      <input
-                        type="text"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={handleInputChange}
-                        placeholder="Nhập tên công ty"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Mã số thuế</label>
-                      <input
-                        type="text"
-                        name="taxCode"
-                        value={formData.taxCode}
-                        onChange={handleInputChange}
-                        placeholder="Nhập mã số thuế"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Địa chỉ công ty</label>
-                      <input
-                        type="text"
-                        name="companyAddress"
-                        value={formData.companyAddress}
-                        onChange={handleInputChange}
-                        placeholder="Nhập địa chỉ công ty"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-vmg-blue focus:outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* Payment Methods */}
@@ -373,8 +391,9 @@ export default function CheckoutPage() {
               </div>
             </div>
           </div>
+          )}
 
-          {/* Right Column - Order Summary */}
+          {/* Right Column - Order Summary - Always Visible */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
               {/* Cart Items */}
@@ -565,7 +584,7 @@ export default function CheckoutPage() {
 
                 {appliedVoucher && (
                   <p className="text-sm text-green-600 font-medium mb-4">
-                    🎉 Đã giảm ₫{discount.toLocaleString()} trên giá gốc
+                    Đã giảm ₫{discount.toLocaleString()} trên giá gốc
                   </p>
                 )}
 
