@@ -21,7 +21,7 @@ export default function Header() {
 
   const products = [
     { name: "TESOL Online", href: "/tesolmooc" },
-    { name: "Tiếng Anh Giao Tiếp Chuyên Ngành (1-1)", href: "#" },
+    { name: "Tiếng Anh Giao Tiếp Chuyên Ngành (1-1)", href: "/giao-tiep-1-1" },
     { name: "Tiếng Anh Hospitality", href: "#" },
     { name: "Tiếng Anh Công Nghệ", href: "#" },
     { name: "Tiếng Anh Du Lịch", href: "#" },

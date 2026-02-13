@@ -138,10 +138,11 @@ export default function HeroTesol() {
         <div className="lg:col-span-7 space-y-12">
           <CourseContent />
           
+          <TesolBenefits />
+
           {/* Deal Banner Section */}
           <DealBanner />
           
-          <TesolBenefits />
           
           <LogoBand />
 

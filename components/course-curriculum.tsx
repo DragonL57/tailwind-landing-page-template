@@ -540,9 +540,6 @@ export default function CourseCurriculum() {
       {/* Section Header */}
       <div className="text-center">
         <div className="inline-block mb-4">
-          <span className="bg-vmg-blue/10 text-vmg-blue text-sm font-bold px-4 py-2 rounded-full">
-            📚 CHƯƠNG TRÌNH HỌC
-          </span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-4">
           Nội dung Khóa học Chi tiết

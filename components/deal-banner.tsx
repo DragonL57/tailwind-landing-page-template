@@ -7,9 +7,12 @@ export default function DealBanner() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
   
   const daysRemaining = getCouponDaysRemaining();
   const couponStillValid = isCouponValid();
+  const couponCode = "VMG-SOM";
 
   const [timeLeft, setTimeLeft] = useState({
     days: daysRemaining,
@@ -60,18 +63,43 @@ export default function DealBanner() {
       return;
     }
 
-    // Store coupon and phone in localStorage
-    localStorage.setItem('appliedCoupon', 'VMG-SOM');
+    // Store user info in localStorage
     localStorage.setItem('earlyBirdPhone', phone);
     localStorage.setItem('earlyBirdEmail', email);
     localStorage.setItem('earlyBirdSubmittedAt', new Date().toISOString());
     
-    setSubmitMessage("✓ Đã đăng ký thành công! Mã VMG-SOM đã được áp dụng.");
+    // Show popup instead of inline message
+    setShowPopup(true);
+    setSubmitMessage("");
+  };
+
+  const handleApplyNow = () => {
+    // Store coupon in localStorage
+    localStorage.setItem('appliedCoupon', couponCode);
+    
+    // Trigger storage event for payment sidebar
+    window.dispatchEvent(new Event('storage'));
+    
+    // Close popup
+    setShowPopup(false);
+    
+    // Show success message
+    setSubmitMessage("✓ Đã áp dụng mã giảm giá! Đang chuyển đến phần thanh toán...");
     
     // Scroll to payment sidebar after 1 second
     setTimeout(() => {
       document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 1000);
+  };
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(couponCode);
+      setCopiedCode(true);
+      setTimeout(() => setCopiedCode(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
@@ -174,12 +202,6 @@ export default function DealBanner() {
                         : 'bg-yellow-50 text-yellow-800 border border-yellow-200'
                     }`}>
                       {submitMessage}
-                      {submitMessage.includes('✓') && (
-                        <div className="mt-2 pt-2 border-t border-green-200">
-                          <p className="font-bold text-lg text-green-900">Mã của bạn: VMG-SOM</p>
-                          <p className="text-xs mt-1">Sử dụng mã này khi thanh toán</p>
-                        </div>
-                      )}
                     </div>
                   )}
                 </form>
@@ -188,6 +210,84 @@ export default function DealBanner() {
           </div>
         </div>
       </section>
+
+      {/* Popup Modal for Coupon Code */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform animate-scaleIn">
+            {/* Success Icon */}
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-2xl font-bold text-center text-vmg-navy mb-2">
+              Chúc mừng!
+            </h3>
+            <p className="text-center text-gray-600 mb-6">
+              Bạn đã nhận được mã giảm giá
+            </p>
+
+            {/* Coupon Code Display */}
+            <div className="bg-gradient-to-br from-vmg-navy to-vmg-blue rounded-xl p-6 mb-6 text-center">
+              <div className="text-sm text-white/80 mb-2">Mã giảm giá của bạn</div>
+              <div className="text-3xl font-bold text-white tracking-wider mb-2 font-mono">
+                {couponCode}
+              </div>
+              <div className="text-vmg-green text-sm font-semibold">
+                Giảm 5% cho đơn từ 5 triệu
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <button
+                onClick={handleApplyNow}
+                className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
+              >
+                Áp Dụng Ngay
+              </button>
+              
+              <button
+                onClick={handleCopyCode}
+                className="w-full bg-white border-2 border-vmg-navy text-vmg-navy font-bold py-4 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
+              >
+                {copiedCode ? (
+                  <>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                    </svg>
+                    Đã Sao Chép!
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Sao Chép Mã
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => setShowPopup(false)}
+                className="w-full text-gray-500 hover:text-gray-700 font-medium py-2 transition-colors"
+              >
+                Đóng
+              </button>
+            </div>
+
+            {/* Info Text */}
+            <p className="text-xs text-gray-500 text-center mt-4">
+              Mã có hiệu lực đến ngày 20 hàng tháng
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
