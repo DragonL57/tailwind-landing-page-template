@@ -4,11 +4,16 @@ export const metadata = {
 };
 
 import HeroTesol from "@/components/hero-tesol";
+import ExitIntentPopup from "@/components/exit-intent-popup";
 
 export default function TesolMoocPage() {
   return (
     <>
       <HeroTesol />
+      <ExitIntentPopup
+        ebookTitle="Bí Quyết Dạy Tiếng Anh Chuẩn TESOL Quốc Tế Từ A–Z"
+        ebookValue="499,000đ"
+      />
     </>
   );
 }
