@@ -13,20 +13,18 @@ export default function ExitIntentPopup({
   ebookValue = "299,000đ",
 }: ExitIntentPopupProps) {
   const [show, setShow] = useState(false);
-  const [shown, setShown] = useState(false);
   const [email, setEmail] = useState("");
   const [claimed, setClaimed] = useState(false);
 
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 5 && !shown) {
+      if (e.clientY <= 5) {
         setShow(true);
-        setShown(true);
       }
     };
     document.addEventListener("mouseleave", handleMouseLeave);
     return () => document.removeEventListener("mouseleave", handleMouseLeave);
-  }, [shown]);
+  }, []);
 
   if (!show) return null;
 
