@@ -1,6 +1,7 @@
 import "./css/style.css";
 
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import Header from "@/components/ui/header";
 import FloatingContact from "@/components/floating-contact";
 import { CartProvider } from "@/context/cart-context";
@@ -24,6 +25,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-T451F3E6QV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T451F3E6QV');
+          `}
+        </Script>
+      </head>
       <body
         className={`${inter.variable} bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
       >
