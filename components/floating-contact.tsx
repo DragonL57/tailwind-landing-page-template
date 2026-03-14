@@ -47,9 +47,9 @@ export default function FloatingContact() {
                 setShowPopup(true);
                 setIsOpen(false);
               }}
-              className="group flex items-center gap-2 bg-white hover:bg-green-50 rounded-full shadow-lg hover:shadow-xl transition-all pl-3 pr-4 py-2 border border-gray-200"
+              className="group flex items-center gap-2 bg-white hover:bg-red-50 rounded-full shadow-lg hover:shadow-xl transition-all pl-3 pr-4 py-2 border border-gray-200"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-vmg-green to-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 bg-vmg-red rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-vmg-red/20">
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -149,7 +149,7 @@ export default function FloatingContact() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                       placeholder="Nguyễn Văn A"
                     />
                   </div>
@@ -166,7 +166,7 @@ export default function FloatingContact() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                       placeholder="0912 345 678"
                     />
                   </div>
@@ -184,7 +184,7 @@ export default function FloatingContact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                     placeholder="email@example.com"
                   />
                 </div>
@@ -200,7 +200,7 @@ export default function FloatingContact() {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all resize-none"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all resize-none"
                     placeholder="Cho chúng tôi biết bạn quan tâm về điều gì..."
                   />
                 </div>
@@ -215,7 +215,7 @@ export default function FloatingContact() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                  className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
                 >
                   <span>Gửi Thông Tin Đăng Ký</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

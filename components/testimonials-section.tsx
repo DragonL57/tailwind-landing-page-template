@@ -73,12 +73,12 @@ export default function TestimonialsSection() {
             return (
               <div
                 key={index}
-                className={`relative transition-all duration-500 ${testimonial.rotation} ${
+                className={`relative transition-all duration-500 ${testimonial.rotation} opacity-100 ${
                   isCorner
                     ? hoveredCard === index
-                      ? "opacity-100 scale-110 z-20"
-                      : "opacity-40 scale-95 z-10"
-                    : "opacity-100 scale-100 z-15"
+                      ? "scale-110 z-20"
+                      : "scale-95 z-10"
+                    : "scale-100 z-15"
                 } ${hoveredCard === index ? "rotate-0" : ""}`}
                 style={{
                   transform: hoveredCard === index ? "rotate(0deg) scale(1.1)" : "",
@@ -115,7 +115,7 @@ export default function TestimonialsSection() {
                       />
                     </div>
                     <div>
-                      <div className="font-bold text-[#0038D1] text-sm">{testimonial.author}</div>
+                      <div className="font-bold text-vmg-red text-sm">{testimonial.author}</div>
                       <div className="text-gray-500 text-xs">{testimonial.role}</div>
                     </div>
                   </div>

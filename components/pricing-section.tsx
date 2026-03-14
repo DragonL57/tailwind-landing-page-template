@@ -18,7 +18,7 @@ export default function PricingSection() {
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#75E04D]/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
 
       <div className="w-full px-4 relative z-10">
-        <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-white/20">
+        <div className="max-w-[1200px] mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-white/20">
           {/* Left: Benefits & Info */}
           <div className="flex-1 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-100">
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-8 tracking-tight leading-tight">
@@ -54,7 +54,7 @@ export default function PricingSection() {
             </div>
             <button 
               onClick={handleConsultation}
-              className="w-full bg-[#75E04D] hover:bg-[#68C944] text-white font-black py-5 rounded-2xl shadow-xl shadow-[#75E04D]/30 transition-all hover:scale-[1.05] active:scale-[0.95] uppercase tracking-widest text-sm"
+              className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-5 rounded-2xl shadow-xl shadow-vmg-red/30 transition-all hover:scale-[1.05] active:scale-[0.95] uppercase tracking-widest text-sm"
             >
               Đăng ký ngay
             </button>

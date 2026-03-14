@@ -1,70 +1,61 @@
 import React from "react";
+import FadeSlideUp from "./fade-slide-up";
 
 export default function CourseContent() {
   return (
-    <div className="relative p-2 md:p-4">
-      {/* Gemini Background Logo - Blended */}
-      <div className="absolute inset-0 pointer-events-none overflow-visible">
-        <img
-          src="/images/gemini_bg.svg"
-          alt=""
-          className="absolute top-0 right-0 w-[400px] h-auto opacity-20"
-        />
+    <div className="relative">
+      {/* Nội dung khóa học - Bento Grid */}
+      <div className="max-w-[1200px] mx-auto px-4">
+        <div className="text-center mb-12">
+          <span className="text-xs font-black text-[#0038D1] uppercase tracking-widest inline-block mb-2">Lộ trình đào tạo</span>
+          <h2 className="text-3xl md:text-5xl font-black text-vmg-navy mb-4 italic">Nội dung khóa học</h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Trang bị kiến thức sư phạm thực tế, chứng chỉ quốc tế và cơ hội thực tập chuyên nghiệp.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Card 1: Main Highlight - Certificate */}
+          <div className="md:col-span-8 p-8 bg-gradient-to-br from-white to-vmg-blue/5 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-end group hover:border-vmg-blue/30 transition-all duration-300">
+            <div>
+              <h3 className="text-2xl font-black text-black mb-2">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc)</h3>
+              <p className="text-black">Chứng chỉ có giá trị vĩnh viễn toàn cầu, được kiểm định bởi tổ chức uy tín hàng đầu Vương Quốc Anh.</p>
+            </div>
+          </div>
+
+          {/* Card 2: Lesson Planning */}
+          <div className="md:col-span-4 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-end group hover:border-vmg-green/30 transition-all duration-300">
+            <div>
+              <h3 className="text-xl font-black text-black mb-2">Thành thạo kỹ năng soạn giáo án</h3>
+              <p className="text-black text-sm">Làm chủ phương pháp giảng dạy hiện đại (Online & Offline).</p>
+            </div>
+          </div>
+
+          {/* Card 3: Classroom Management */}
+          <div className="md:col-span-4 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-end group hover:border-vmg-blue/30 transition-all duration-300">
+            <div>
+              <h3 className="text-xl font-black text-black mb-2">Tự tin quản lý lớp học</h3>
+              <p className="text-black text-sm">Đứng lớp chuyên nghiệp trước mọi đối tượng học viên.</p>
+            </div>
+          </div>
+
+          {/* Card 4: Internship */}
+          <div className="md:col-span-4 p-8 bg-gradient-to-br from-white to-vmg-green/5 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-end group hover:border-vmg-green/30 transition-all duration-300">
+            <div>
+              <h3 className="text-xl font-black text-black mb-2">Thực tập & Việc làm</h3>
+              <p className="text-black text-sm">Kết nối việc làm ngay tại VMG hoặc các trường đối tác uy tín.</p>
+            </div>
+          </div>
+
+          {/* Card 5: Career Path */}
+          <div className="md:col-span-4 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-end group hover:border-vmg-blue/30 transition-all duration-300 relative overflow-hidden">
+            <div>
+              <h3 className="text-xl font-black text-black mb-2">Phát triển sự nghiệp</h3>
+              <p className="text-black text-sm">Đủ năng lực tự mở lớp hoặc phát triển sự nghiệp giáo viên tự do.</p>
+            </div>
+          </div>
+        </div>
       </div>
-      
-      <div className="relative">
-        {/* Decorative Elements */}
-        <div className="absolute -top-4 -left-4 w-24 h-24 bg-vmg-blue/5 rounded-full blur-2xl"></div>
-        <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-vmg-green/5 rounded-full blur-2xl"></div>
-        
-        <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-        <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-6">
-          Nội dung khóa học
-        </h2>
-        <ul className="space-y-2">
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc) có giá trị vĩnh viễn toàn cầu.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Thành thạo kỹ năng soạn giáo án và phương pháp giảng dạy (Online & Offline).</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Tự tin quản lý lớp học và đứng lớp chuyên nghiệp trước mọi đối tượng học viên.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Được thực tập và kết nối việc làm ngay tại VMG hoặc các trường đối tác uy tín.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Có đủ năng lực để tự mở lớp hoặc phát triển sự nghiệp giáo viên tự do.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
     </div>
   );
 }

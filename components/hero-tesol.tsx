@@ -157,7 +157,7 @@ export default function HeroTesol() {
     {/* Content Section */}
     <FadeSlideUp id="pricing" className="w-full bg-[#F8FAFF] section-padding scroll-mt-24">
       <div className="w-full px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto space-y-16">
+        <div className="max-w-[1200px] mx-auto space-y-16">
           <CourseContent />
           
           <LogoBand />
@@ -191,7 +191,7 @@ export default function HeroTesol() {
             <span className="text-2xl font-black text-[#0038D1] tracking-tighter">9.900.000đ</span>
           </div>
         </div>
-        <button className="flex-1 bg-[#75E04D] hover:bg-[#68C944] text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-xl shadow-[#75E04D]/25 text-sm uppercase tracking-wider">
+        <button className="flex-1 bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-xl shadow-vmg-red/25 text-sm uppercase tracking-wider">
           ĐĂNG KÝ NGAY
         </button>
       </div>

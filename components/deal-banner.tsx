@@ -177,20 +177,20 @@ export default function DealBanner() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                     placeholder="Số điện thoại"
                   />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                     placeholder="Email (tùy chọn)"
                   />
                   <button
                     type="submit"
                     disabled={!couponStillValid}
-                    className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none"
                   >
                     {couponStillValid ? 'Nhận Ưu Đãi Ngay' : 'Ưu đãi hết hạn'}
                   </button>
@@ -239,7 +239,7 @@ export default function DealBanner() {
               <div className="text-3xl font-bold text-white tracking-wider mb-2 font-mono">
                 {couponCode}
               </div>
-              <div className="text-vmg-green text-sm font-semibold">
+              <div className="text-vmg-green bg-white/90 rounded px-2 py-1 inline-block text-sm font-bold">
                 Giảm 5% cho đơn từ 5 triệu
               </div>
             </div>
@@ -248,14 +248,14 @@ export default function DealBanner() {
             <div className="space-y-3">
               <button
                 onClick={handleApplyNow}
-                className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
+                className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
               >
                 Áp Dụng Ngay
               </button>
               
               <button
                 onClick={handleCopyCode}
-                className="w-full bg-white border-2 border-vmg-navy text-vmg-navy font-bold py-4 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-white border-2 border-vmg-red text-vmg-red font-bold py-4 rounded-xl hover:bg-vmg-red/5 transition-all flex items-center justify-center gap-2"
               >
                 {copiedCode ? (
                   <>

@@ -313,7 +313,7 @@ export default function CourseCurriculum() {
       </FadeSlideUp>
       {/* Curriculum Accordion */}
       <FadeSlideUp delay={0.15}>
-        <div className="space-y-4">
+        <div className="space-y-4 max-w-[1200px] mx-auto">
           {curriculumData.map((module) => (
             <FadeSlideUp key={module.id} delay={0.2 + module.id * 0.05}>
               <div

@@ -32,7 +32,7 @@ export default function ConsultationForm() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-vmg-blue/20 rounded-full blur-3xl"></div>
 
       <div className="w-full px-4 sm:px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -59,7 +59,7 @@ export default function ConsultationForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                     placeholder="Nguyễn Văn A"
                   />
                 </div>
@@ -76,7 +76,7 @@ export default function ConsultationForm() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                     placeholder="0912 345 678"
                   />
                 </div>
@@ -94,7 +94,7 @@ export default function ConsultationForm() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
                   placeholder="email@example.com"
                 />
               </div>
@@ -110,7 +110,7 @@ export default function ConsultationForm() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all resize-none"
                   placeholder="Cho chúng tôi biết bạn quan tâm về điều gì..."
                 />
               </div>
@@ -118,7 +118,7 @@ export default function ConsultationForm() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-vmg-blue to-vmg-navy hover:from-vmg-navy hover:to-vmg-blue text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
               >
                 <span>Gửi Thông Tin Đăng Ký</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
