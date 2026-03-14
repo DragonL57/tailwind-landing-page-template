@@ -2,62 +2,85 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import FadeSlideUp from "./fade-slide-up";
 import LogoBand from "./logo-band";
-import PaymentSidebar from "./payment-sidebar";
 import CourseContent from "./course-content";
 import TesolBenefits from "./tesol-benefits";
 import ConsultationForm from "./consultation-form";
 import DealBanner from "./deal-banner";
 import CourseCurriculum from "./course-curriculum";
+import PricingSection from "./pricing-section";
+import TestimonialsSection from "./testimonials-section";
+import InstructorSection from "./instructor-section";
+import RelatedCourses from "./related-courses";
+import FaqSection from "./faq-section";
+import CertificateCeremonySection from "./certificate-ceremony-section";
+import { Button } from "@/components/ui/button";
+import { Check, ArrowRight } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
 
 export default function HeroTesol() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   return (
     <>
-    <section className="relative scroll-mt-24">
+    <FadeSlideUp className="relative scroll-mt-24">
       {/* Decorative Effects */}
       <div className="absolute top-0 left-0 w-48 h-48 bg-vmg-blue/10 rounded-full blur-3xl -z-10 animate-float-slow" style={{animationDelay: '0s'}}></div>
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-vmg-green/10 rounded-full blur-3xl -z-10 animate-float-slow" style={{animationDelay: '2s'}}></div>
       <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-vmg-blue/5 via-vmg-green/5 to-transparent rounded-full blur-2xl -z-10" style={{transform: 'translate(-50%, -50%)'}}></div>
       {/* Hero Section */}
       <div className="bg-white relative">
-        <div className="container mx-auto px-4 sm:px-6 py-20 md:py-28">
+        <div className="container mx-auto px-4 sm:px-6 section-padding">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-8">
               {/* Main Headline */}
               <div>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-2 text-left">
-                  Trở Thành Giáo Viên Tiếng Anh{" "}
-                  <span className="text-vmg-blue">Chuyên Nghiệp</span>
+                <h1 id="hero-heading" className="text-3xl md:text-5xl font-black text-gray-900 leading-tight mb-2">
+                  Trở thành giáo viên tiếng Anh <span className="text-[#0038D1]">chuyên nghiệp</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed mb-8 text-left">
-                  Chứng chỉ TESOL quốc tế được công nhận tại 150+ quốc gia. 100% online, linh hoạt thời gian, cam kết chất lượng.
+                  Chứng chỉ TESOL quốc tế được công nhận tại 150+ quốc gia. 100% online, mentor đồng hành, livestream hàng tuần, cam kết chất lượng.
                 </p>
               </div>
 
+              {/* Feature List */}
+              <div className="flex flex-col gap-2 md:gap-3 mt-2">
+                <div className="flex items-start gap-3">
+                  <div className="pt-0.5">
+                    <Check className="text-[#0038D1] h-5 w-5" />
+                  </div>
+                  <span className="text-gray-900 text-base leading-6 font-medium">
+                    Lộ trình học cá nhân hóa, mentor đồng hành
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="pt-0.5">
+                    <Check className="text-[#0038D1] h-5 w-5" />
+                  </div>
+                  <span className="text-gray-900 text-base leading-6 font-medium">
+                    Chứng chỉ ALAP quốc tế, giá trị toàn cầu
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="pt-0.5">
+                    <Check className="text-[#0038D1] h-5 w-5" />
+                  </div>
+                  <span className="text-gray-900 text-base leading-6 font-medium">
+                    100% online, linh hoạt thời gian, cam kết việc làm
+                  </span>
+                </div>
+              </div>
+
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() => {
-                    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }}
-                  className="inline-flex items-center gap-2 bg-vmg-blue hover:bg-vmg-navy text-white font-bold px-8 py-4 rounded-lg transition-colors text-lg cursor-pointer"
-                >
-                  <span>Đăng Ký Ngay</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => {
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }}
-                  className="inline-flex items-center gap-2 border-2 border-vmg-blue hover:bg-vmg-blue/10 text-vmg-blue font-semibold px-8 py-4 rounded-lg transition-colors text-lg cursor-pointer"
-                >
-                  Liên Hệ Tư Vấn
-                </button>
+              <div className="flex flex-col gap-3 sm:flex-row mt-4">
+                <Button>Đăng ký ngay</Button>
+                <Button variant="ghost">
+                  Tìm hiểu thêm
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </div>
 
               {/* Social Proof */}
@@ -129,33 +152,50 @@ export default function HeroTesol() {
           </div>
         </div>
       </div>
-    </section>
+    </FadeSlideUp>
 
-    {/* 70/30 Layout Section */}
-    <section id="pricing" className="w-full bg-gray-50 border-t border-gray-200 py-12 scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-10 gap-12">
-        {/* Left: Course Content + Deal Banner + TESOL Benefits + Logo Band (70%) */}
-        <div className="lg:col-span-7 space-y-12">
+    {/* Content Section */}
+    <FadeSlideUp id="pricing" className="w-full bg-[#F8FAFF] section-padding scroll-mt-24">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto space-y-16">
           <CourseContent />
           
+          <LogoBand />
+          <CertificateCeremonySection />
           <TesolBenefits />
 
           {/* Deal Banner Section */}
           <DealBanner />
           
-          
-          <LogoBand />
+          <InstructorSection />
 
           <CourseCurriculum />
         </div>
-        {/* Right: Payment Sidebar (30%) */}
-        <div className="lg:col-span-3">
-          <div className="sticky top-24">
-            <PaymentSidebar />
+      </div>
+    </FadeSlideUp>
+
+    <PricingSection />
+
+    <TestimonialsSection />
+
+    <FaqSection />
+
+    <RelatedCourses />
+
+    {/* Mobile Bottom Payment Bar */}
+    <div className="fixed bottom-0 left-0 right-0 z-[100] lg:hidden bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] p-4">
+      <div className="max-w-md mx-auto flex items-center justify-between gap-6">
+        <div className="flex flex-col">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Tổng học phí</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-black text-[#0038D1] tracking-tighter">9.900.000đ</span>
           </div>
         </div>
+        <button className="flex-1 bg-[#75E04D] hover:bg-[#68C944] text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-xl shadow-[#75E04D]/25 text-sm uppercase tracking-wider">
+          ĐĂNG KÝ NGAY
+        </button>
       </div>
-    </section>
+    </div>
 
     {/* Consultation Form Section */}
     <ConsultationForm />

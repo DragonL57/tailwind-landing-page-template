@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import FadeSlideUp from "./fade-slide-up";
 
 export default function ConsultationForm() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ export default function ConsultationForm() {
   };
 
   return (
-    <section id="contact" className="relative py-20 overflow-hidden scroll-mt-24">
+    <FadeSlideUp id="contact" className="relative section-padding overflow-hidden scroll-mt-24">
       {/* Background decorations */}
       <div className="absolute inset-0 bg-gradient-to-br from-vmg-navy via-vmg-blue to-vmg-navy"></div>
       <div className="absolute top-0 left-0 w-96 h-96 bg-vmg-green/10 rounded-full blur-3xl"></div>
@@ -173,6 +174,6 @@ export default function ConsultationForm() {
           </div>
         </div>
       </div>
-    </section>
+    </FadeSlideUp>
   );
 }

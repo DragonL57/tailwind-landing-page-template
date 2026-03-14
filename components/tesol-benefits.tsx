@@ -46,8 +46,8 @@ export default function TesolBenefits() {
 
   return (
     <div className="relative">
-      <div className="relative py-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-8 text-center">
+      <div className="relative section-padding">
+        <h2 className="text-3xl md:text-4xl font-black text-vmg-navy mb-12 text-center leading-tight">
           Vì sao TESOL Online tại VMG là một lựa chọn khác biệt
         </h2>
         <div className="grid md:grid-cols-2 gap-6">

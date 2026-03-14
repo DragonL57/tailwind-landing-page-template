@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useUI } from "@/context/ui-context";
 
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { isCartOpen } = useUI();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -39,9 +37,7 @@ export default function FloatingContact() {
 
   return (
     <>
-      <div className={`fixed bottom-4 z-[60] flex flex-col items-end gap-2 transition-all duration-300 ${
-        isCartOpen ? 'right-[32rem]' : 'right-4'
-      }`}>
+      <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2 transition-all duration-300">
         {/* Contact Options - Show when open - Expanding upward */}
         {isOpen && (
           <div className="flex flex-col gap-2 animate-scaleIn">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getCouponDaysRemaining, isCouponValid } from "@/lib/coupons";
+import FadeSlideUp from "./fade-slide-up";
 
 export default function DealBanner() {
   const [email, setEmail] = useState("");
@@ -106,7 +107,7 @@ export default function DealBanner() {
 
   return (
     <>
-      <section className="relative py-8 overflow-hidden bg-gradient-to-br from-vmg-navy via-vmg-blue to-vmg-navy rounded-2xl">
+      <FadeSlideUp className="relative py-8 overflow-hidden bg-gradient-to-br from-vmg-navy via-vmg-blue to-vmg-navy rounded-2xl">
         {/* Animated background elements */}
         <div className="absolute inset-0 opacity-20 rounded-2xl">
           <div className="absolute top-0 left-0 w-64 h-64 bg-vmg-green rounded-full blur-3xl"></div>
@@ -209,7 +210,7 @@ export default function DealBanner() {
             </div>
           </div>
         </div>
-      </section>
+      </FadeSlideUp>
 
       {/* Popup Modal for Coupon Code */}
       {showPopup && (

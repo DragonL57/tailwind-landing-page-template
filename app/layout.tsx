@@ -1,15 +1,13 @@
 import "./css/style.css";
 
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import Header from "@/components/ui/header";
 import FloatingContact from "@/components/floating-contact";
-import { CartProvider } from "@/context/cart-context";
-import { UIProvider } from "@/context/ui-context";
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -50,7 +48,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} bg-gray-50 font-inter tracking-tight text-gray-900 antialiased`}
+        className={`${montserrat.variable} bg-white font-montserrat tracking-tight text-gray-900 antialiased`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -61,15 +59,11 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <UIProvider>
-          <CartProvider>
-            <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
-              <Header />
-              {children}
-              <FloatingContact />
-            </div>
-          </CartProvider>
-        </UIProvider>
+        <div className="w-full min-h-screen flex flex-col overflow-x-clip">
+          <Header />
+          <main className="flex-1 w-full flex flex-col">{children}</main>
+          <FloatingContact />
+        </div>
       </body>
     </html>
   );
