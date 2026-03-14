@@ -27,7 +27,7 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 z-30 w-full border-b border-gray-200 bg-white shadow-sm">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="w-full px-4 sm:px-6">
           <div className="flex h-16 items-center justify-between gap-6">
             {/* Site branding */}
             <div className="flex items-center">
@@ -140,13 +140,13 @@ export default function Header() {
                   onClick={() => openAuthModal("login")}
                   className="text-gray-700 hover:text-vmg-blue font-medium px-4 py-2 rounded-lg hover:bg-vmg-blue/10 transition-all"
                 >
-                  Login
+                  Đăng nhập
                 </button>
                 <button
                   onClick={() => openAuthModal("register")}
                   className="bg-vmg-blue hover:bg-vmg-navy text-white font-medium px-4 py-2 rounded-lg transition-all"
                 >
-                  Register
+                  Đăng ký
                 </button>
               </div>
 
