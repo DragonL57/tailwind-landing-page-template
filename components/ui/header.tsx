@@ -191,13 +191,13 @@ export default function Header() {
                   onClick={() => { openAuthModal("login"); setMobileMenuOpen(false); }}
                   className="w-full text-center text-gray-700 font-medium py-3 rounded-xl border border-gray-200"
                 >
-                  Login
+                  Đăng nhập
                 </button>
                 <button
                   onClick={() => { openAuthModal("register"); setMobileMenuOpen(false); }}
                   className="w-full text-center bg-vmg-blue text-white font-medium py-3 rounded-xl shadow-md"
                 >
-                  Register
+                  Đăng ký
                 </button>
               </div>
             </div>

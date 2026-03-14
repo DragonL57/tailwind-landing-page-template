@@ -69,8 +69,8 @@
   --animate-breath: breath;
   --animate-float: float;
   --animate-line: line;
-  --animate-infinite-scroll: infinite-scroll 80s linear infinite;  
-  --animate-infinite-scroll-reverse: infinite-scroll-reverse 80s linear infinite;  
+  --animate-infinite-scroll: infinite-scroll 120s linear infinite;  
+  --animate-infinite-scroll-reverse: infinite-scroll-reverse 120s linear infinite;  
 
   @keyframes code-1 {
     0% {
