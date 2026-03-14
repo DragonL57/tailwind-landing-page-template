@@ -69,29 +69,28 @@ export default function CertificateCeremonySection() {
         </div>
       </FadeSlideUp>
 
-      {/* Section 2: Bento Grid - Hợp tác quốc tế - HIDDEN BUT NOT DELETED */}
-      {false && (
-        <FadeSlideUp className="section-padding pt-0" id="signing-ceremony">
+      {/* Section 2: Bento Grid - Hợp tác quốc tế */}
+      <FadeSlideUp className="section-padding pt-0" id="signing-ceremony">
           <div className="w-full px-4 max-w-[1200px] mx-auto">
             <div className="mb-12 text-center md:text-left border-b border-vmg-blue/10 pb-8">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-2 block">Đối tác chiến lược</span>
               <h2 className="text-3xl font-black text-vmg-navy tracking-tight">Hợp tác & Ký kết Quốc tế</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[240px]">
-              <div className="md:col-span-8 md:row-span-2 rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[4/3] md:aspect-auto">
                 <img
                   src="/images/vmg-intesolvietnam/image.png"
                   alt="Signing Ceremony Main"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-vmg-navy/90 via-vmg-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                  <h4 className="text-white font-black text-xl mb-2">Lễ ký kết VMG & INTESOL Worldwide</h4>
-                  <p className="text-white/80 text-sm font-medium">Hợp tác chiến lược nâng tầm chất lượng đào tạo giáo viên tiếng Anh tại Việt Nam.</p>
+                  <h4 className="text-white font-black text-xl mb-2">Uy Tín & Chất Lượng</h4>
+                  <p className="text-white/80 text-sm font-medium">Hợp tác chiến lược VMG & INTESOL Worldwide nâng tầm đào tạo giáo viên tại Việt Nam.</p>
                 </div>
               </div>
 
-              <div className="md:col-span-4 rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500">
+              <div className="rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[4/3] md:aspect-auto">
                 <img
                   src="/images/vmg-intesolvietnam/image1.png"
                   alt="Signing Ceremony 1"
@@ -99,33 +98,9 @@ export default function CertificateCeremonySection() {
                 />
                 <div className="absolute inset-0 bg-vmg-blue/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
-
-              <div className="md:col-span-4 rounded-[2rem] overflow-hidden group relative border border-vmg-red/10 hover:border-vmg-red/30 transition-all duration-500">
-                <img
-                  src="/images/vmg-intesolvietnam/image2.png"
-                  alt="Signing Ceremony 2"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-vmg-red/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              </div>
-
-              <div className="md:col-span-12 rounded-[2rem] h-[300px] overflow-hidden group relative mt-4 border border-vmg-navy/10 hover:border-vmg-blue/30 transition-all duration-500">
-                <img
-                  src="/images/vmg-intesolvietnam/image3.png"
-                  alt="Signing Ceremony 3"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-vmg-navy/80 via-transparent to-transparent flex items-end p-8 md:p-12">
-                  <div className="max-w-xl">
-                    <h4 className="text-white font-black text-2xl mb-2">Cam kết Chất lượng</h4>
-                    <p className="text-white/90 text-sm md:text-base leading-relaxed font-medium">Đảm bảo tiêu chuẩn giảng dạy quốc tế ALAP (UK) cho mọi học viên tốt nghiệp.</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </FadeSlideUp>
-      )}
     </div>
 
   );
