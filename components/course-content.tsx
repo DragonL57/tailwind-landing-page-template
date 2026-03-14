@@ -19,8 +19,8 @@ export default function CourseContent() {
           <div className="md:col-span-8 p-10 bg-white rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col items-start hover:border-vmg-blue/30 transition-all duration-300 relative overflow-hidden group">
             <div className="absolute -bottom-6 -right-4 text-[160px] font-black text-vmg-blue/10 leading-none select-none pointer-events-none transition-all duration-500 group-hover:scale-110 group-hover:text-vmg-blue/15">01</div>
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc)</h3>
-              <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">Chứng chỉ có giá trị vĩnh viễn toàn cầu, được kiểm định bởi tổ chức uy tín hàng đầu Vương Quốc Anh.</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">Nhận chứng chỉ TESOL quốc tế</h3>
+              <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">Chứng chỉ (ALAP - Anh Quốc) có giá trị vĩnh viễn toàn cầu, được kiểm định bởi tổ chức uy tín hàng đầu Vương Quốc Anh.</p>
             </div>
           </div>
 
