@@ -69,7 +69,8 @@
   --animate-breath: breath;
   --animate-float: float;
   --animate-line: line;
-  --animate-infinite-scroll: infinite-scroll;  
+  --animate-infinite-scroll: infinite-scroll 80s linear infinite;  
+  --animate-infinite-scroll-reverse: infinite-scroll-reverse 80s linear infinite;  
 
   @keyframes code-1 {
     0% {
@@ -200,6 +201,14 @@
     }
     to {
       transform: translateX(-100%);
+    }
+  }
+  @keyframes infinite-scroll-reverse {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
     }
   }
   @keyframes fadeIn {
