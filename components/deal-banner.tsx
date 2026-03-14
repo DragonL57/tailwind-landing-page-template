@@ -119,14 +119,14 @@ export default function DealBanner() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-white/10 focus:border-vmg-green/30 focus:outline-none transition-all text-base text-white placeholder:text-white/20"
+                  className="w-full px-5 py-4 bg-white/10 border-2 border-white/30 rounded-2xl focus:bg-white/20 focus:border-vmg-green focus:outline-none transition-all text-base text-white placeholder:text-white/40"
                   placeholder="Số điện thoại của bạn"
                 />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-white/10 focus:border-vmg-green/30 focus:outline-none transition-all text-base text-white placeholder:text-white/20"
+                  className="w-full px-5 py-4 bg-white/10 border-2 border-white/30 rounded-2xl focus:bg-white/20 focus:border-vmg-green focus:outline-none transition-all text-base text-white placeholder:text-white/40"
                   placeholder="Email (không bắt buộc)"
                 />
                 
