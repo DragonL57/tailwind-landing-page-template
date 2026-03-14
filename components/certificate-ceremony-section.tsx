@@ -15,7 +15,7 @@ const CardContent = ({ className = "", children }: { className?: string; childre
 export default function CertificateCeremonySection() {
   return (
     <FadeSlideUp className="bg-[#F7F8FC] section-padding border-b" id="certificate-ceremony">
-      <div className="container mx-auto flex flex-col gap-10 md:gap-12 px-4">
+      <div className="w-full px-4 flex flex-col gap-10 md:gap-12">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center gap-4">
           <span className="text-xs font-black text-[#0038D1] uppercase tracking-widest mb-2">Lễ trao chứng chỉ</span>
           <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight mb-2">Khoảnh khắc vinh danh học viên TESOL</h2>

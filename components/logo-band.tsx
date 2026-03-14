@@ -33,7 +33,7 @@ export default function LogoBand() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="w-full px-4 max-w-6xl mx-auto">
         <div className="relative p-8 md:p-12 rounded-[40px] border border-gray-200 bg-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.06)] overflow-hidden">
           {/* Subtle accent background */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#0038D1]/5 rounded-full blur-3xl -mr-32 -mt-32"></div>

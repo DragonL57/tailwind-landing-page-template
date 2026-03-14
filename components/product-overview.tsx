@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import FadeSlideUp from "./fade-slide-up";
 import Image from "next/image";
@@ -69,54 +71,51 @@ export default function ProductOverview() {
         {/* Nội dung khóa học - full-width band */}
         <FadeSlideUp className="w-full bg-[#F7F8FC]">
           <div className="max-w-7xl mx-auto px-4 section-padding">
-            <div className="grid md:grid-cols-12 gap-8 items-center">
-              <div className="md:col-span-5">
-                <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-4">Nội dung khóa học</h2>
-                <p className="text-lg text-gray-700">Khóa học trang bị kiến thức sư phạm thực tế, chứng chỉ quốc tế và cơ hội thực tập — phù hợp cho giáo viên mới và muốn nâng cao chuyên môn.</p>
+            <div className="text-center mb-8">
+              <span className="text-xs font-black text-[#0038D1] uppercase tracking-widest inline-block mb-2">Nội dung khóa học</span>
+              <h2 className="text-3xl md:text-4xl font-black text-vmg-navy mb-2">Nội dung khóa học</h2>
+              <p className="text-lg text-gray-700 max-w-3xl mx-auto">Khóa học trang bị kiến thức sư phạm thực tế, chứng chỉ quốc tế và cơ hội thực tập — phù hợp cho giáo viên mới và muốn nâng cao chuyên môn.</p>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              <div className="flex flex-col items-start gap-4 p-6 bg-white rounded-2xl shadow-sm">
+                <div className="w-12 h-12 rounded-lg bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                </div>
+                <h3 className="font-bold text-vmg-navy">Nhận chứng chỉ TESOL quốc tế (ALAP)</h3>
+                <p className="text-sm text-gray-600">Chứng chỉ có giá trị vĩnh viễn toàn cầu.</p>
               </div>
 
-              <div className="md:col-span-7">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Nhận chứng chỉ TESOL quốc tế (ALAP)</p>
-                      <p className="text-sm text-gray-600">Chứng chỉ có giá trị vĩnh viễn và được công nhận toàn cầu.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Soạn giáo án & phương pháp</p>
-                      <p className="text-sm text-gray-600">Thực hành kỹ năng soạn giảng cho cả online và offline.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Quản lý lớp & tự tin đứng lớp</p>
-                      <p className="text-sm text-gray-600">Kỹ năng quản trị lớp học cho mọi đối tượng học viên.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Thực tập & kết nối việc làm</p>
-                      <p className="text-sm text-gray-600">Cơ hội thực tập tại VMG và đối tác, mở lối nghề nghiệp.</p>
-                    </div>
-                  </div>
+              <div className="flex flex-col items-start gap-4 p-6 bg-white rounded-2xl shadow-sm">
+                <div className="w-12 h-12 rounded-lg bg-vmg-blue/10 flex items-center justify-center text-vmg-blue">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12v2H4V3zM4 7h12v2H4V7zM4 11h12v2H4v-2zM4 15h12v2H4v-2z"/></svg>
                 </div>
+                <h3 className="font-bold text-vmg-navy">Thành thạo soạn giáo án & phương pháp</h3>
+                <p className="text-sm text-gray-600">Thực hành soạn giảng cho cả online & offline.</p>
+              </div>
+
+              <div className="flex flex-col items-start gap-4 p-6 bg-white rounded-2xl shadow-sm">
+                <div className="w-12 h-12 rounded-lg bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 100 12A6 6 0 0010 2zM2 18a8 8 0 0116 0H2z"/></svg>
+                </div>
+                <h3 className="font-bold text-vmg-navy">Tự tin quản lý lớp & đứng lớp</h3>
+                <p className="text-sm text-gray-600">Kỹ năng quản trị lớp học trước mọi đối tượng học viên.</p>
+              </div>
+
+              <div className="flex flex-col items-start gap-4 p-6 bg-white rounded-2xl shadow-sm">
+                <div className="w-12 h-12 rounded-lg bg-vmg-blue/10 flex items-center justify-center text-vmg-blue">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v11l-4-2-4 2-4-2-4 2V5z"/></svg>
+                </div>
+                <h3 className="font-bold text-vmg-navy">Thực tập & kết nối việc làm</h3>
+                <p className="text-sm text-gray-600">Cơ hội thực tập tại VMG và các trường đối tác uy tín.</p>
+              </div>
+
+              <div className="flex flex-col items-start gap-4 p-6 bg-white rounded-2xl shadow-sm">
+                <div className="w-12 h-12 rounded-lg bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14v2H3V3zm0 4h14v10H3V7z"/></svg>
+                </div>
+                <h3 className="font-bold text-vmg-navy">Đủ năng lực mở lớp & phát triển nghề</h3>
+                <p className="text-sm text-gray-600">Chuẩn bị để tự mở lớp hoặc làm giảng viên tự do.</p>
               </div>
             </div>
           </div>

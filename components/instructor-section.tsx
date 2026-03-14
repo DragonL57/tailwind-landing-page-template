@@ -6,7 +6,7 @@ import FadeSlideUp from "./fade-slide-up";
 export default function InstructorSection() {
   return (
     <FadeSlideUp className="section-padding bg-white">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="w-full px-4 max-w-5xl mx-auto">
         <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-12">
 
           <p className="text-[11px] font-black text-[#0038D1] uppercase tracking-[0.2em] mb-6">Giảng viên chuyên môn</p>

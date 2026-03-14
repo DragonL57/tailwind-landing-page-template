@@ -32,7 +32,7 @@ export default function HeroTesol() {
       <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-vmg-blue/5 via-vmg-green/5 to-transparent rounded-full blur-2xl -z-10" style={{transform: 'translate(-50%, -50%)'}}></div>
       {/* Hero Section */}
       <div className="bg-white relative">
-        <div className="container mx-auto px-4 sm:px-6 section-padding">
+        <div className="w-full px-4 sm:px-6 section-padding">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-8">
@@ -156,7 +156,7 @@ export default function HeroTesol() {
 
     {/* Content Section */}
     <FadeSlideUp id="pricing" className="w-full bg-[#F8FAFF] section-padding scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6">
+      <div className="w-full px-4 sm:px-6">
         <div className="max-w-4xl mx-auto space-y-16">
           <CourseContent />
           

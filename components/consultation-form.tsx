@@ -31,7 +31,7 @@ export default function ConsultationForm() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-vmg-green/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-vmg-blue/20 rounded-full blur-3xl"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <div className="w-full px-4 sm:px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">

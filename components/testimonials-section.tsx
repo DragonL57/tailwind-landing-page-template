@@ -57,7 +57,7 @@ export default function TestimonialsSection() {
 
   return (
     <FadeSlideUp className="section-padding bg-[#0038D1] relative overflow-hidden">
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Học Viên Nói Gì Về Chúng Tôi</h2>
           <p className="text-lg md:text-xl text-[#B3C7F7] max-w-3xl mx-auto font-medium">
