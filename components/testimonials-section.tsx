@@ -57,7 +57,12 @@ export default function TestimonialsSection() {
 
   return (
     <FadeSlideUp className="section-padding bg-vmg-blue relative overflow-hidden">
-      <div className="w-full px-4">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -right-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+      </div>
+
+      <div className="w-full px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Học Viên Nói Gì Về Chúng Tôi</h2>
           <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto font-medium">

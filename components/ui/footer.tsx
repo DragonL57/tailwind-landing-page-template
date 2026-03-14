@@ -1,183 +1,85 @@
 import Link from "next/link";
 import Logo from "./logo";
+import { Mail, Phone, MapPin, Facebook, Youtube, Linkedin } from "lucide-react";
 
 export default function Footer({ border = false }: { border?: boolean }) {
   return (
-    <footer>
+    <footer className="bg-white border-t border-vmg-blue/10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        {/* Top area: Blocks */}
-        <div
-          className={`grid gap-10 py-8 sm:grid-cols-12 md:py-12 ${border ? "border-t [border-image:linear-gradient(to_right,transparent,var(--color-slate-200),transparent)1]" : ""}`}
-        >
-          {/* 1st block */}
-          <div className="space-y-2 sm:col-span-12 lg:col-span-4">
-            <div className="scale-125">
-              <Logo />
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-2 gap-12 py-12 md:py-20 lg:grid-cols-12">
+          
+          {/* 1st block: Brand & About */}
+          <div className="col-span-2 lg:col-span-6 space-y-6">
+            <div className="flex flex-col gap-4">
+              <div className="scale-110 origin-left">
+                <Logo />
+              </div>
+              <p className="text-sm text-vmg-navy/60 leading-relaxed max-w-sm font-medium">
+                Hệ thống đào tạo TESOL chuẩn quốc tế hàng đầu Việt Nam, cam kết chất lượng đầu ra và cơ hội nghề nghiệp toàn cầu.
+              </p>
             </div>
-            <div className="text-sm text-gray-600">
-              &copy; VMG Education - Lộ trình TESOL chuẩn quốc tế
+            
+            {/* Social Links */}
+            <div className="flex gap-3">
+              {[
+                { icon: Facebook, label: "Facebook", href: "#0" },
+                { icon: Youtube, label: "Youtube", href: "#0" },
+                { 
+                  label: "Zalo", 
+                  href: "https://zalo.me/your-number",
+                  customIcon: (
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.477 2 2 6.477 2 12c0 2.237.738 4.304 1.986 5.972L2.317 21.69a.5.5 0 00.638.638l3.718-1.669A9.958 9.958 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm3.5 13.5h-7a.5.5 0 010-1h7a.5.5 0 010 1zm0-3h-7a.5.5 0 010-1h7a.5.5 0 010 1zm0-3h-7a.5.5 0 010-1h7a.5.5 0 010 1z"/>
+                    </svg>
+                  )
+                }
+              ].map((social, i) => (
+                <Link 
+                  key={i} 
+                  href={social.href} 
+                  className="w-10 h-10 rounded-full bg-vmg-blue/5 flex items-center justify-center text-vmg-blue hover:bg-vmg-blue hover:text-white transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  {social.icon ? <social.icon className="w-5 h-5" /> : social.customIcon}
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* 2nd block */}
-          <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium text-vmg-navy">Chương Trình</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  TESOL Online
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Chứng Chỉ Quốc Tế
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Giảng Viên
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Quy Trình Học Tập
-                </Link>
-              </li>
+          {/* 2nd block: Quick Links */}
+          <div className="col-span-1 lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-widest text-vmg-navy">Chương Trình</h3>
+            <ul className="space-y-2.5 text-sm">
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">TESOL Online</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Chứng Chỉ ALAP</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Đội Ngũ Mentor</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Lộ Trình Học</Link></li>
             </ul>
           </div>
 
-          {/* 3rd block */}
-          <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium text-vmg-navy">Công Ty</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Về Chúng Tôi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Tầm Nhìn & Sứ 
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Tuyển Dụng
-                </Link>
-              </li>
+          {/* 3rd block: Company */}
+          <div className="col-span-1 lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-widest text-vmg-navy">Công Ty</h3>
+            <ul className="space-y-2.5 text-sm">
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Về VMG</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Tin Tức & Blog</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Tuyển Dụng</Link></li>
+              <li><Link className="text-vmg-navy/60 hover:text-vmg-blue transition-colors font-medium" href="#0">Liên Hệ</Link></li>
             </ul>
           </div>
 
-          {/* 4th block */}
-          <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium text-vmg-navy">Hỗ Trợ</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Trung Tâm Trợ Giúp
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Điều Khoản Dịch Vụ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="text-gray-600 transition hover:text-vmg-blue"
-                  href="#0"
-                >
-                  Chính Sách Bảo Mật
-                </Link>
-              </li>
-            </ul>
-          </div>
+        </div>
 
-          {/* 5th block */}
-          <div className="space-y-2 sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h3 className="text-sm font-medium text-vmg-navy">Kết Nối</h3>
-            <ul className="flex gap-1">
-              <li>
-                <Link
-                  className="flex items-center justify-center text-vmg-blue transition hover:text-vmg-navy"
-                  href="#0"
-                  aria-label="Facebook"
-                >
-                  <svg
-                    className="h-8 w-8 fill-current"
-                    viewBox="0 0 32 32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
-                  </svg>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex items-center justify-center text-vmg-blue transition hover:text-vmg-navy"
-                  href="#0"
-                  aria-label="YouTube"
-                >
-                  <svg
-                    className="h-8 w-8 fill-current"
-                    viewBox="0 0 32 32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M29.41 13.76a2.6 2.6 0 0 0-1.83-1.85c-1.62-.44-8.1-.44-8.1-.44s-6.48 0-8.1.44a2.6 2.6 0 0 0-1.83 1.85 27.35 27.35 0 0 0-.44 4.74 27.35 27.35 0 0 0 .44 4.74 2.6 2.6 0 0 0 1.83 1.85c1.62.44 8.1.44 8.1.44s6.48 0 8.1-.44a2.6 2.6 0 0 0 1.83-1.85 27.35 27.35 0 0 0 .44-4.74 27.35 27.35 0 0 0-.44-4.74zm-12.29 7.68v-6.41l5.42 3.2-5.42 3.21z"></path>
-                  </svg>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex items-center justify-center text-vmg-blue transition hover:text-vmg-navy"
-                  href="#0"
-                  aria-label="LinkedIn"
-                >
-                  <svg
-                    className="h-8 w-8 fill-current"
-                    viewBox="0 0 32 32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M26.4 26.4v-9.6c0-4.8-2.4-7.2-6.4-7.2-3.2 0-4.8 1.6-5.6 3.2v-2.8h-5.6v20.8h5.6v-9.6c0-1.6.8-3.2 2.4-3.2s2.4 1.6 2.4 3.2v9.6h5.6zM7.2 11.2c1.6 0 3.2-1.6 3.2-3.2 0-1.6-1.6-3.2-3.2-3.2S4 6.4 4 8c0 1.6 1.6 3.2 3.2 3.2zM9.6 26.4V5.6H4v20.8h5.6zM28.8 0H3.2C1.6 0 0 1.6 0 3.2v25.6C0 30.4 1.6 32 3.2 32h25.6c1.6 0 3.2-1.6 3.2-3.2V3.2C32 1.6 30.4 0 28.8 0z"></path>
-                  </svg>
-                </Link>
-              </li>
-            </ul>
+        {/* Bottom area: Copyright */}
+        <div className="py-8 border-t border-vmg-navy/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-xs text-vmg-navy/40 font-bold uppercase tracking-widest text-center md:text-left">
+            &copy; {new Date().getFullYear()} VMG Education. All rights reserved.
+          </div>
+          <div className="flex gap-6 text-[10px] font-black uppercase tracking-tighter text-vmg-navy/30">
+            <Link href="#0" className="hover:text-vmg-blue transition-colors">Privacy Policy</Link>
+            <Link href="#0" className="hover:text-vmg-blue transition-colors">Terms of Service</Link>
+            <Link href="#0" className="hover:text-vmg-blue transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>

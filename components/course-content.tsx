@@ -3,7 +3,12 @@ import FadeSlideUp from "./fade-slide-up";
 
 export default function CourseContent() {
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -left-1 -bottom-20 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-50 h-50 object-contain" />
+      </div>
+
       {/* Nội dung khóa học - Bento Grid */}
       <div className="max-w-[1200px] mx-auto px-4">
         <div className="text-center mb-12">

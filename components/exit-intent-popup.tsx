@@ -32,102 +32,87 @@ export default function ExitIntentPopup({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backdropFilter: "blur(6px)", backgroundColor: "rgba(15,23,42,0.55)" }}
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 backdrop-blur-md bg-vmg-navy/60 animate-fadeIn"
     >
       <div
-        className="bg-white rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden"
-        style={{ boxShadow: "0 32px 80px -12px rgba(0,0,0,0.35)" }}
+        className="bg-white rounded-[2.5rem] max-w-sm w-full shadow-2xl overflow-hidden border border-white/20 transform animate-scaleIn"
       >
-        {/* Illustrated header */}
-        <div className="relative h-36 bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400 flex items-center justify-center overflow-hidden">
-          <div className="absolute -top-8 -left-8 w-36 h-36 rounded-full bg-white/10" />
-          <div className="absolute -bottom-10 -right-6 w-44 h-44 rounded-full bg-white/10" />
-          <div className="absolute top-4 right-8 w-16 h-16 rounded-full bg-white/10" />
-
-          <div className="relative flex flex-col items-center gap-1">
-            <div className="w-16 h-16 rounded-2xl bg-white shadow-lg flex items-center justify-center text-4xl">
-              📘
+        {/* Modern Brand Header */}
+        <div className="relative h-44 bg-gradient-to-br from-vmg-navy via-vmg-blue to-vmg-navy flex items-center justify-center overflow-hidden">
+          {/* Decorative shapes */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-vmg-green/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-vmg-blue/20 rounded-full -ml-12 -mb-12 blur-xl" />
+          
+          <div className="relative flex flex-col items-center">
+            <div className="w-20 h-20 rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-2xl">
+              <Gift className="w-10 h-10 text-white" strokeWidth={1.5} />
             </div>
-            <div className="absolute -bottom-3 -right-5 w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-xl border-2 border-blue-100">
-              🤖
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-vmg-green flex items-center justify-center text-white shadow-lg border-4 border-vmg-blue">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="4" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
             </div>
           </div>
 
           <button
             onClick={() => setShow(false)}
-            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/20 hover:bg-white/35 transition-colors flex items-center justify-center"
+            className="absolute top-5 right-5 w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-white transition-all flex items-center justify-center group"
           >
-            <X className="w-3.5 h-3.5 text-white" />
+            <X className="w-4 h-4 group-hover:rotate-90 transition-transform" />
           </button>
         </div>
 
-        {/* Body */}
-        <div className="px-6 pt-6 pb-7">
+        {/* Content Body */}
+        <div className="px-8 pt-8 pb-10 text-center">
           {!claimed ? (
             <>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold mb-3">
-                <Gift className="w-3 h-3" />
-                Quà tặng miễn phí
-              </span>
+              <div className="space-y-2 mb-8">
+                <h2 className="text-2xl font-black text-vmg-navy leading-tight tracking-tight">
+                  Đừng rời đi tay trắng! 🎁
+                </h2>
+                <p className="text-sm text-vmg-navy/50 font-medium leading-relaxed px-2">
+                  Nhận ngay bộ tài liệu <span className="text-vmg-blue font-bold">"{ebookTitle}"</span> (trị giá {ebookValue}) hoàn toàn miễn phí.
+                </p>
+              </div>
 
-              <h2 className="text-xl font-bold text-slate-900 leading-snug mb-1">
-                Khoan! Bạn quên nhận Ebook rồi 🎁
-              </h2>
-              <p className="text-[13px] text-slate-500 mb-4 leading-relaxed">
-                <span className="font-semibold text-slate-700">"{ebookTitle}"</span>
-                {" "}— trị giá {ebookValue}, tặng bạn 100% miễn phí.
-              </p>
-
-              <div className="border-t border-slate-100 mb-4" />
-
-              <label className="block text-xs font-medium text-slate-500 mb-1.5">
-                Email nhận Ebook
-              </label>
-              <input
-                type="email"
-                placeholder="ten@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && email && setClaimed(true)}
-                className="w-full pl-4 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition mb-3"
-              />
-              <button
-                onClick={() => { if (email) setClaimed(true); }}
-                disabled={!email}
-                className="w-full py-2.5 rounded-xl font-semibold text-sm text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{
-                  background: email
-                    ? "linear-gradient(135deg,#3b82f6,#6366f1)"
-                    : "#94a3b8",
-                }}
-              >
-                Gửi Ebook cho tôi →
-              </button>
-
-              <button
-                onClick={() => setShow(false)}
-                className="mt-3 w-full text-xs text-slate-400 hover:text-slate-500 transition-colors"
-              >
-                Không cảm ơn, tôi không cần
-              </button>
+              <div className="space-y-4">
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Địa chỉ email của bạn"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && email && setClaimed(true)}
+                    className="w-full px-6 py-4 bg-vmg-blue-soft border-2 border-transparent rounded-2xl text-sm text-vmg-navy placeholder:text-vmg-navy/30 focus:outline-none focus:border-vmg-blue/20 transition-all font-medium"
+                  />
+                </div>
+                
+                <button
+                  onClick={() => { if (email) setClaimed(true); }}
+                  disabled={!email}
+                  className="w-full py-5 bg-vmg-red hover:bg-vmg-red/90 text-white font-black rounded-2xl shadow-xl shadow-vmg-red/20 transition-all active:scale-[0.98] disabled:opacity-50 disabled:grayscale uppercase tracking-widest text-xs"
+                >
+                  Nhận Quà Ngay →
+                </button>
+              </div>
             </>
           ) : (
-            <div className="text-center py-4">
-              <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4 text-3xl">
-                🎉
+            <div className="py-4 animate-fadeIn">
+              <div className="w-20 h-20 rounded-full bg-vmg-green/10 flex items-center justify-center mx-auto mb-6">
+                <svg className="w-10 h-10 text-vmg-green" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">Đã gửi thành công!</h3>
-              <p className="text-sm text-slate-500 mb-5">
-                Kiểm tra hộp thư{" "}
-                <span className="font-semibold text-blue-600">{email}</span>
+              <h3 className="text-2xl font-black text-vmg-navy mb-2 tracking-tight">Tuyệt vời!</h3>
+              <p className="text-sm text-vmg-navy/50 font-medium mb-8">
+                Tài liệu đã được gửi đến <br />
+                <span className="text-vmg-blue font-bold">{email}</span>
               </p>
               <button
                 onClick={() => setShow(false)}
-                className="w-full py-2.5 rounded-xl font-semibold text-sm text-white"
-                style={{ background: "linear-gradient(135deg,#3b82f6,#6366f1)" }}
+                className="w-full py-5 bg-vmg-navy text-white font-black rounded-2xl hover:bg-vmg-navy/90 transition-all uppercase tracking-widest text-xs shadow-lg"
               >
-                Tiếp tục khám phá
+                Khám phá tiếp
               </button>
             </div>
           )}

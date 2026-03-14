@@ -45,8 +45,13 @@ export default function TesolBenefits() {
   ];
 
   return (
-    <div className="relative">
-      <div className="relative section-padding">
+    <div className="relative overflow-hidden bg-white rounded-[3rem]">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -left-24 -top-5 w-[500px] h-[500px] opacity-100 pointer-events-none z-0 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+      </div>
+
+      <div className="relative section-padding z-10">
         <h2 className="text-3xl md:text-4xl font-black text-vmg-navy mb-12 text-center leading-tight">
           Vì sao TESOL Online tại VMG là một lựa chọn khác biệt
         </h2>

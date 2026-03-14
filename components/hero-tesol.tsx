@@ -24,9 +24,14 @@ export default function HeroTesol() {
 
   return (
     <>
-    <div className="relative w-full overflow-hidden bg-vmg-blue-soft h-[calc(100vh-64px)] min-h-[600px] flex items-center mt-16">
+    <div className="relative w-full overflow-hidden bg-white h-[calc(100vh-64px)] min-h-[600px] flex items-center mt-16">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-100 pointer-events-none z-0 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-10 grayscale" />
+      </div>
+
       {/* Background Graphic Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-vmg-green-soft -skew-x-12 translate-x-32 -z-10 hidden lg:block"></div>
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-vmg-blue-soft/30 -skew-x-12 translate-x-32 -z-10 hidden lg:block"></div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-10 relative w-full">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -133,8 +138,13 @@ export default function HeroTesol() {
     </div>
 
     {/* Content Section */}
-    <FadeSlideUp id="pricing" className="w-full bg-vmg-blue-soft/20 section-padding scroll-mt-24">
-      <div className="w-full px-4 sm:px-6">
+    <FadeSlideUp id="pricing" className="w-full bg-white section-padding scroll-mt-24 relative overflow-hidden">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -right-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+      </div>
+
+      <div className="w-full px-4 sm:px-6 relative z-10">
         <div className="max-w-[1200px] mx-auto space-y-16">
           <CourseContent />
           

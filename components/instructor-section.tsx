@@ -99,7 +99,12 @@ export default function InstructorSection() {
   ];
 
   return (
-    <FadeSlideUp className="section-padding bg-vmg-blue-soft/30">
+    <FadeSlideUp className="section-padding bg-white relative overflow-hidden">
+      {/* Background Silhouette Logo */}
+      <div className="absolute -left-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none -z-10 select-none">
+        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+      </div>
+
       <div className="w-full px-4 max-w-[1200px] mx-auto">
         <div className="mb-12">
           <span className="text-[11px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-2 block">Đội ngũ giảng viên</span>

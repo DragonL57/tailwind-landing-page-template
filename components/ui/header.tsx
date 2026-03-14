@@ -2,18 +2,24 @@
 
 import { useState } from "react";
 import Logo from "./logo";
-import AuthModal from "@/components/auth-modal";
+import LoginModal from "@/components/login-modal";
+import RegisterModal from "@/components/register-modal";
 
 export default function Header() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "register">("login");
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const openAuthModal = (mode: "login" | "register") => {
-    setAuthMode(mode);
-    setAuthModalOpen(true);
+  const openLogin = () => {
+    setLoginModalOpen(true);
+    setRegisterModalOpen(false);
+  };
+
+  const openRegister = () => {
+    setRegisterModalOpen(true);
+    setLoginModalOpen(false);
   };
 
   const products = [
@@ -137,13 +143,13 @@ export default function Header() {
             <div className="flex items-center gap-2 md:gap-4">
               <div className="hidden md:flex items-center gap-4">
                 <button
-                  onClick={() => openAuthModal("login")}
+                  onClick={openLogin}
                   className="text-vmg-navy hover:text-vmg-blue font-semibold px-4 py-2 rounded-lg hover:bg-vmg-blue/5 transition-all"
                 >
                   Đăng nhập
                 </button>
                 <button
-                  onClick={() => openAuthModal("register")}
+                  onClick={openRegister}
                   className="bg-vmg-red hover:bg-vmg-red/90 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-vmg-red/20 transition-all active:scale-95"
                 >
                   Đăng ký
@@ -188,13 +194,13 @@ export default function Header() {
 
               <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
                 <button
-                  onClick={() => { openAuthModal("login"); setMobileMenuOpen(false); }}
+                  onClick={() => { openLogin(); setMobileMenuOpen(false); }}
                   className="w-full text-center text-gray-700 font-medium py-3 rounded-xl border border-gray-200"
                 >
                   Đăng nhập
                 </button>
                 <button
-                  onClick={() => { openAuthModal("register"); setMobileMenuOpen(false); }}
+                  onClick={() => { openRegister(); setMobileMenuOpen(false); }}
                   className="w-full text-center bg-vmg-blue text-white font-medium py-3 rounded-xl shadow-md"
                 >
                   Đăng ký
@@ -205,11 +211,18 @@ export default function Header() {
         )}
       </header>
 
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onCloseAction={() => setAuthModalOpen(false)}
-        initialMode={authMode}
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={loginModalOpen}
+        onCloseAction={() => setLoginModalOpen(false)}
+        onSwitchToRegister={openRegister}
+      />
+
+      {/* Register Modal */}
+      <RegisterModal
+        isOpen={registerModalOpen}
+        onCloseAction={() => setRegisterModalOpen(false)}
+        onSwitchToLogin={openLogin}
       />
     </>
   );
