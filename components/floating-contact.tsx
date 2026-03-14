@@ -37,7 +37,7 @@ export default function FloatingContact() {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2 transition-all duration-300">
+      <div className="fixed bottom-24 right-4 z-[60] flex flex-col items-end gap-2 transition-all duration-300">
         {/* Contact Options - Show when open - Expanding upward */}
         {isOpen && (
           <div className="flex flex-col gap-2 animate-scaleIn">

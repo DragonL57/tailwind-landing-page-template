@@ -10,7 +10,7 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       quote:
-        "Tấm bằng ALAP quốc tế đã giúp mình tự tin ứng tuyển vào các trường quốc tế hàng đầu. Phương pháp dạy Demo thực hành cực kỳ sát thực tế!",
+        "Tấm bằng ALAP giúp mình tự tin ứng tuyển vào các trường quốc tế hàng đầu. Phương pháp dạy Demo thực tế, sát nhu cầu công việc!",
       author: "Nguyễn Thu Hà",
       role: "Giáo viên Tiếng Anh Quốc tế",
       image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent("Nguyễn Thu Hà")}`,
@@ -19,7 +19,7 @@ export default function TestimonialsSection() {
     },
     {
       quote:
-        "Mình ấn tượng nhất với tư duy giáo dục hiện đại và cách thiết kế giáo án chuẩn quốc tế. Khóa học TESOL tại VMG thực sự vượt mong đợi.",
+        "Ấn tượng nhất với tư duy giáo dục hiện đại và cách thiết kế giáo án chuẩn quốc tế. Khóa học tại VMG thực sự vượt mong đợi.",
       author: "Trần Anh Tuấn",
       role: "Học viên tốt nghiệp TESOL",
       image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent("Trần Anh Tuấn")}`,
@@ -28,7 +28,7 @@ export default function TestimonialsSection() {
     },
     {
       quote:
-        "Trước đây mình dạy theo bản năng, nhưng sau khóa học, mình đã nắm vững các kỹ thuật sư phạm chuyên sâu để quản lý lớp học hiệu quả hơn.",
+        "Sau khóa học, mình đã nắm vững các kỹ thuật sư phạm chuyên sâu để quản lý lớp học hiệu quả và chuyên nghiệp hơn rất nhiều.",
       author: "Lê Minh Hương",
       role: "Giáo viên Trung tâm Anh ngữ",
       image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent("Lê Minh Hương")}`,
@@ -37,7 +37,7 @@ export default function TestimonialsSection() {
     },
     {
       quote:
-        "Chương trình đào tạo rất thực tế, tập trung vào kỹ năng giảng dạy hiện đại. Từ một người mới, mình đã có thể tự tin đứng lớp Demo đầy thuyết phục.",
+        "Đào tạo rất thực tế, tập trung vào kỹ năng giảng dạy hiện đại. Từ một người mới, mình đã có thể tự tin đứng lớp Demo đầy thuyết phục.",
       author: "Hoàng Đức Anh",
       role: "Giảng viên tiếng Anh Tự do",
       image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent("Hoàng Đức Anh")}`,
@@ -46,7 +46,7 @@ export default function TestimonialsSection() {
     },
     {
       quote:
-        "Sự hỗ trợ nhiệt tình từ giảng viên và môi trường học tập chuyên nghiệp đã giúp mình hoàn thiện kỹ năng sư phạm và sở hữu chứng chỉ ALAP giá trị.",
+        "Giảng viên nhiệt tình và môi trường chuyên nghiệp giúp mình hoàn thiện kỹ năng sư phạm và sở hữu chứng chỉ ALAP giá trị toàn cầu.",
       author: "Phạm Gia Linh",
       role: "Giáo viên tiếng Anh THCS",
       image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent("Phạm Gia Linh")}`,
@@ -56,12 +56,12 @@ export default function TestimonialsSection() {
   ];
 
   return (
-    <FadeSlideUp className="section-padding bg-[#0038D1] relative overflow-hidden">
+    <FadeSlideUp className="section-padding bg-vmg-blue relative overflow-hidden">
       <div className="w-full px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Học Viên Nói Gì Về Chúng Tôi</h2>
-          <p className="text-lg md:text-xl text-[#B3C7F7] max-w-3xl mx-auto font-medium">
-            Lắng nghe chia sẻ từ những giáo viên đã thay đổi sự nghiệp cùng <span className="text-white font-bold">VMG TESOL</span>
+          <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto font-medium">
+            Lắng nghe chia sẻ từ những giáo viên đã thay đổi sự nghiệp cùng <span className="text-white font-bold underline decoration-vmg-green underline-offset-4">VMG TESOL</span>
           </p>
         </div>
 
@@ -89,10 +89,10 @@ export default function TestimonialsSection() {
                 <div
                   className={`bg-white rounded-2xl p-6 w-80 h-72 transition-all duration-500 ${
                     hoveredCard === index && isCorner
-                      ? "shadow-2xl border-2 border-[#0038D1] ring-4 ring-[#0038D1]/20"
+                      ? "shadow-2xl border-2 border-vmg-blue ring-4 ring-vmg-blue/20"
                       : isCenter
-                        ? "shadow-xl border border-[#0038D1]/10"
-                        : "shadow-lg border border-[#0038D1]/5"
+                        ? "shadow-xl border border-vmg-blue/10"
+                        : "shadow-lg border border-vmg-blue/5"
                   }`}
                 >
                   {/* Stars */}
@@ -103,11 +103,11 @@ export default function TestimonialsSection() {
                   </div>
 
                   {/* Quote */}
-                  <p className="text-[#0038D1] mb-6 text-base leading-relaxed line-clamp-4">"{testimonial.quote}"</p>
+                  <p className="text-vmg-navy mb-6 text-base leading-relaxed line-clamp-4 font-medium">"{testimonial.quote}"</p>
 
                   {/* Author */}
                   <div className="flex items-center mt-auto">
-                    <div className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-[#0038D1]">
+                    <div className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-vmg-blue">
                       <img
                         src={testimonial.image}
                         alt={testimonial.author}
@@ -116,7 +116,7 @@ export default function TestimonialsSection() {
                     </div>
                     <div>
                       <div className="font-bold text-vmg-red text-sm">{testimonial.author}</div>
-                      <div className="text-gray-500 text-xs">{testimonial.role}</div>
+                      <div className="text-vmg-navy/50 text-xs font-semibold">{testimonial.role}</div>
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="text-center mt-16">
-          <h3 className="text-3xl font-black text-white tracking-tight">Uy Tín & Chất Lượng</h3>
+          <h3 className="text-3xl font-black text-white tracking-tight uppercase">Uy Tín & Chất Lượng</h3>
         </div>
       </div>
     </FadeSlideUp>

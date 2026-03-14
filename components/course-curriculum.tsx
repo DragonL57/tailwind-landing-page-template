@@ -192,10 +192,10 @@ export default function CourseCurriculum() {
 
   const getStatusColor = (type: Lesson["type"]) => {
     switch (type) {
-      case "Video": return "bg-[#0038D1]";
-      case "Thảo luận": return "bg-[#75E04D]";
-      case "Bài kiểm tra": return "bg-[#AF2130]";
-      default: return "bg-gray-400";
+      case "Video": return "bg-vmg-blue";
+      case "Thảo luận": return "bg-vmg-green";
+      case "Bài kiểm tra": return "bg-vmg-red";
+      default: return "bg-vmg-navy/40";
     }
   };
 
@@ -207,11 +207,11 @@ export default function CourseCurriculum() {
       {/* Section Header */}
       <FadeSlideUp>
         <div className="text-center">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0038D1] mb-2 block">Chương trình đào tạo</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-2 block">Chương trình đào tạo</span>
+          <h2 className="text-3xl md:text-4xl font-black text-vmg-navy mb-4 tracking-tight">
             Nội dung Khóa học Chi tiết
           </h2>
-          <p className="text-sm font-bold text-gray-500 mb-10">
+          <p className="text-sm font-bold text-vmg-navy/50 mb-10">
             8 chương • {totalCourseLessons} bài học • {Math.floor(totalCourseDuration / 60)} giờ {totalCourseDuration % 60} phút
           </p>
         </div>
@@ -221,33 +221,33 @@ export default function CourseCurriculum() {
       <FadeSlideUp delay={0.15}>
         <div className="max-w-[1000px] mx-auto space-y-4">
           {curriculumData.map((module) => (
-            <div key={module.id} className="rounded-3xl border-2 border-gray-200 overflow-hidden shadow-sm hover:border-[#0038D1]/30 transition-all duration-300">
+            <div key={module.id} className="rounded-3xl border-2 border-vmg-blue/10 overflow-hidden shadow-sm hover:border-vmg-blue/30 transition-all duration-300 group/module">
               <button
                 onClick={() => toggleModule(module.id)}
                 className={`w-full py-6 px-8 flex items-center justify-between transition-all duration-300 ${
                   openModule === module.id 
-                    ? "bg-gray-50 border-b-2 border-gray-100" 
-                    : "bg-white hover:bg-gray-50"
+                    ? "bg-vmg-blue-soft/50 border-b-2 border-vmg-blue/5" 
+                    : "bg-white hover:bg-vmg-blue-soft/20"
                 }`}
               >
                 <div className="flex items-center gap-6 text-left">
-                  <span className={`text-2xl font-bold tabular-nums ${openModule === module.id ? "text-[#0038D1]" : "text-gray-200"}`}>
+                  <span className={`text-2xl font-black tabular-nums ${openModule === module.id ? "text-vmg-blue" : "text-vmg-navy/10 group-hover/module:text-vmg-blue/30"}`}>
                     {module.id < 10 ? `0${module.id}` : module.id}
                   </span>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 tracking-tight">{module.title}</h3>
-                    <p className="text-xs font-bold text-gray-400 mt-0.5">
+                    <h3 className="text-lg font-black text-vmg-navy tracking-tight">{module.title}</h3>
+                    <p className="text-xs font-bold text-vmg-navy/40 mt-0.5">
                       {module.titleVi}
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-6">
-                  <span className="hidden md:block text-[10px] font-bold uppercase tracking-[0.1em] text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="hidden md:block text-[10px] font-black uppercase tracking-[0.1em] text-vmg-blue/60 bg-vmg-blue/5 px-3 py-1 rounded-full">
                     {module.totalLessons} bài
                   </span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                    openModule === module.id ? "bg-[#0038D1] border-[#0038D1] text-white rotate-180" : "bg-white border-gray-200 text-gray-400"
+                    openModule === module.id ? "bg-vmg-blue border-vmg-blue text-white rotate-180" : "bg-white border-vmg-blue/10 text-vmg-blue/30 group-hover/module:border-vmg-blue/30"
                   }`}>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -263,25 +263,25 @@ export default function CourseCurriculum() {
                     {module.lessons.map((lesson, lessonIdx) => (
                       <div
                         key={lessonIdx}
-                        className="flex items-center gap-4 py-4 px-6 hover:bg-gray-50 rounded-2xl transition-all duration-200 group/lesson border border-transparent hover:border-gray-100"
+                        className="flex items-center gap-4 py-4 px-6 hover:bg-vmg-blue-soft/30 rounded-2xl transition-all duration-200 group/lesson border border-transparent hover:border-vmg-blue/5"
                       >
-                        <div className={`w-2.5 h-2.5 rounded-full ${getStatusColor(lesson.type)} shadow-sm`}></div>
+                        <div className={`w-2 h-2 rounded-full ${getStatusColor(lesson.type)} shadow-sm`}></div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-bold text-gray-800 group-hover/lesson:text-[#0038D1] transition-colors">
+                          <p className="text-sm font-black text-vmg-navy/80 group-hover/lesson:text-vmg-blue transition-colors">
                             {lesson.title}
                           </p>
-                          <p className="text-[11px] text-gray-500 font-bold mt-0.5">{lesson.titleVi}</p>
+                          <p className="text-[11px] text-vmg-navy/40 font-bold mt-0.5">{lesson.titleVi}</p>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-md ${
-                            lesson.type === 'Video' ? 'bg-blue-50 text-[#0038D1]' : 
-                            lesson.type === 'Thảo luận' ? 'bg-green-50 text-[#75E04D]' : 
-                            'bg-red-50 text-[#AF2130]'
+                          <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-md ${
+                            lesson.type === 'Video' ? 'bg-vmg-blue/10 text-vmg-blue' : 
+                            lesson.type === 'Thảo luận' ? 'bg-vmg-green/10 text-vmg-green' : 
+                            'bg-vmg-red/10 text-vmg-red'
                           }`}>
                             {lesson.type}
                           </span>
                           {lesson.duration && (
-                            <span className="text-[10px] font-bold text-gray-400 tabular-nums w-12 text-right">
+                            <span className="text-[10px] font-bold text-vmg-navy/30 tabular-nums w-12 text-right">
                               {lesson.duration}m
                             </span>
                           )}
@@ -296,5 +296,6 @@ export default function CourseCurriculum() {
         </div>
       </FadeSlideUp>
     </div>
+
   );
 }

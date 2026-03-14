@@ -25,32 +25,31 @@ export default function ConsultationForm() {
   };
 
   return (
-    <FadeSlideUp id="contact" className="relative section-padding overflow-hidden scroll-mt-24">
+    <FadeSlideUp id="contact" className="relative section-padding overflow-hidden scroll-mt-24 bg-white">
       {/* Background decorations */}
-      <div className="absolute inset-0 bg-gradient-to-br from-vmg-navy via-vmg-blue to-vmg-navy"></div>
-      <div className="absolute top-0 left-0 w-96 h-96 bg-vmg-green/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-vmg-blue/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 left-0 w-96 h-96 bg-vmg-blue/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-vmg-green/5 rounded-full blur-3xl"></div>
 
       <div className="w-full px-4 sm:px-6 relative z-10">
         <div className="max-w-[1200px] mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-black text-vmg-navy mb-4">
               Đăng Ký Tư Vấn Miễn Phí
             </h2>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="text-xl text-vmg-navy/60 max-w-2xl mx-auto font-medium">
               Để lại thông tin, chúng tôi sẽ liên hệ tư vấn chi tiết về chương trình TESOL phù hợp với bạn
             </p>
           </div>
 
           {/* Form */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+          <div className="bg-vmg-blue-soft rounded-2xl shadow-xl p-8 md:p-12 border border-vmg-blue/5">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Name */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Họ và tên <span className="text-red-500">*</span>
+                  <label htmlFor="name" className="block text-sm font-semibold text-vmg-navy mb-2">
+                    Họ và tên <span className="text-vmg-red">*</span>
                   </label>
                   <input
                     type="text"
@@ -59,15 +58,15 @@ export default function ConsultationForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-vmg-blue/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue/20 focus:border-vmg-blue/40 transition-all bg-white text-vmg-navy"
                     placeholder="Nguyễn Văn A"
                   />
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Số điện thoại <span className="text-red-500">*</span>
+                  <label htmlFor="phone" className="block text-sm font-semibold text-vmg-navy mb-2">
+                    Số điện thoại <span className="text-vmg-red">*</span>
                   </label>
                   <input
                     type="tel"
@@ -76,7 +75,7 @@ export default function ConsultationForm() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-vmg-blue/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue/20 focus:border-vmg-blue/40 transition-all bg-white text-vmg-navy"
                     placeholder="0912 345 678"
                   />
                 </div>
@@ -84,8 +83,8 @@ export default function ConsultationForm() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email <span className="text-red-500">*</span>
+                <label htmlFor="email" className="block text-sm font-semibold text-vmg-navy mb-2">
+                  Email <span className="text-vmg-red">*</span>
                 </label>
                 <input
                   type="email"
@@ -94,14 +93,14 @@ export default function ConsultationForm() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 border border-vmg-blue/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue/20 focus:border-vmg-blue/40 transition-all bg-white text-vmg-navy"
                   placeholder="email@example.com"
                 />
               </div>
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="message" className="block text-sm font-semibold text-vmg-navy mb-2">
                   Nội dung cần tư vấn
                 </label>
                 <textarea
@@ -110,7 +109,7 @@ export default function ConsultationForm() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-red focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 border border-vmg-blue/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-vmg-blue/20 focus:border-vmg-blue/40 transition-all resize-none bg-white text-vmg-navy"
                   placeholder="Cho chúng tôi biết bạn quan tâm về điều gì..."
                 />
               </div>
@@ -118,62 +117,63 @@ export default function ConsultationForm() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3"
+                className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-5 rounded-xl shadow-xl shadow-vmg-red/30 transition-all hover:scale-[1.02] flex items-center justify-center gap-3 uppercase tracking-widest"
               >
                 <span>Gửi Thông Tin Đăng Ký</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </button>
 
               {/* Privacy note */}
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-sm text-vmg-navy/40 text-center font-medium">
                 Thông tin của bạn sẽ được bảo mật tuyệt đối và chỉ dùng cho mục đích tư vấn
               </p>
             </form>
           </div>
 
           {/* Contact Info */}
-          <div className="mt-12 grid md:grid-cols-3 gap-6 text-white">
+          <div className="mt-12 grid md:grid-cols-3 gap-6 text-vmg-navy">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-vmg-blue/5 rounded-lg flex items-center justify-center flex-shrink-0 border border-vmg-blue/10">
+                <svg className="w-6 h-6 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">Hotline</h3>
-                <p className="text-white/90">1900 xxxx</p>
+                <h3 className="font-bold mb-1">Hotline</h3>
+                <p className="text-vmg-navy/60 font-medium">1900 xxxx</p>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-vmg-blue/5 rounded-lg flex items-center justify-center flex-shrink-0 border border-vmg-blue/10">
+                <svg className="w-6 h-6 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">Email</h3>
-                <p className="text-white/90">info@vmg-tesol.com</p>
+                <h3 className="font-bold mb-1">Email</h3>
+                <p className="text-vmg-navy/60 font-medium">info@vmg-tesol.com</p>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-vmg-blue/5 rounded-lg flex items-center justify-center flex-shrink-0 border border-vmg-blue/10">
+                <svg className="w-6 h-6 text-vmg-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold mb-1">Địa chỉ</h3>
-                <p className="text-white/90">Hà Nội, Việt Nam</p>
+                <h3 className="font-bold mb-1">Địa chỉ</h3>
+                <p className="text-vmg-navy/60 font-medium">Hà Nội, Việt Nam</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </FadeSlideUp>
+
   );
 }

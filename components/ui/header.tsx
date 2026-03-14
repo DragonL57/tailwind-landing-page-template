@@ -36,7 +36,7 @@ export default function Header() {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center gap-10">
-              <a href="/" className="text-gray-900 hover:text-[#0038D1] font-medium text-sm transition-colors py-4">
+              <a href="/" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
                 Trang chủ
               </a>
 
@@ -45,7 +45,7 @@ export default function Header() {
                 <button
                   onMouseEnter={() => setCoursesDropdownOpen(true)}
                   onMouseLeave={() => setCoursesDropdownOpen(false)}
-                  className="flex items-center gap-2 text-gray-900 hover:text-[#0038D1] font-medium text-sm transition-colors py-4"
+                  className="flex items-center gap-2 text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4"
                 >
                   Các khóa học
                   <svg
@@ -69,7 +69,7 @@ export default function Header() {
                       <a
                         key={index}
                         href={product.href}
-                        className="block px-6 py-4 hover:bg-[#F8FAFF] text-gray-700 hover:text-[#0038D1] font-medium text-sm transition-colors border-b border-gray-50 last:border-b-0"
+                        className="block px-6 py-4 hover:bg-vmg-blue-soft text-vmg-navy hover:text-vmg-blue font-medium text-sm transition-colors border-b border-gray-50 last:border-b-0"
                       >
                         {product.name}
                       </a>
@@ -78,11 +78,11 @@ export default function Header() {
                 )}
               </div>
 
-              <a href="/blog" className="text-gray-900 hover:text-[#0038D1] font-medium text-sm transition-colors py-4">
+              <a href="/blog" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
                 Blog
               </a>
 
-              <a href="/contact" className="text-gray-900 hover:text-[#0038D1] font-medium text-sm transition-colors py-4">
+              <a href="/contact" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
                 Liên hệ
               </a>
 
@@ -91,7 +91,7 @@ export default function Header() {
                 <button
                   onMouseEnter={() => setProductsDropdownOpen(true)}
                   onMouseLeave={() => setProductsDropdownOpen(false)}
-                  className="flex items-center gap-2 text-gray-900 hover:text-[#0038D1] font-medium text-sm transition-colors py-4"
+                  className="flex items-center gap-2 text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4"
                 >
                   Các sản phẩm khác
                   <svg
@@ -118,13 +118,13 @@ export default function Header() {
                   >
                     <a
                       href="#"
-                      className="block px-4 py-3 hover:bg-vmg-blue/5 text-gray-700 hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
+                      className="block px-4 py-3 hover:bg-vmg-blue-soft text-vmg-navy hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
                     >
                       Dịch vụ doanh nghiệp
                     </a>
                     <a
                       href="#"
-                      className="block px-4 py-3 hover:bg-vmg-blue/5 text-gray-700 hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
+                      className="block px-4 py-3 hover:bg-vmg-blue-soft text-vmg-navy hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
                     >
                       Tư vấn du học
                     </a>
@@ -138,13 +138,13 @@ export default function Header() {
               <div className="hidden md:flex items-center gap-4">
                 <button
                   onClick={() => openAuthModal("login")}
-                  className="text-gray-700 hover:text-vmg-blue font-medium px-4 py-2 rounded-lg hover:bg-vmg-blue/10 transition-all"
+                  className="text-vmg-navy hover:text-vmg-blue font-semibold px-4 py-2 rounded-lg hover:bg-vmg-blue/5 transition-all"
                 >
                   Đăng nhập
                 </button>
                 <button
                   onClick={() => openAuthModal("register")}
-                  className="bg-vmg-blue hover:bg-vmg-navy text-white font-medium px-4 py-2 rounded-lg transition-all"
+                  className="bg-vmg-red hover:bg-vmg-red/90 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-vmg-red/20 transition-all active:scale-95"
                 >
                   Đăng ký
                 </button>

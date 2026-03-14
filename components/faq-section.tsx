@@ -75,39 +75,41 @@ export default function FaqSection() {
           {/* Left Column - Title */}
           <div className="lg:col-span-4">
             <h2
-              className="text-3xl md:text-4xl leading-tight font-black text-[#202020] tracking-tight lg:sticky lg:top-24"
+              className="text-3xl md:text-4xl leading-tight font-black text-vmg-navy tracking-tight lg:sticky lg:top-24"
             >
               Các câu hỏi <br className="hidden md:block" />
-              <span className="text-[#0038D1]">thường gặp</span>
+              <span className="text-vmg-blue">thường gặp</span>
             </h2>
           </div>
 
           {/* Right Column - FAQ Items */}
           <div className="lg:col-span-8">
-            <div className="space-y-0 border-t border-[#e5e5e5]">
+            <div className="space-y-0 border-t border-vmg-navy/10">
               {faqs.map((faq, index) => (
-                <div key={index} className="border-b border-[#e5e5e5]">
+                <div key={index} className="border-b border-vmg-navy/10">
                   <button
                     onClick={() => toggleFAQ(index)}
-                    className="w-full flex items-center justify-between py-8 text-left group hover:opacity-70 transition-opacity duration-150"
+                    className="w-full flex items-center justify-between py-8 text-left group transition-all duration-300"
                     aria-expanded={openIndex === index}
                   >
                     <span
-                      className="text-lg leading-7 text-[#202020] font-bold pr-8"
+                      className={`text-lg leading-7 font-black pr-8 transition-colors duration-300 ${openIndex === index ? 'text-vmg-blue' : 'text-vmg-navy'}`}
                     >
                       {faq.question}
                     </span>
                     <motion.div
                       animate={{
                         rotate: openIndex === index ? 45 : 0,
+                        backgroundColor: openIndex === index ? "var(--color-vmg-blue)" : "transparent",
+                        color: openIndex === index ? "white" : "var(--color-vmg-navy)"
                       }}
                       transition={{
                         duration: 0.2,
                         ease: [0.4, 0, 0.2, 1],
                       }}
-                      className="flex-shrink-0"
+                      className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border border-vmg-navy/10 group-hover:border-vmg-blue/30"
                     >
-                      <Plus className="w-6 h-6 text-[#202020]" strokeWidth={2} />
+                      <Plus className="w-5 h-5" strokeWidth={3} />
                     </motion.div>
                   </button>
 
@@ -134,7 +136,7 @@ export default function FaqSection() {
                       >
                         <div className="pb-8 pr-12">
                           <div
-                            className="text-base md:text-lg leading-relaxed text-[#666666]"
+                            className="text-base md:text-lg leading-relaxed text-vmg-navy/70 font-medium"
                           >
                             {faq.answer}
                           </div>

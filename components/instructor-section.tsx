@@ -45,25 +45,25 @@ const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, de
 
         {/* High Contrast Stats */}
         <div className="flex flex-wrap gap-4 md:gap-8">
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-blue/20">
-            <p className="text-2xl font-bold text-vmg-navy leading-none">{ielts}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">IELTS Score</p>
+          <div className="bg-white border border-vmg-blue/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-blue/40 shadow-sm">
+            <p className="text-2xl font-black text-vmg-blue leading-none">{ielts}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">IELTS Score</p>
           </div>
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-green/20">
-            <p className="text-2xl font-bold text-[#2d7a45] leading-none">{experience}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">Kinh nghiệm</p>
+          <div className="bg-white border border-vmg-green/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-green/40 shadow-sm">
+            <p className="text-2xl font-black text-vmg-green leading-none">{experience}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">Kinh nghiệm</p>
           </div>
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-red/20">
-            <p className="text-2xl font-bold text-vmg-red leading-none">{sat}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">SAT Score</p>
+          <div className="bg-white border border-vmg-red/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-red/40 shadow-sm">
+            <p className="text-2xl font-black text-vmg-red leading-none">{sat}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">SAT Score</p>
           </div>
         </div>
 
-        <div className="space-y-4 pt-6 border-t border-gray-100">
-          <p className="text-xl leading-relaxed text-gray-700 italic font-medium">
+        <div className="space-y-4 pt-6 border-t border-vmg-navy/5">
+          <p className="text-xl leading-relaxed text-vmg-navy/80 italic font-medium">
             "{quote}"
           </p>
-          <p className="text-base leading-relaxed text-gray-500 max-w-2xl">
+          <p className="text-base leading-relaxed text-vmg-navy/60 max-w-2xl">
             {description}
           </p>
         </div>
@@ -99,11 +99,11 @@ export default function InstructorSection() {
   ];
 
   return (
-    <FadeSlideUp className="section-padding bg-gray-50/50">
+    <FadeSlideUp className="section-padding bg-vmg-blue-soft/30">
       <div className="w-full px-4 max-w-[1200px] mx-auto">
         <div className="mb-12">
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0038D1] mb-2 block">Đội ngũ giảng viên</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy tracking-tight">Chuyên gia đào tạo TESOL</h2>
+          <span className="text-[11px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-2 block">Đội ngũ giảng viên</span>
+          <h2 className="text-3xl md:text-4xl font-black text-vmg-navy tracking-tight">Chuyên gia đào tạo TESOL</h2>
         </div>
 
         <div className="space-y-8">
