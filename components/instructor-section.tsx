@@ -15,54 +15,58 @@ interface InstructorProps {
   isReversed?: boolean;
 }
 
-const InstructorRow = ({ name, image, degree, ielts, sat, experience, quote, description, isReversed }: InstructorProps) => (
-  <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-16 py-12`}>
-    {/* Image Container */}
-    <div className="w-full max-w-[300px] md:w-5/12 shrink-0">
-      <div className="relative group">
-        <div className={`absolute -inset-4 rounded-[40px] bg-gradient-to-br ${isReversed ? 'from-vmg-blue/10 to-vmg-green/10' : 'from-vmg-red/10 to-vmg-blue/10'} blur-2xl opacity-50`}></div>
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border-4 border-white bg-white shadow-xl transition-transform duration-500 group-hover:scale-[1.01]">
-          <img
-            src={image}
-            alt={name}
-            className="h-full w-full object-cover"
-          />
-        </div>
-      </div>
-    </div>
-
-    {/* Content Container */}
-    <div className="flex-1 space-y-6 text-center md:text-left">
-      <div className="space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0038D1]">Chuyên gia đào tạo</span>
-        <h3 className="text-3xl md:text-4xl font-bold text-vmg-navy tracking-tight">{name}</h3>
-        <div className="text-sm font-bold text-vmg-red leading-relaxed max-w-xl whitespace-pre-line">
-          {degree}
+const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, description, isReversed }: InstructorProps) => (
+  <div className="bg-white border-2 border-gray-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm hover:border-vmg-blue/30 transition-all duration-500 overflow-hidden group">
+    <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-16`}>
+      
+      {/* Image Side */}
+      <div className="w-full max-w-[280px] md:w-4/12 shrink-0">
+        <div className="relative">
+          <div className={`absolute -inset-2 rounded-[2rem] bg-gradient-to-br ${isReversed ? 'from-vmg-blue/10 to-vmg-green/10' : 'from-vmg-red/10 to-vmg-blue/10'} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-gray-100 shadow-lg bg-gray-50">
+            <img
+              src={image}
+              alt={name}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 md:justify-start">
-        <div className="min-w-[100px] rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-bold text-vmg-navy">{ielts}</p>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">IELTS Score</p>
+      {/* Content Side */}
+      <div className="flex-1 space-y-8 text-left">
+        <div className="space-y-3">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-vmg-blue px-3 py-1 bg-vmg-blue/5 rounded-full w-fit block">Chuyên gia đào tạo</span>
+          <h3 className="text-3xl md:text-4xl font-bold text-vmg-navy tracking-tight">{name}</h3>
+          <div className="text-sm font-bold text-vmg-red leading-relaxed max-w-xl whitespace-pre-line border-l-2 border-vmg-red/20 pl-4">
+            {degree}
+          </div>
         </div>
-        <div className="min-w-[100px] rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-bold text-[#2d7a45]">{experience}</p>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Năm kinh nghiệm</p>
-        </div>
-        <div className="min-w-[100px] rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-bold text-vmg-red">{sat}</p>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">SAT Score</p>
-        </div>
-      </div>
 
-      <div className="space-y-4 pt-4 border-t border-gray-100">
-        <p className="text-xl leading-relaxed text-gray-700 italic font-medium">
-          "{quote}"
-        </p>
-        <p className="text-base leading-relaxed text-gray-500 max-w-2xl">
-          {description}
-        </p>
+        {/* High Contrast Stats */}
+        <div className="flex flex-wrap gap-4 md:gap-8">
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-blue/20">
+            <p className="text-2xl font-bold text-vmg-navy leading-none">{ielts}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">IELTS Score</p>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-green/20">
+            <p className="text-2xl font-bold text-[#2d7a45] leading-none">{experience}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">Kinh nghiệm</p>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 min-w-[120px] transition-colors group-hover:bg-white group-hover:border-vmg-red/20">
+            <p className="text-2xl font-bold text-vmg-red leading-none">{sat}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-2">SAT Score</p>
+          </div>
+        </div>
+
+        <div className="space-y-4 pt-6 border-t border-gray-100">
+          <p className="text-xl leading-relaxed text-gray-700 italic font-medium">
+            "{quote}"
+          </p>
+          <p className="text-base leading-relaxed text-gray-500 max-w-2xl">
+            {description}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -97,16 +101,14 @@ export default function InstructorSection() {
   return (
     <FadeSlideUp className="section-padding bg-gray-50/50">
       <div className="w-full px-4 max-w-[1200px] mx-auto">
-        <div className="mb-12 text-center md:text-left">
-          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#0038D1]">
-            Đội ngũ giảng viên
-          </span>
-          <h2 className="mt-1 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Chuyên gia đào tạo TESOL</h2>
+        <div className="mb-12">
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0038D1] mb-2 block">Đội ngũ giảng viên</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy tracking-tight">Chuyên gia đào tạo TESOL</h2>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-8">
           {instructors.map((instructor, index) => (
-            <InstructorRow key={index} {...instructor} />
+            <InstructorCard key={index} {...instructor} />
           ))}
         </div>
       </div>
