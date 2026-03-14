@@ -25,7 +25,7 @@ export default function HeroTesol() {
 
   return (
     <>
-    <FadeSlideUp className="relative scroll-mt-24">
+    <FadeSlideUp className="relative scroll-mt-10 pt-10 md:pt-10">
       {/* Decorative Effects */}
       <div className="absolute top-0 left-0 w-48 h-48 bg-vmg-blue/10 rounded-full blur-3xl -z-10 animate-float-slow" style={{animationDelay: '0s'}}></div>
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-vmg-green/10 rounded-full blur-3xl -z-10 animate-float-slow" style={{animationDelay: '2s'}}></div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FadeSlideUp from "./fade-slide-up";
 import Image from "next/image";
 
 export default function ProductOverview() {
@@ -65,61 +66,63 @@ export default function ProductOverview() {
         />
       </div>
       <div className="relative space-y-12">
-        {/* Nội dung khóa học */}
-        <div className="relative">
-          {/* Decorative Elements */}
-          <div className="absolute -top-4 -left-4 w-24 h-24 bg-vmg-blue/5 rounded-full blur-2xl"></div>
-          <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-vmg-green/5 rounded-full blur-2xl"></div>
-          
-          <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-            <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-6">
-              Nội dung khóa học
-            </h2>
-            <ul className="space-y-2">
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc) có giá trị vĩnh viễn toàn cầu.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Thành thạo kỹ năng soạn giáo án và phương pháp giảng dạy (Online & Offline).</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Tự tin quản lý lớp học và đứng lớp chuyên nghiệp trước mọi đối tượng học viên.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Được thực tập và kết nối việc làm ngay tại VMG hoặc các trường đối tác uy tín.</span>
-          </li>
-          <li className="group flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-vmg-blue/5 transition-all duration-200">
-            <div className="w-8 h-8 bg-vmg-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg className="w-5 h-5 text-vmg-green" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <span className="text-lg text-gray-700 group-hover:text-vmg-navy transition-colors">Có đủ năng lực để tự mở lớp hoặc phát triển sự nghiệp giáo viên tự do.</span>
-          </li>
-        </ul>
-          </div>
-        </div>
+        {/* Nội dung khóa học - full-width band */}
+        <FadeSlideUp className="w-full bg-[#F7F8FC]">
+          <div className="max-w-7xl mx-auto px-4 section-padding">
+            <div className="grid md:grid-cols-12 gap-8 items-center">
+              <div className="md:col-span-5">
+                <h2 className="text-3xl md:text-4xl font-bold text-vmg-navy mb-4">Nội dung khóa học</h2>
+                <p className="text-lg text-gray-700">Khóa học trang bị kiến thức sư phạm thực tế, chứng chỉ quốc tế và cơ hội thực tập — phù hợp cho giáo viên mới và muốn nâng cao chuyên môn.</p>
+              </div>
 
+              <div className="md:col-span-7">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Nhận chứng chỉ TESOL quốc tế (ALAP)</p>
+                      <p className="text-sm text-gray-600">Chứng chỉ có giá trị vĩnh viễn và được công nhận toàn cầu.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Soạn giáo án & phương pháp</p>
+                      <p className="text-sm text-gray-600">Thực hành kỹ năng soạn giảng cho cả online và offline.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Quản lý lớp & tự tin đứng lớp</p>
+                      <p className="text-sm text-gray-600">Kỹ năng quản trị lớp học cho mọi đối tượng học viên.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-vmg-green/10 flex items-center justify-center text-vmg-green">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Thực tập & kết nối việc làm</p>
+                      <p className="text-sm text-gray-600">Cơ hội thực tập tại VMG và đối tác, mở lối nghề nghiệp.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </FadeSlideUp>
+      
+      </div>
       {/* Vì sao TESOL */}
       <div className="relative">
         <div className="relative py-4">
@@ -131,7 +134,7 @@ export default function ProductOverview() {
               <div key={index} className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-md hover:shadow-xl border border-gray-200 hover:border-vmg-blue/40 transition-all duration-300 p-6">
                 {/* Icon and Title Row */}
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`w-14 h-14 bg-${feature.color}/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 bg-${feature.color}/10`}>
                     <div className="scale-125">
                       {feature.icon}
                     </div>
@@ -154,7 +157,6 @@ export default function ProductOverview() {
             ))}
           </div>
         </div>
-      </div>
       </div>
     </div>
   );
