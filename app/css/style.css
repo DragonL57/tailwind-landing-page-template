@@ -5,6 +5,9 @@
   *, *::before, *::after {
     border-color: #d1d5db;
   }
+  html {
+    font-family: var(--font-montserrat), sans-serif;
+  }
 }
 
 /* Additional styles */
