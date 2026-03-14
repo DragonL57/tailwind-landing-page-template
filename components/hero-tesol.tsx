@@ -19,6 +19,8 @@ import RelatedCourses from "./related-courses";
 import FaqSection from "./faq-section";
 import CertificateCeremonySection from "./certificate-ceremony-section";
 
+import Link from "next/link";
+
 export default function HeroTesol() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -69,10 +71,13 @@ export default function HeroTesol() {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <Button size="lg" className="bg-vmg-red hover:bg-vmg-red/90 text-white shadow-xl shadow-vmg-red/20 group">
+              <Link
+                href="/checkout"
+                className="bg-vmg-red hover:bg-vmg-red/90 text-white shadow-xl shadow-vmg-red/20 group h-14 px-8 rounded-xl flex items-center justify-center font-bold uppercase tracking-widest text-sm transition-all"
+              >
                 Đăng ký ngay 
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </Link>
               <Button variant="ghost" size="lg" className="border-2 border-vmg-blue/20 text-vmg-blue hover:bg-vmg-blue/5">
                 Tải Brochure
               </Button>
@@ -172,13 +177,13 @@ export default function HeroTesol() {
 
     {/* Desktop Floating "Mua ngay" CTA - Bottom Right */}
     <div className="fixed bottom-4 right-4 z-[50] hidden lg:flex">
-      <button 
-        onClick={() => document.getElementById('pricing-final')?.scrollIntoView({ behavior: 'smooth' })}
+      <Link
+        href="/checkout"
         className="w-16 h-16 bg-vmg-red text-white rounded-2xl shadow-2xl hover:bg-vmg-red/90 transition-all duration-500 transform hover:-translate-y-1 active:scale-95 flex flex-col items-center justify-center gap-1 group"
       >
         <span className="text-[10px] font-black uppercase tracking-tighter leading-none">Mua ngay</span>
         <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" strokeWidth={3} />
-      </button>
+      </Link>
     </div>
 
     {/* Mobile Bottom Payment Bar */}
@@ -187,12 +192,15 @@ export default function HeroTesol() {
         <div className="flex flex-col">
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Tổng học phí</span>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-black text-[#0038D1] tracking-tighter">9.900.000đ</span>
+            <span className="text-2xl font-black text-vmg-blue tracking-tighter">9.900.000đ</span>
           </div>
         </div>
-        <button className="flex-1 bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-xl shadow-vmg-red/25 text-sm uppercase tracking-wider">
+        <Link
+          href="/checkout"
+          className="flex-1 bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-xl shadow-vmg-red/25 text-sm uppercase tracking-wider flex items-center justify-center"
+        >
           ĐĂNG KÝ NGAY
-        </button>
+        </Link>
       </div>
     </div>
 

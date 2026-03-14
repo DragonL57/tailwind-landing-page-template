@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import FadeSlideUp from "./fade-slide-up";
 
+import Link from "next/link";
+
 export default function PricingSection() {
   const [couponCode, setCouponCode] = useState("");
   const [isApplied, setIsApplied] = useState(false);
@@ -166,12 +168,12 @@ export default function PricingSection() {
               </div>
             </div>
 
-            <button 
-              onClick={handleConsultation}
-              className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-5 rounded-2xl shadow-xl shadow-vmg-red/30 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-sm relative z-10"
+            <Link
+              href="/checkout"
+              className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-5 rounded-2xl shadow-xl shadow-vmg-red/30 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-sm relative z-10 flex items-center justify-center"
             >
               Đăng ký ngay
-            </button>
+            </Link>
           </div>
         </div>
       </div>
