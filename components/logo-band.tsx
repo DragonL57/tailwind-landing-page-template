@@ -75,10 +75,9 @@ export default function LogoBand() {
                       </div>
                     ))}
                   </div>
-                  <p className="text-xs text-vmg-navy/40 font-black uppercase tracking-wider">
+                  <p className="text-xs text-vmg-blue font-black uppercase tracking-wider">
                     +5,000 giáo viên đã được cấp bằng
-                  </p>
-                </div>
+                  </p>                </div>
               </div>
 
               {/* Certificate Image - Reordered on Mobile */}

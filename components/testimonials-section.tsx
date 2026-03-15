@@ -103,10 +103,9 @@ export default function TestimonialsSection() {
                   {/* Stars */}
                   <div className="flex mb-4">
                     {[...Array(testimonial.stars)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                      <Star key={i} className="h-4 w-4 text-vmg-green fill-current" />
                     ))}
                   </div>
-
                   {/* Quote */}
                   <p className="text-vmg-navy mb-6 text-base leading-relaxed line-clamp-4 font-medium">"{testimonial.quote}"</p>
 

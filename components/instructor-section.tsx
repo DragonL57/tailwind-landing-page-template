@@ -38,8 +38,15 @@ const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, de
         <div className="space-y-3">
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-vmg-blue px-3 py-1 bg-vmg-blue/5 rounded-full w-fit block">Chuyên gia đào tạo</span>
           <h3 className="text-3xl md:text-4xl font-bold text-vmg-navy tracking-tight">{name}</h3>
-          <div className="text-sm font-bold text-vmg-red leading-relaxed max-w-xl whitespace-pre-line border-l-2 border-vmg-red/20 pl-4">
-            {degree}
+          <div className="space-y-2 max-w-xl">
+            {degree.split('\n').map((line, i) => (
+              <div key={i} className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-vmg-green shrink-0 mt-1.5" />
+                <span className="text-sm font-bold text-vmg-navy/80 leading-relaxed">
+                  {line}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 

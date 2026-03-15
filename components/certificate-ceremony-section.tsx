@@ -76,7 +76,7 @@ export default function CertificateCeremonySection() {
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-3 block">Đối tác chiến lược</span>
               <h2 className="text-3xl md:text-5xl font-black text-vmg-navy tracking-tight mb-6">VMG & INTESOL Vietnam</h2>
               <p className="text-vmg-navy/70 text-base md:text-xl font-medium leading-relaxed max-w-4xl">
-                Sự kết hợp giữa <span className="text-vmg-navy font-black text-vmg-blue">22 năm kinh nghiệm</span> của VMG và <span className="text-vmg-navy font-black">uy tín toàn cầu</span> từ INTESOL Worldwide, khẳng định vị thế dẫn đầu trong đào tạo giáo viên Anh ngữ chuẩn Quốc tế tại Việt Nam.
+                Sự kết hợp giữa <span className="text-vmg-blue font-black">22 năm kinh nghiệm</span> của VMG và <span className="text-vmg-blue font-black">uy tín toàn cầu</span> từ INTESOL Worldwide, khẳng định vị thế dẫn đầu trong đào tạo giáo viên Anh ngữ chuẩn Quốc tế tại Việt Nam.
               </p>
             </div>
 
