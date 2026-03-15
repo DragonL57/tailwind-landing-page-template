@@ -28,7 +28,7 @@ export default function HeroTesol() {
 
   return (
     <>
-    <div className="relative w-full overflow-hidden bg-white h-[calc(100vh-64px)] min-h-[600px] flex items-center mt-16">
+    <div className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-16 py-12 lg:py-0">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-100 pointer-events-none z-0 select-none">
         <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-10 grayscale" />
@@ -109,7 +109,7 @@ export default function HeroTesol() {
           </div>
 
           {/* Right: Video & Visuals (6 cols) */}
-          <div className="lg:col-span-6 relative hidden md:block">
+          <div className="lg:col-span-6 relative mt-12 lg:mt-0">
             <div className="relative group w-full">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border-8 border-white bg-gray-100">
                 {!isVideoPlaying ? (
