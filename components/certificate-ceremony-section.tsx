@@ -69,34 +69,32 @@ export default function CertificateCeremonySection() {
         </div>
       </FadeSlideUp>
 
-      {/* Section 2: Bento Grid - Hợp tác quốc tế */}
+      {/* Section 2: Đối tác chiến lược */}
       <FadeSlideUp className="section-padding pt-0" id="signing-ceremony">
           <div className="w-full px-4 max-w-[1200px] mx-auto">
-            <div className="mb-12 text-center md:text-left border-b border-vmg-blue/10 pb-8">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-2 block">Đối tác chiến lược</span>
-              <h2 className="text-3xl font-black text-vmg-navy tracking-tight">Hợp tác & Ký kết Quốc tế</h2>
+            <div className="mb-12 text-center md:text-left border-b border-vmg-blue/10 pb-10">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-vmg-blue mb-3 block">Đối tác chiến lược</span>
+              <h2 className="text-3xl md:text-5xl font-black text-vmg-navy tracking-tight mb-6">VMG & INTESOL Vietnam</h2>
+              <p className="text-vmg-navy/70 text-base md:text-xl font-medium leading-relaxed max-w-4xl">
+                Sự kết hợp giữa <span className="text-vmg-navy font-black text-vmg-blue">22 năm kinh nghiệm</span> của VMG và <span className="text-vmg-navy font-black">uy tín toàn cầu</span> từ INTESOL Worldwide, khẳng định vị thế dẫn đầu trong đào tạo giáo viên Anh ngữ chuẩn Quốc tế tại Việt Nam.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[4/3] md:aspect-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="rounded-[2.5rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[16/10]">
                 <img
                   src="/images/vmg-intesolvietnam/image.png"
-                  alt="Signing Ceremony Main"
+                  alt="Strategic Partnership"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-vmg-navy/90 via-vmg-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                  <h4 className="text-white font-black text-xl mb-2">Uy Tín & Chất Lượng</h4>
-                  <p className="text-white/80 text-sm font-medium">Hợp tác chiến lược VMG & INTESOL Worldwide nâng tầm đào tạo giáo viên tại Việt Nam.</p>
-                </div>
               </div>
 
-              <div className="rounded-[2rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[4/3] md:aspect-auto">
+              <div className="rounded-[2.5rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[16/10]">
                 <img
                   src="/images/vmg-intesolvietnam/image1.png"
-                  alt="Signing Ceremony 1"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  alt="Signing Ceremony"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-vmg-blue/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
             </div>
           </div>
