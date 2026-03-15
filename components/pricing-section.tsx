@@ -172,7 +172,7 @@ export default function PricingSection() {
               href="/checkout"
               className="w-full bg-vmg-red hover:bg-vmg-red/90 text-white font-black py-5 rounded-2xl shadow-xl shadow-vmg-red/30 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-sm relative z-10 flex items-center justify-center"
             >
-              Đăng ký ngay
+              Mua ngay
             </Link>
           </div>
         </div>

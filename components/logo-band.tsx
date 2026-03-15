@@ -7,7 +7,7 @@ export default function LogoBand() {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <FadeSlideUp className="section-padding">
+    <FadeSlideUp id="logo-band-section" className="section-padding">
       {/* Zoom Modal */}
       {isZoomed && (
         <div 
