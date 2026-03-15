@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [pushUp, setPushUp] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -15,21 +14,6 @@ export default function FloatingContact() {
   });
 
   const [submitMessage, setSubmitMessage] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const section = document.getElementById("logo-band-section");
-      if (section) {
-        const rect = section.getBoundingClientRect();
-        // Shift position if the purchase CTA is visible (past the trigger)
-        setPushUp(rect.bottom < 0);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,9 +37,8 @@ export default function FloatingContact() {
   return (
     <>
       <div 
-        className={`fixed right-4 z-[60] flex flex-col items-end gap-2 transition-all duration-500 ease-in-out ${
-          pushUp ? 'bottom-[100px] lg:bottom-[240px]' : 'bottom-6'
-        }`}
+        className="fixed right-4 z-[60] flex flex-col items-end gap-2 transition-all duration-500 ease-in-out"
+        style={{ bottom: 'calc(24px + var(--purchase-cta-offset, 0px))' }}
       >
         {/* Contact Options - Expanding upward */}
         {isOpen && (
@@ -140,7 +123,7 @@ export default function FloatingContact() {
                 </div>
                 <button
                   onClick={() => setShowPopup(false)}
-                  className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
                 >
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
