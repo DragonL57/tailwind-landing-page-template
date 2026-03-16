@@ -88,10 +88,7 @@ export default function ExitIntentPopup({
             {!claimed ? (
               <div className="space-y-8 animate-in fade-in slide-in-from-right-8 duration-700">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 bg-vmg-green/10 px-3 py-1 rounded-full border border-vmg-green/20">
-                    <Sparkles className="w-3 h-3 text-vmg-green" />
-                    <span className="text-vmg-green font-bold text-[9px] uppercase tracking-wider">Quà tặng đặc biệt cho bạn</span>
-                  </div>
+                  {/* Badge removed as requested */}
                   <h2 className="text-3xl md:text-4xl font-black text-vmg-navy leading-tight tracking-tight">
                     Trước khi bạn rời đi...
                   </h2>
