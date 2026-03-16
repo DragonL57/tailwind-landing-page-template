@@ -147,35 +147,36 @@ export default function HeroTesol() {
     </div>
 
     {/* Content Section */}
-    <FadeSlideUp id="pricing" className="w-full bg-white section-padding scroll-mt-24 relative overflow-hidden">
-      {/* Background Silhouette Logo */}
-      <div className="absolute -right-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+    <div id="pricing" className="w-full bg-white scroll-mt-24 relative overflow-hidden">
+      <div className="w-full px-4 sm:px-6 relative z-10 py-16">
+        <div className="max-w-[1200px] mx-auto">
+          <CourseContent />
+        </div>
       </div>
 
-      <div className="w-full px-4 sm:px-6 relative z-10">
+      <TesolBenefits />
+
+      <div className="w-full px-4 sm:px-6 relative z-10 py-16">
         <div className="max-w-[1200px] mx-auto space-y-16">
-          <CourseContent />
-          
+          <FaqSection />
+        </div>
+      </div>
+
+      <PricingSection />
+
+      <div className="w-full px-4 sm:px-6 relative z-10 py-16">
+        <div className="max-w-[1200px] mx-auto space-y-16">
           <LogoBand />
           <CertificateCeremonySection />
-          <TesolBenefits />
-
-          {/* Deal Banner Section */}
-          <DealBanner />
           
           <InstructorSection />
 
           <CourseCurriculum />
         </div>
       </div>
-    </FadeSlideUp>
-
-    <PricingSection />
+    </div>
 
     <TestimonialsSection />
-
-    <FaqSection />
 
     <RelatedCourses />
 

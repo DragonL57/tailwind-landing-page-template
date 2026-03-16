@@ -84,7 +84,7 @@ export default function PricingSection() {
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-vmg-green/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
 
       <div className="w-full px-4 relative z-10">
-        <div className="max-w-[1200px] mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+        <div className="max-w-[1200px] mx-auto bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
           {/* Left: Benefits & Info */}
           <div className="flex-1 p-8 md:p-12 bg-vmg-blue-soft/30">
             <h2 className="text-3xl md:text-4xl font-black text-vmg-navy mb-8 tracking-tight leading-tight">

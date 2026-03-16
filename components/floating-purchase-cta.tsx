@@ -10,10 +10,11 @@ export default function FloatingPurchaseCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const section = document.getElementById("logo-band-section");
+      const section = document.getElementById("deal-section-trigger");
       if (section) {
         const rect = section.getBoundingClientRect();
-        if (rect.bottom < 0) {
+        // Trigger when the top of the deal section enters or is above the viewport
+        if (rect.top < window.innerHeight * 0.8) {
           setIsVisible(true);
         } else {
           setIsVisible(false);
