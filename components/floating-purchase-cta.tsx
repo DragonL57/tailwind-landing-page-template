@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function FloatingPurchaseCTA() {
-  // Always visible CTA and always show discount
-  const [isVisible, setIsVisible] = useState(true);
+  // Visible only after passing hero section; discount always shown
+  const [isVisible, setIsVisible] = useState(false);
   const [discountActive, setDiscountActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -18,17 +18,31 @@ export default function FloatingPurchaseCTA() {
       }
     };
 
-    window.addEventListener("resize", updateHeight);
-    // initial set
+    const checkHeroPassed = () => {
+      const hero = document.getElementById('hero-section');
+      if (!hero) {
+        setIsVisible(true);
+        return;
+      }
+      const rect = hero.getBoundingClientRect();
+      // show CTA after hero is fully scrolled past
+      setIsVisible(rect.bottom < 0);
+    };
+
+    window.addEventListener('scroll', checkHeroPassed);
+    window.addEventListener('resize', updateHeight);
+
+    // initial checks
+    checkHeroPassed();
     updateHeight();
 
     return () => {
-      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener('scroll', checkHeroPassed);
+      window.removeEventListener('resize', updateHeight);
     };
   }, []);
 
-  // CTA always visible
-
+  if (!isVisible) return null;
   return (
     <div 
       ref={containerRef}

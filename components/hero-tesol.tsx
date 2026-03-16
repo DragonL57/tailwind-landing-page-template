@@ -25,10 +25,18 @@ import FloatingPurchaseCTA from "./floating-purchase-cta";
 
 export default function HeroTesol() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const driveFileId = "10wGQpcmuoeEmexYehclU9FZWpWAXAgnL";
+  const hdDriveThumbnail = `https://drive.google.com/uc?export=view&id=${driveFileId}&sz=1920`;
+  const localHdThumb = "/images/hero-drive-thumb-1920.jpg"; // add a 1920x1080 file here for best quality
+  const driveThumbnail = `https://drive.google.com/uc?export=view&id=${driveFileId}`;
+  const driveThumbAlt = `https://drive.google.com/thumbnail?id=${driveFileId}&sz=1920`;
+  const unsplashFallback = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2400";
+  const [thumbIndex, setThumbIndex] = useState(0);
+  const thumbCandidates = [localHdThumb, hdDriveThumbnail, driveThumbAlt, driveThumbnail, unsplashFallback];
 
   return (
     <>
-    <div className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-20 py-12 lg:py-0">
+    <div id="hero-section" className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-20 py-12 lg:py-0">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-100 pointer-events-none z-0 select-none">
         <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-10 grayscale" />
@@ -111,18 +119,20 @@ export default function HeroTesol() {
           </div>
 
           {/* Right: Video & Visuals (6 cols) */}
-          <div className="lg:col-span-6 relative mt-12 lg:mt-0">
-            <div className="relative group w-full">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border-8 border-white bg-gray-100">
+          <div className="lg:col-span-6 relative mt-12 lg:mt-0 h-auto lg:h-full">
+            <div className="relative group w-full h-full">
+              <div className="relative rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border-8 border-white bg-gray-100 h-full w-full">
                 {!isVideoPlaying ? (
                   <>
-                    <img 
-                      src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2400"
+                    <img
+                      src={thumbCandidates[thumbIndex]}
+                      loading="lazy"
+                      onError={() => setThumbIndex((i) => Math.min(i + 1, thumbCandidates.length - 1))}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      alt="TESOL Course"
+                      alt="TESOL Course preview"
                     />
                     <div className="absolute inset-0 bg-vmg-navy/20 group-hover:bg-vmg-navy/30 transition-colors flex items-center justify-center">
-                      <button 
+                      <button
                         onClick={() => setIsVideoPlaying(true)}
                         className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl transform transition-all hover:scale-110 active:scale-95 group/play"
                       >
@@ -133,9 +143,10 @@ export default function HeroTesol() {
                 ) : (
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/FAXH0ab8tCY?autoplay=1&rel=0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    src="https://drive.google.com/file/d/1NfaN8Gjs0DcueFvt0KHaWH3DP-SanaDK/preview"
+                    allow="autoplay; encrypted-media; picture-in-picture"
                     allowFullScreen
+                    loading="lazy"
                   />
                 )}
               </div>

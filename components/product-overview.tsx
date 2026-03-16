@@ -92,8 +92,8 @@ export default function ProductOverview() {
                   <span className="text-vmg-blue font-bold text-sm bg-vmg-blue/5 px-3 py-1 rounded-full">Quốc tế</span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-vmg-navy mb-2">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc)</h3>
-                  <p className="text-gray-600">Chứng chỉ có giá trị vĩnh viễn toàn cầu, được kiểm định bởi tổ chức uy tín hàng đầu Vương Quốc Anh.</p>
+                  <h3 className="text-xl font-bold text-vmg-navy group-hover:text-vmg-blue transition-colors mb-2">Nhận chứng chỉ TESOL quốc tế (ALAP - Anh Quốc)</h3>
+                  <p className="text-gray-600 text-sm">Chứng chỉ có giá trị vĩnh viễn toàn cầu, được kiểm định bởi tổ chức uy tín hàng đầu Vương Quốc Anh.</p>
                 </div>
               </div>
 
