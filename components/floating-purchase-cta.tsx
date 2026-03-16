@@ -5,57 +5,29 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function FloatingPurchaseCTA() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [discountActive, setDiscountActive] = useState(false);
+  // Always visible CTA and always show discount
+  const [isVisible, setIsVisible] = useState(true);
+  const [discountActive, setDiscountActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const applied = localStorage.getItem('appliedCoupon');
-    if (applied === 'VMG') setDiscountActive(true);
-
-    const handleScroll = () => {
-      const section = document.getElementById("deal-section-trigger");
-      const pricing = document.getElementById("pricing-final");
-      if (section) {
-        const rect = section.getBoundingClientRect();
-
-        // Check if pricing is currently visible in viewport
-        const pricingVisible = pricing
-          ? (pricing.getBoundingClientRect().top < window.innerHeight && pricing.getBoundingClientRect().bottom > 0)
-          : false;
-
-        // Trigger when the top of the deal section enters or is above the viewport
-        // but hide if pricing section is visible to avoid overlap
-        if (rect.top < window.innerHeight * 0.8 && !pricingVisible) {
-          setIsVisible(true);
-        } else {
-          setIsVisible(false);
-          document.documentElement.style.setProperty('--purchase-cta-offset', '0px');
-        }
-      }
-    };
-
     const updateHeight = () => {
-      if (isVisible && containerRef.current) {
+      if (containerRef.current) {
         const height = containerRef.current.offsetHeight;
         document.documentElement.style.setProperty('--purchase-cta-offset', `${height + 16}px`);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", updateHeight);
-    
-    // Initial check
-    handleScroll();
-    if (isVisible) updateHeight();
+    // initial set
+    updateHeight();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateHeight);
     };
-  }, [isVisible]);
+  }, []);
 
-  if (!isVisible) return null;
+  // CTA always visible
 
   return (
     <div 
