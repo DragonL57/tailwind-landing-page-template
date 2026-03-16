@@ -28,7 +28,7 @@ export default function HeroTesol() {
 
   return (
     <>
-    <div className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-16 py-12 lg:py-0">
+    <div className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-20 py-12 lg:py-0">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-100 pointer-events-none z-0 select-none">
         <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-10 grayscale" />
@@ -42,31 +42,30 @@ export default function HeroTesol() {
           
           {/* Left: Content (6 cols) */}
           <div className="lg:col-span-6 space-y-8 relative z-10">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-vmg-navy leading-[1.1] tracking-tighter">
-                Nâng tầm sự nghiệp <br />
-                <span className="text-vmg-blue">Giảng dạy</span> Tiếng Anh
+            <div className="space-y-5">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vmg-navy leading-[1.15] tracking-tight">
+                Trở thành giáo viên tiếng Anh <span className="text-vmg-blue">chuyên nghiệp</span>
               </h1>
               
-              <p className="text-base md:text-lg lg:text-xl text-vmg-navy/80 leading-relaxed max-w-xl">
-                Sở hữu chứng chỉ <span className="font-bold text-vmg-blue">ALAP quốc tế</span> giá trị toàn cầu. 
-                Học 100% Online với mentor chuyên môn đồng hành sát sao.
+              <p className="text-base md:text-lg text-vmg-navy/70 leading-relaxed max-w-xl">
+                Chứng chỉ <span className="font-bold text-vmg-blue">TESOL quốc tế</span> được công nhận tại 150+ quốc gia. 
+                100% online - mentor đồng hành - livestream hàng tuần, cam kết chất lượng.
               </p>
             </div>
 
             {/* Feature Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
               {[
-                "Chứng chỉ Anh Quốc ALAP",
-                "100% Online linh hoạt",
-                "Mentor hỗ trợ 1-1",
-                "Cam kết việc làm"
+                "Lộ trình học cá nhân hóa",
+                "Chứng chỉ ALAP quốc tế",
+                "Mô hình Self-paced & Live Sessions",
+                "100% online, mentor đồng hành"
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-vmg-green/20 flex items-center justify-center shrink-0">
+                <div key={i} className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-vmg-green/15 flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 text-vmg-green" strokeWidth={4} />
                   </div>
-                  <span className="text-sm lg:text-base font-semibold text-vmg-navy/70">{item}</span>
+                  <span className="text-sm lg:text-[0.95rem] font-medium text-vmg-navy/80">{item}</span>
                 </div>
               ))}
             </div>
@@ -75,13 +74,16 @@ export default function HeroTesol() {
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Link
                 href="/checkout"
-                className="bg-vmg-red hover:bg-vmg-red/90 text-white shadow-xl shadow-vmg-red/20 group h-14 px-8 rounded-xl flex items-center justify-center font-bold uppercase tracking-widest text-sm transition-all"
+                className="bg-vmg-red hover:bg-vmg-red/90 text-white shadow-lg shadow-vmg-red/10 group h-12 rounded-xl flex items-center justify-center font-bold uppercase tracking-wider text-xs transition-all w-full sm:w-48"
               >
                 Mua ngay 
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Button variant="ghost" size="lg" className="border-2 border-vmg-blue/20 text-vmg-blue hover:bg-vmg-blue/5">
-                Tải Brochure
+              <Button 
+                variant="ghost" 
+                className="h-12 border-2 border-vmg-blue/10 text-vmg-blue hover:bg-vmg-blue/5 text-xs font-bold uppercase tracking-wider rounded-xl w-full sm:w-48"
+              >
+                Tải e-book
               </Button>
             </div>
 
