@@ -15,10 +15,20 @@ export default function PricingSection() {
   const currentPrice = discountActive ? discountedPrice : originalPrice;
 
   useEffect(() => {
-    const applied = localStorage.getItem('appliedCoupon');
-    if (applied === 'VMG') {
-      setDiscountActive(true);
-    }
+    const checkCoupon = () => {
+      const applied = localStorage.getItem('appliedCoupon');
+      if (applied === 'VMG') {
+        setDiscountActive(true);
+      } else {
+        setDiscountActive(false);
+      }
+    };
+    
+    checkCoupon();
+    
+    // Listen for storage changes (even in the same window via manual dispatch)
+    window.addEventListener('storage', checkCoupon);
+    return () => window.removeEventListener('storage', checkCoupon);
   }, []);
 
   const handleApplyCoupon = () => {
@@ -172,8 +182,8 @@ export default function PricingSection() {
                     <ShieldCheck className="w-5 h-5 text-vmg-green" />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-vmg-navy leading-none uppercase tracking-wider mb-1">Kiểm soát chất lượng</p>
-                    <p className="text-[10px] text-vmg-navy/50 font-medium">Đảm bảo lộ trình đạt chuẩn quốc tế</p>
+                    <p className="text-xs font-black text-vmg-navy leading-none uppercase tracking-wider mb-1">Cam kết chất lượng</p>
+                    <p className="text-[10px] text-vmg-navy/50 font-medium">Đảm bảo đầu ra cho học viên</p>
                   </div>
                 </div>
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { isCouponValid } from "@/lib/coupons";
-import { Timer, Gift, ArrowRight } from "lucide-react";
+import { Timer, Gift, ArrowRight, Check } from "lucide-react";
 
 export default function DealBanner() {
   const [phone, setPhone] = useState("");
@@ -30,6 +30,17 @@ export default function DealBanner() {
     const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (showPopup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showPopup]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,41 +134,68 @@ export default function DealBanner() {
         </div>
       </div>
 
-      {/* Modern Success Modal */}
+      {/* Modern Success Modal - Compact & Centered */}
       {showPopup && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-vmg-navy/60 backdrop-blur-sm">
-          <div className="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full p-10 border border-white transform transition-all scale-100">
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-vmg-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <ArrowRight className="w-8 h-8 text-vmg-green -rotate-45" strokeWidth={3} />
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 backdrop-blur-sm bg-vmg-navy/40 animate-in fade-in duration-300">
+          {/* Backdrop Overlay */}
+          <div className="absolute inset-0" onClick={() => setShowPopup(false)} />
+          
+          <div className="relative bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] max-w-[360px] w-full overflow-hidden border border-gray-100 transform animate-in zoom-in-95 duration-300">
+            <div className="p-8 text-center">
+              {/* Success Icon - Scaled down */}
+              <div className="w-12 h-12 bg-vmg-green/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <Check className="w-6 h-6 text-vmg-green" strokeWidth={3} />
               </div>
-              <h3 className="text-2xl font-black text-vmg-navy mb-2">Tuyệt vời!</h3>
-              <p className="text-sm text-vmg-navy/50 font-medium px-4">Mã ưu đãi độc quyền dành riêng cho bạn đã sẵn sàng</p>
-            </div>
+              
+              <h3 className="text-xl md:text-2xl font-bold text-vmg-navy tracking-tight mb-1">
+                Mã ưu đãi của bạn
+              </h3>
+              <p className="text-sm text-vmg-navy/50 font-medium mb-6">
+                Bạn đã nhận được học bổng 20% <br /> cho khóa TESOL E-path.
+              </p>
 
-            <div className="bg-vmg-navy rounded-3xl p-8 mb-8 text-center relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-12 -mt-12 transition-all group-hover:scale-150"></div>
-              <div className="text-4xl font-black text-white tracking-[0.2em] font-mono relative z-10">{couponCode}</div>
-              <div className="text-[10px] font-black text-vmg-green uppercase mt-4 tracking-[0.3em] relative z-10">Giảm 20% Học phí</div>
-            </div>
+              {/* Coupon Box - Compact */}
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 mb-6 relative group transition-all hover:bg-white hover:border-vmg-green/20">
+                <div className="text-3xl font-mono font-bold text-vmg-green tracking-[0.2em]">
+                  {couponCode}
+                </div>
+                <div className="text-[9px] font-bold text-vmg-navy/30 uppercase tracking-widest mt-2">
+                  Nhấn nút bên dưới để áp dụng
+                </div>
+              </div>
 
-            <button
-              onClick={() => {
-                localStorage.setItem('appliedCoupon', couponCode);
-                window.dispatchEvent(new Event('storage'));
-                setShowPopup(false);
-                document.getElementById('pricing-final')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full h-14 bg-vmg-navy text-white font-black rounded-2xl hover:bg-vmg-navy/90 transition-all text-xs uppercase tracking-widest"
-            >
-              Áp dụng & Xem báo giá
-            </button>
-            <button
-              onClick={() => setShowPopup(false)}
-              className="w-full text-vmg-navy/30 hover:text-vmg-navy/60 font-black py-4 text-[10px] uppercase tracking-widest"
-            >
-              Bỏ qua
-            </button>
+              {/* Actions - Aligned and sized down */}
+              <div className="space-y-2">
+                <button
+                  onClick={() => {
+                    // 1. Set the coupon in storage
+                    localStorage.setItem('appliedCoupon', couponCode);
+                    // 2. Dispatch event so other components (PricingSection) can react immediately
+                    window.dispatchEvent(new Event('storage'));
+                    // 3. Close the modal
+                    setShowPopup(false);
+                    // 4. Smooth scroll to pricing with a slight delay to ensure UI updates
+                    setTimeout(() => {
+                      const pricingElement = document.getElementById('pricing-final');
+                      if (pricingElement) {
+                        pricingElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 100);
+                  }}
+                  className="w-full h-12 bg-vmg-red text-white font-bold rounded-xl hover:bg-vmg-red/90 transition-all active:scale-[0.98] text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-vmg-red/20"
+                >
+                  Áp dụng & Xem báo giá
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+                
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="w-full text-vmg-navy/30 hover:text-vmg-navy/60 font-bold py-2 text-[9px] uppercase tracking-[0.2em] transition-colors"
+                >
+                  Đóng cửa sổ
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
