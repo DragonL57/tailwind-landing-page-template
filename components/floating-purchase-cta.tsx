@@ -11,13 +11,6 @@ export default function FloatingPurchaseCTA() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const updateHeight = () => {
-      if (containerRef.current) {
-        const height = containerRef.current.offsetHeight;
-        document.documentElement.style.setProperty('--purchase-cta-offset', `${height + 16}px`);
-      }
-    };
-
     const checkHeroPassed = () => {
       const hero = document.getElementById('hero-section');
       if (!hero) {
@@ -25,22 +18,36 @@ export default function FloatingPurchaseCTA() {
         return;
       }
       const rect = hero.getBoundingClientRect();
-      // show CTA after hero is fully scrolled past
       setIsVisible(rect.bottom < 0);
     };
 
     window.addEventListener('scroll', checkHeroPassed);
-    window.addEventListener('resize', updateHeight);
-
-    // initial checks
     checkHeroPassed();
-    updateHeight();
 
     return () => {
       window.removeEventListener('scroll', checkHeroPassed);
-      window.removeEventListener('resize', updateHeight);
     };
   }, []);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (isVisible && containerRef.current) {
+        const height = containerRef.current.offsetHeight;
+        // Add 16px extra gap when visible
+        document.documentElement.style.setProperty('--purchase-cta-offset', `${height + 16}px`);
+      } else {
+        document.documentElement.style.setProperty('--purchase-cta-offset', '0px');
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      document.documentElement.style.setProperty('--purchase-cta-offset', '0px');
+    };
+  }, [isVisible]);
 
   if (!isVisible) return null;
   return (
