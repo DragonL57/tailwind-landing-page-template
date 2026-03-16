@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import FadeSlideUp from "./fade-slide-up";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight, Play } from "lucide-react";
@@ -25,14 +25,10 @@ import FloatingPurchaseCTA from "./floating-purchase-cta";
 
 export default function HeroTesol() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const driveFileId = "10wGQpcmuoeEmexYehclU9FZWpWAXAgnL";
-  const hdDriveThumbnail = `https://drive.google.com/uc?export=view&id=${driveFileId}&sz=1920`;
-  const localHdThumb = "/images/hero-drive-thumb-1920.jpg"; // add a 1920x1080 file here for best quality
-  const driveThumbnail = `https://drive.google.com/uc?export=view&id=${driveFileId}`;
-  const driveThumbAlt = `https://drive.google.com/thumbnail?id=${driveFileId}&sz=1920`;
+  const driveFileId = "1NfaN8Gjs0DcueFvt0KHaWH3DP-SanaDK";
+  // Use the local thumbnail as the primary to avoid Drive's unreliable direct-link thumbnail service
+  const localHdThumb = "/images/hero-drive-thumb-1920.jpg";
   const unsplashFallback = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2400";
-  const [thumbIndex, setThumbIndex] = useState(0);
-  const thumbCandidates = [localHdThumb, hdDriveThumbnail, driveThumbAlt, driveThumbnail, unsplashFallback];
 
   return (
     <>
@@ -46,10 +42,24 @@ export default function HeroTesol() {
       <div className="absolute top-0 right-0 w-1/2 h-full bg-vmg-blue-soft/30 -skew-x-12 translate-x-32 -z-10 hidden lg:block"></div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-10 relative w-full">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
-          {/* Left: Content (6 cols) */}
-          <div className="lg:col-span-6 space-y-8 relative z-10">
+          {/* Right: Video & Visuals (7 cols) - Appears first on mobile */}
+          <div className="lg:col-span-7 relative lg:order-2 mt-0">
+            <div className="relative group w-full">
+              <div className="relative rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border-8 border-white bg-vmg-navy aspect-video w-full">
+                <iframe
+                  className="absolute inset-0 w-full h-full border-0"
+                  src={`https://drive.google.com/file/d/${driveFileId}/preview`}
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Left: Content (5 cols) - Appears second on mobile */}
+          <div className="lg:col-span-5 space-y-8 relative z-10 lg:order-1 mt-0 lg:mt-0">
             <div className="space-y-5">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vmg-navy leading-[1.15] tracking-tight">
                 Trở thành giáo viên tiếng Anh <span className="text-vmg-blue">chuyên nghiệp</span>
@@ -114,41 +124,6 @@ export default function HeroTesol() {
                   <span className="font-bold">4.9/5</span>
                 </div>
                 <p className="text-gray-500 font-medium">+2,000 học viên tin tưởng</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Video & Visuals (6 cols) */}
-          <div className="lg:col-span-6 relative mt-12 lg:mt-0 h-auto lg:h-full">
-            <div className="relative group w-full h-full">
-              <div className="relative rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border-8 border-white bg-gray-100 h-full w-full">
-                {!isVideoPlaying ? (
-                  <>
-                    <img
-                      src={thumbCandidates[thumbIndex]}
-                      loading="lazy"
-                      onError={() => setThumbIndex((i) => Math.min(i + 1, thumbCandidates.length - 1))}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      alt="TESOL Course preview"
-                    />
-                    <div className="absolute inset-0 bg-vmg-navy/20 group-hover:bg-vmg-navy/30 transition-colors flex items-center justify-center">
-                      <button
-                        onClick={() => setIsVideoPlaying(true)}
-                        className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl transform transition-all hover:scale-110 active:scale-95 group/play"
-                      >
-                        <Play className="w-10 h-10 text-vmg-blue fill-current ml-1" />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src="https://drive.google.com/file/d/1NfaN8Gjs0DcueFvt0KHaWH3DP-SanaDK/preview"
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                    loading="lazy"
-                  />
-                )}
               </div>
             </div>
           </div>
