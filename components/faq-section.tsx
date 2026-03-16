@@ -38,6 +38,37 @@ const faqs: FAQItem[] = [
     ),
   },
   {
+    question: "Lộ trình TESOL e-PATH có gì khác biệt so với khóa TESOL thông thường?",
+    answer: (
+      <div className="space-y-4">
+        <p className="font-bold text-vmg-navy">Với <span className="text-vmg-red">e-PATH</span>, chương trình được tối ưu hóa thành 3 giai đoạn chuyên sâu:</p>
+        <ul className="space-y-3">
+          <li className="flex items-start gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-vmg-green mt-2.5 shrink-0" />
+            <span className="text-vmg-navy">
+              <strong className="text-vmg-navy">Giai đoạn 1:</strong> Học viên học và làm bài tập trên nền tảng <span className="text-vmg-red font-bold">LMS của VMG</span> để nắm vững kiến thức nền tảng.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-vmg-green mt-2.5 shrink-0" />
+            <span className="text-vmg-navy">
+              <strong className="text-vmg-navy">Giai đoạn 2:</strong> Sau khi VMG đánh giá kết quả đạt yêu cầu, học viên sẽ tập trung thực hiện các bài thi chuyên môn trên nền tảng <span className="text-vmg-red font-bold">INTESOL Toàn cầu</span>.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-vmg-green mt-2.5 shrink-0" />
+            <span className="text-vmg-navy">
+              <strong className="text-vmg-navy">Giai đoạn 3:</strong> VMG tổng hợp kết quả, gửi phiếu yêu cầu cấp chứng chỉ đến <span className="text-vmg-red font-bold">INTESOL</span>. Sau khi xét duyệt cuối cùng, tổ chức <span className="text-vmg-red font-bold">ALAP</span> sẽ chính thức cấp chứng chỉ quốc tế.
+            </span>
+          </li>
+        </ul>
+        <p className="text-vmg-navy italic bg-gray-50 p-4 rounded-xl">
+          Trong suốt lộ trình, bạn hoàn toàn chủ động điều chỉnh tốc độ học tập. Mọi tương tác đều được tối ưu qua hệ thống biểu mẫu trực tuyến, đảm bảo hỗ trợ từ VMG luôn kịp thời và chính xác.
+        </p>
+      </div>
+    ),
+  },
+  {
     question: "Tiến độ học tập được đẩy nhanh như thế nào?",
     answer: (
       <div className="space-y-4 text-vmg-navy">
