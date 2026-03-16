@@ -92,51 +92,7 @@ export default function Header() {
                 Liên hệ
               </a>
 
-              {/* Products Dropdown */}
-              <div className="relative">
-                <button
-                  onMouseEnter={() => setProductsDropdownOpen(true)}
-                  onMouseLeave={() => setProductsDropdownOpen(false)}
-                  className="flex items-center gap-2 text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4"
-                >
-                  Các sản phẩm khác
-                  <svg
-                    className={`w-4 h-4 transition-transform ${productsDropdownOpen ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                {/* Dropdown Menu */}
-                {productsDropdownOpen && (
-                  <div 
-                    onMouseEnter={() => setProductsDropdownOpen(true)}
-                    onMouseLeave={() => setProductsDropdownOpen(false)}
-                    className="absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden animate-in fade-in slide-in-from-top-2 z-50"
-                  >
-                    <a
-                      href="#"
-                      className="block px-4 py-3 hover:bg-vmg-blue-soft text-vmg-navy hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
-                    >
-                      Dịch vụ doanh nghiệp
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-3 hover:bg-vmg-blue-soft text-vmg-navy hover:text-vmg-blue transition-colors border-b border-gray-100 last:border-b-0"
-                    >
-                      Tư vấn du học
-                    </a>
-                  </div>
-                )}
-              </div>
+              {/* Products dropdown removed as requested */}
             </nav>
 
             {/* Right: Sign in links */}

@@ -31,7 +31,7 @@ const faqs: FAQItem[] = [
           </li>
           <li className="flex items-start gap-3">
             <div className="w-1.5 h-1.5 rounded-full bg-vmg-green mt-2.5 shrink-0" />
-            <span className="text-vmg-navy"><strong className="text-vmg-navy">Hơn 1 giờ làm bài tập & đánh giá:</strong> Căn cứ để VMG xét điều kiện hoàn thành.</span>
+            <span className="text-vmg-navy"><strong className="text-vmg-navy">Cuối cùng hơn thời gian còn lại dành để làm bài tập & đánh giá:</strong> Căn cứ để VMG đánh giá kết quả.</span>
           </li>
         </ul>
       </div>
@@ -68,7 +68,7 @@ const faqs: FAQItem[] = [
         <p>
           VMG sẽ cung cấp bài <span className="italic font-semibold">Placement Test</span> nhằm đánh giá năng lực tiếng Anh học thuật.
         </p>
-        <p className="text-sm bg-gray-50 p-4 rounded-xl border-l-4 border-vmg-green">
+        <p className="text-sm bg-gray-50 p-4 rounded-xl border-l-4 border-gray-300">
           Trong trường hợp học viên có trình độ dưới B2, VMG vẫn cho phép tham gia khóa học nhưng sẽ khuyến nghị bổ sung các module hỗ trợ về <span className="text-vmg-red font-bold">Academic English for Teaching</span> để đảm bảo khả năng theo học hiệu quả.
         </p>
       </div>

@@ -6,15 +6,27 @@ import { ArrowRight } from "lucide-react";
 
 export default function FloatingPurchaseCTA() {
   const [isVisible, setIsVisible] = useState(false);
+  const [discountActive, setDiscountActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const applied = localStorage.getItem('appliedCoupon');
+    if (applied === 'VMG') setDiscountActive(true);
+
     const handleScroll = () => {
       const section = document.getElementById("deal-section-trigger");
+      const pricing = document.getElementById("pricing-final");
       if (section) {
         const rect = section.getBoundingClientRect();
+
+        // Check if pricing is currently visible in viewport
+        const pricingVisible = pricing
+          ? (pricing.getBoundingClientRect().top < window.innerHeight && pricing.getBoundingClientRect().bottom > 0)
+          : false;
+
         // Trigger when the top of the deal section enters or is above the viewport
-        if (rect.top < window.innerHeight * 0.8) {
+        // but hide if pricing section is visible to avoid overlap
+        if (rect.top < window.innerHeight * 0.8 && !pricingVisible) {
           setIsVisible(true);
         } else {
           setIsVisible(false);
@@ -56,20 +68,24 @@ export default function FloatingPurchaseCTA() {
       <div className="bg-white border-t lg:border border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-4 lg:p-6 lg:rounded-2xl pointer-events-auto">
         <div className="max-w-md mx-auto flex lg:flex-col items-center lg:items-stretch justify-between gap-4">
           
-          {/* Price Info */}
+          {/* Price Info (vertical layout) */}
           <div className="flex flex-col text-vmg-navy shrink-0">
-            <span className="text-[9px] lg:text-[10px] font-bold text-vmg-blue uppercase tracking-tight leading-none mb-1.5">
+            <span className="text-[9px] lg:text-[10px] font-bold text-vmg-blue uppercase tracking-tight leading-none mb-2">
               Nhận học bổng 20% khi đăng ký sớm
             </span>
-            <div className="flex flex-col gap-0.5">
-              <div className="flex items-center gap-2">
-                <span className="text-xs lg:text-sm font-bold text-gray-400 line-through decoration-2 decoration-gray-400 tabular-nums">9.900.000₫</span>
-                <span className="bg-vmg-green/10 text-vmg-green text-[9px] font-black px-1.5 py-0.5 rounded border border-vmg-green/10">-20%</span>
+
+            <div className="space-y-2">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl md:text-4xl font-black text-vmg-navy tracking-tighter">7.920.000</span>
+                <span className="text-xl font-bold text-vmg-navy/40">VNĐ</span>
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-2xl lg:text-3xl font-black text-vmg-navy tracking-tighter tabular-nums">7.920.000</span>
-                <span className="text-sm font-bold opacity-60">₫</span>
-              </div>
+
+              {discountActive && (
+                <div className="flex items-center gap-3">
+                  <span className="text-lg text-vmg-navy/30 line-through font-bold">9.900.000đ</span>
+                  <span className="bg-vmg-red text-white text-[10px] font-black px-2 py-0.5 rounded-md uppercase">Tiết kiệm 20%</span>
+                </div>
+              )}
             </div>
           </div>
           
@@ -84,7 +100,7 @@ export default function FloatingPurchaseCTA() {
         </div>
         
         {/* Desktop-only secondary info */}
-        <p className="hidden lg:block text-[10px] text-center text-gray-400 font-bold uppercase tracking-tight mt-3">
+        <p className="hidden lg:block text-[10px] text-center text-vmg-navy/60 font-bold uppercase tracking-tight mt-3">
           Khóa TESOL E-path • Online 100%
         </p>
       </div>

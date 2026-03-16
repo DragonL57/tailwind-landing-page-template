@@ -6,25 +6,41 @@ export default function TesolBenefits() {
   const features = [
     {
       title: "Chứng chỉ có giá trị thật",
-      description: "Chứng chỉ TESOL tại VMG có giá trị vĩnh viễn, được kiểm định bởi ALAP – tổ chức kiểm định quốc tế với hơn 20 năm uy tín, tính pháp lý tức thì trên phạm vi toàn cầu.",
+      description: (
+        <>
+          Chứng chỉ TESOL tại VMG có giá trị vĩnh viễn, được kiểm định bởi <span className="font-bold text-vmg-blue">ALAP</span> – tổ chức kiểm định quốc tế với hơn 20 năm uy tín, tính pháp lý tức thì trên phạm vi toàn cầu.
+        </>
+      ),
       icon: <ShieldCheck className="w-6 h-6 text-vmg-blue" />,
       color: "vmg-blue"
     },
     {
       title: "Chỉ dạy thứ học viên cần",
-      description: "Ngoài các giờ tự học, Buổi Live Session  được VMG thiết kế linh hoạt theo nhu cầu của học viên. Trong buổi đó, các bạn cùng thảo luận chuyên sâu với bạn học, nhận phản hồi trực tiếp từ Trainer.",
+      description: (
+        <>
+          Ngoài các giờ tự học, Buổi <span className="font-bold text-vmg-blue">Live Session</span> hàng tuần được VMG thiết kế <span className="font-bold text-vmg-blue">linh hoạt theo nhu cầu</span> của học viên. Trong buổi đó, các bạn cùng thảo luận chuyên sâu với bạn học, nhận phản hồi trực tiếp từ Trainer.
+        </>
+      ),
       icon: <Laptop className="w-6 h-6 text-vmg-green" />,
       color: "vmg-green"
     },
     {
       title: "Tối ưu chi phí nhờ công nghệ",
-      description: "Nhờ ứng dụng công nghệ, VMG mang đến khóa học chất lượng quốc tế với mức phí dễ tiếp cận nhất. Ngoài ra, hỗ trợ trả góp linh hoạt từ 1 triệu/ tháng, VMG cam kết minh bạch 100%, không phát sinh phụ phí.",
+      description: (
+        <>
+          Nhờ ứng dụng <span className="font-bold text-vmg-blue">công nghệ</span>, VMG mang đến khóa học chất lượng quốc tế với <span className="font-bold text-vmg-blue">mức phí dễ tiếp cận nhất</span>. Ngoài ra, hỗ trợ trả góp linh hoạt từ 1 triệu/ tháng, VMG cam kết minh bạch 100%, không phát sinh phụ phí.
+        </>
+      ),
       icon: <DollarSign className="w-6 h-6 text-vmg-blue" />,
       color: "vmg-blue"
     },
     {
       title: "Rút ngắn thời gian học tập",
-      description: "Không chờ đợi, không rập khuôn — sự kết hợp giữa mô hình Self-paced và Live Session cho phép học viên học nhanh, thi sớm để sở hữu bằng Tesol quốc tế, tốc độ là do bạn quyết định.",
+      description: (
+        <>
+          Không chờ đợi, không rập khuôn — sự kết hợp giữa mô hình <span className="font-bold text-vmg-blue">Self-paced</span> và <span className="font-bold text-vmg-blue">Live Session</span> cho phép học viên <span className="font-bold text-vmg-blue">học nhanh, thi sớm</span> để sở hữu bằng Tesol quốc tế, tốc độ là do bạn quyết định.
+        </>
+      ),
       icon: <Zap className="w-6 h-6 text-vmg-green" />,
       color: "vmg-green"
     }
@@ -63,9 +79,9 @@ export default function TesolBenefits() {
                   {feature.title}
                 </h3>
                 
-                <p className="text-vmg-navy/60 leading-[1.6] text-[0.95rem] md:text-base font-medium text-justify">
+                <div className="text-vmg-navy/60 leading-[1.6] text-[0.95rem] md:text-base font-medium text-justify">
                   {feature.description}
-                </p>
+                </div>
               </div>
             </div>
           ))}

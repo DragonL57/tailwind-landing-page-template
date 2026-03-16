@@ -12,15 +12,16 @@ export default function DealBanner() {
   const couponStillValid = isCouponValid();
   const couponCode = "VMG";
 
-  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
       const midnight = new Date();
       midnight.setHours(24, 0, 0, 0);
-      const diff = midnight.getTime() - now.getTime();
+      const diff = Math.max(0, midnight.getTime() - now.getTime());
       return {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((diff / 1000 / 60) % 60),
         seconds: Math.floor((diff / 1000) % 60),
@@ -54,22 +55,22 @@ export default function DealBanner() {
             </div>
 
             <div className="flex flex-col items-center lg:items-start gap-8 w-full">
-              {/* Bold Centerpiece Timer */}
-              <div className="flex items-center justify-center lg:justify-start gap-3 md:gap-4 w-full">
-                {[
+              {/* Bold Centerpiece Timer (responsive for mobile) */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 md:gap-4 w-full">
+                {[{ val: timeLeft.days, label: "Ngày" },
                   { val: timeLeft.hours, label: "Giờ" },
                   { val: timeLeft.minutes, label: "Phút" },
                   { val: timeLeft.seconds, label: "Giây" }
                 ].map((t, i) => (
-                  <div key={i} className="flex items-center gap-3 md:gap-4">
+                  <div key={i} className="flex items-center gap-2 md:gap-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-16 h-20 md:w-22 md:h-26 bg-vmg-navy flex items-center justify-center rounded-2xl shadow-xl shadow-vmg-navy/20">
-                        <span className="text-3xl md:text-5xl font-black text-white tabular-nums tracking-tight">{formatNumber(t.val)}</span>
+                      <div className="w-12 h-14 sm:w-14 sm:h-16 md:w-16 md:h-20 lg:w-20 lg:h-24 bg-vmg-navy flex items-center justify-center rounded-2xl shadow-xl shadow-vmg-navy/20">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tabular-nums tracking-tight">{formatNumber(t.val)}</span>
                       </div>
                       <span className="text-[10px] font-black text-vmg-navy uppercase tracking-[0.15em] mt-3">{t.label}</span>
                     </div>
-                    {i < 2 && (
-                      <div className="flex flex-col gap-2 mb-8">
+                    {i < 3 && (
+                      <div className="hidden sm:flex flex-col gap-2 mb-8">
                         <div className="w-1.5 h-1.5 rounded-full bg-vmg-blue/30"></div>
                         <div className="w-1.5 h-1.5 rounded-full bg-vmg-blue/30"></div>
                       </div>

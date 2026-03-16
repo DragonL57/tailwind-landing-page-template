@@ -37,7 +37,7 @@ export default function CourseContent() {
             <div className="relative z-10 h-full flex flex-col">
               <h3 className="text-2xl font-black text-vmg-navy mb-4">Thực tập & Việc làm</h3>
               <p className="text-vmg-navy/60 text-base leading-relaxed font-medium">
-                Học viên được thực tập và kết nối việc làm trực tiếp tại hệ thống Anh ngữ VMG hoặc mạng lưới đối tác giáo dục uy tín trên toàn quốc ngay sau khi tốt nghiệp.
+                Học viên được <span className="font-bold text-vmg-blue">thực tập và kết nối việc làm</span> trực tiếp tại hệ thống Anh ngữ VMG hoặc mạng lưới đối tác giáo dục uy tín trên toàn quốc ngay sau khi tốt nghiệp.
               </p>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function CourseContent() {
             <div className="absolute -bottom-6 -right-4 text-[160px] font-black text-vmg-green/15 leading-none select-none pointer-events-none transition-all duration-500 group-hover:scale-110 group-hover:text-vmg-green/25">4</div>
             <div className="relative z-10 w-full">
               <h3 className="text-2xl font-black text-vmg-navy mb-5">Phát triển sự nghiệp</h3>
-              <p className="text-vmg-navy/70 text-base mb-4 font-medium">Sở hữu chứng chỉ TESOL đủ điều kiện giảng dạy tại:</p>
+              <p className="text-vmg-navy/70 text-base mb-4 font-medium">Sở hữu chứng chỉ TESOL từ VMG đủ điều kiện để giảng dạy <span className="font-bold text-vmg-blue">tiếng Anh chuẩn quốc tế</span> tại nhiều môi trường:</p>
               <ul className="space-y-3">
                 {[
                   "Trung tâm Anh ngữ quốc tế",
