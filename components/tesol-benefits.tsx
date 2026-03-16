@@ -12,7 +12,7 @@ export default function TesolBenefits() {
     },
     {
       title: "Chỉ dạy thứ học viên cần",
-      description: "Ngoài các giờ tự học, Buổi Live Session hàng tuần được VMG thiết kế linh hoạt theo nhu cầu của học viên. Trong buổi đó, các bạn cùng thảo luận chuyên sâu với bạn học, nhận phản hồi trực tiếp từ Trainer.",
+      description: "Ngoài các giờ tự học, Buổi Live Session  được VMG thiết kế linh hoạt theo nhu cầu của học viên. Trong buổi đó, các bạn cùng thảo luận chuyên sâu với bạn học, nhận phản hồi trực tiếp từ Trainer.",
       icon: <Laptop className="w-6 h-6 text-vmg-green" />,
       color: "vmg-green"
     },

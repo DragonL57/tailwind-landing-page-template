@@ -49,7 +49,7 @@ export default function HeroTesol() {
               
               <p className="text-base md:text-lg text-vmg-navy/70 leading-relaxed max-w-xl">
                 Chứng chỉ <span className="font-bold text-vmg-blue">TESOL quốc tế</span> được công nhận tại 150+ quốc gia. 
-                100% online - mentor đồng hành - livestream hàng tuần, cam kết chất lượng.
+                100% online - mentor đồng hành - livestream , cam kết chất lượng.
               </p>
             </div>
 
@@ -167,10 +167,11 @@ export default function HeroTesol() {
       <div className="w-full px-4 sm:px-6 relative z-10 py-16">
         <div className="max-w-[1200px] mx-auto space-y-16">
           <LogoBand />
-          <CertificateCeremonySection />
-          
+
           <InstructorSection />
 
+          <CertificateCeremonySection />
+          
           <CourseCurriculum />
         </div>
       </div>

@@ -50,19 +50,19 @@ const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, de
           </div>
         </div>
 
-        {/* High Contrast Stats */}
-        <div className="flex flex-wrap gap-4 md:gap-8">
-          <div className="bg-white border border-vmg-blue/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-blue/40 shadow-sm">
-            <p className="text-2xl font-black text-vmg-blue leading-none">{ielts}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">IELTS Score</p>
+        {/* High Contrast Stats - Optimized for 1 line on mobile */}
+        <div className="grid grid-cols-3 gap-2 md:gap-8">
+          <div className="bg-white border border-vmg-blue/10 rounded-xl md:rounded-2xl p-3 md:px-6 md:py-4 transition-all group-hover:border-vmg-blue/40 shadow-sm text-center">
+            <p className="text-xl md:text-2xl font-black text-vmg-blue leading-none">{ielts}</p>
+            <p className="text-[7px] md:text-[9px] font-bold uppercase tracking-wider md:tracking-widest text-vmg-navy/40 mt-2 whitespace-nowrap">IELTS Score</p>
           </div>
-          <div className="bg-white border border-vmg-green/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-green/40 shadow-sm">
-            <p className="text-2xl font-black text-vmg-green leading-none">{experience}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">Kinh nghiệm</p>
+          <div className="bg-white border border-vmg-green/10 rounded-xl md:rounded-2xl p-3 md:px-6 md:py-4 transition-all group-hover:border-vmg-green/40 shadow-sm text-center">
+            <p className="text-xl md:text-2xl font-black text-vmg-green leading-none">{experience}</p>
+            <p className="text-[7px] md:text-[9px] font-bold uppercase tracking-wider md:tracking-widest text-vmg-navy/40 mt-2 whitespace-nowrap">Kinh nghiệm</p>
           </div>
-          <div className="bg-white border border-vmg-red/10 rounded-2xl px-6 py-4 min-w-[120px] transition-all group-hover:border-vmg-red/40 shadow-sm">
-            <p className="text-2xl font-black text-vmg-red leading-none">{sat}</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-vmg-navy/40 mt-2">SAT Score</p>
+          <div className="bg-white border border-vmg-red/10 rounded-xl md:rounded-2xl p-3 md:px-6 md:py-4 transition-all group-hover:border-vmg-red/40 shadow-sm text-center">
+            <p className="text-xl md:text-2xl font-black text-vmg-red leading-none">{sat}</p>
+            <p className="text-[7px] md:text-[9px] font-bold uppercase tracking-wider md:tracking-widest text-vmg-navy/40 mt-2 whitespace-nowrap">SAT Score</p>
           </div>
         </div>
 
