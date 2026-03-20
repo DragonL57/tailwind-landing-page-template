@@ -29,7 +29,7 @@ export default function ConsultationForm({ isActive }: { isActive?: boolean }) {
   };
 
   return (
-    <section className="relative h-full w-full py-24 md:py-32 bg-[#f8f9f9] flex flex-col justify-center overflow-hidden">
+    <section className="relative min-h-fit md:h-full w-full py-12 md:py-32 bg-[#f8f9f9] flex flex-col justify-center overflow-hidden">
       {/* Background Dot Texture - The Academic Grid */}
       <div className="absolute inset-0 opacity-60" style={academicGridStyle}></div>
 

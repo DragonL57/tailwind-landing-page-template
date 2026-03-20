@@ -38,7 +38,7 @@ export default function Giaotiep11Page() {
   useEffect(() => {
     const observerOptions = {
       root: containerRef.current,
-      threshold: 0.5,
+      threshold: 0.4, 
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -67,13 +67,15 @@ export default function Giaotiep11Page() {
   };
 
   return (
-    <div className="relative h-[calc(100vh-4rem)] overflow-hidden bg-[#f8f9f9]">
+    <div className="relative h-[calc(100vh-4rem)] md:overflow-hidden bg-[#f8f9f9]">
+      {/* Scroll Progress Bar */}
       <motion.div 
         className="fixed top-[4rem] left-0 right-0 h-1 bg-[#BE202F] origin-left z-50"
         style={{ scaleX }}
       />
 
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
+      {/* Navigation Dots - Desktop Only */}
+      <div className="hidden md:flex fixed right-6 top-1/2 -translate-y-1/2 flex-col gap-4 z-50">
         {SECTIONS.map((_, i) => (
           <button
             key={i}
@@ -86,16 +88,16 @@ export default function Giaotiep11Page() {
         ))}
       </div>
 
+      {/* Main Scroll Container - Snap on Desktop, Natural on Mobile */}
       <div 
         ref={containerRef}
-        className="h-full overflow-y-auto scroll-snap-y snap-mandatory hide-scrollbar"
-        style={{ scrollSnapType: "y mandatory" }}
+        className="h-full overflow-y-auto md:scroll-snap-y md:snap-mandatory hide-scrollbar scroll-smooth"
       >
         {SECTIONS.map((Section, i) => (
           <div 
             key={Section.id} 
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className="h-full w-full snap-start flex flex-col justify-center overflow-hidden shrink-0"
+            className="w-full md:h-full md:snap-start flex flex-col justify-center overflow-hidden shrink-0 py-12 md:py-0 border-b border-slate-100 md:border-b-0"
           >
             <Section.component isActive={activeIndex === i} />
           </div>

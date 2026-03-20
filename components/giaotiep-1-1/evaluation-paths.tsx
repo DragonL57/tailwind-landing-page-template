@@ -24,7 +24,7 @@ export default function EvaluationPaths({ isActive }: { isActive?: boolean }) {
   };
 
   return (
-    <section className="relative h-full w-full py-24 bg-white flex flex-col justify-center overflow-hidden">
+    <section className="relative min-h-fit md:h-full w-full py-12 md:py-24 bg-white flex flex-col justify-center overflow-hidden">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
