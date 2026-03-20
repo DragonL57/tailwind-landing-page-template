@@ -4,9 +4,8 @@ import Hero from "@/components/giaotiep-1-1/hero";
 import EvaluationPaths from "@/components/giaotiep-1-1/evaluation-paths";
 import LearningMethod from "@/components/giaotiep-1-1/learning-method";
 import PricingPackages from "@/components/giaotiep-1-1/pricing-packages";
-import Features from "@/components/giaotiep-1-1/features";
-import AcademicShowcase from "@/components/giaotiep-1-1/academic-showcase";
-import CTASection from "@/components/giaotiep-1-1/cta-section";
+import TargetAudience from "@/components/giaotiep-1-1/target-audience";
+import ConsultationForm from "@/components/giaotiep-1-1/consultation-form";
 
 export default function Giaotiep11Page() {
   return (
@@ -15,9 +14,8 @@ export default function Giaotiep11Page() {
       <EvaluationPaths />
       <LearningMethod />
       <PricingPackages />
-      <Features />
-      <AcademicShowcase />
-      <CTASection />
+      <TargetAudience />
+      <ConsultationForm />
     </div>
   );
 }

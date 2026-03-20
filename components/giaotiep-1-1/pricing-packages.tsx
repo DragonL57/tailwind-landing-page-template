@@ -33,9 +33,6 @@ export default function PricingPackages() {
     <section className="py-24 bg-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="text-center mb-20">
-          <span className="inline-block text-[#B6914C] font-bold tracking-[2px] text-xs md:text-sm uppercase mb-6 bg-[#B6914C]/10 px-4 py-1">
-            PATHWAY SELECTION
-          </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
             CÁC GÓI HỌC TRONG <br />
             <span className="text-[#BE202F]">FLEXTRACK PATHWAY</span>
@@ -46,7 +43,7 @@ export default function PricingPackages() {
           {packages.map((pkg, i) => (
             <div 
               key={i} 
-              className={`relative bg-[#f8f9f9] border-t-8 ${pkg.accent} p-10 flex flex-col transition-all duration-500 hover:shadow-[0_24px_48px_rgba(25,28,28,0.06)] group ${pkg.isPremium ? 'lg:-translate-y-4 lg:shadow-xl' : ''}`}
+              className={`relative bg-[#f8f9f9] border-t-8 ${pkg.accent} p-10 flex flex-col transition-all duration-500 hover:bg-white group ${pkg.isPremium ? 'lg:-translate-y-4' : ''}`}
             >
               <div className="flex justify-between items-start mb-8">
                 <span className={`text-[10px] font-bold tracking-[2px] uppercase px-3 py-1 ${pkg.isPremium ? 'bg-[#B6914C] text-white' : 'bg-slate-200 text-slate-600'}`}>
@@ -80,12 +77,6 @@ export default function PricingPackages() {
               <button className={`w-full py-4 font-bold tracking-[2px] uppercase text-sm transition-all rounded-none ${pkg.isPremium ? 'bg-[#B6914C] text-white hover:bg-[#a07e40]' : 'border-2 border-[#BE202F] text-[#BE202F] hover:bg-[#BE202F] hover:text-white'}`}>
                 ĐĂNG KÝ NGAY
               </button>
-
-              {pkg.isPremium && (
-                <div className="absolute top-0 right-0 p-4 pointer-events-none">
-                  <div className="w-8 h-8 border-t-2 border-r-2 border-[#B6914C] opacity-50"></div>
-                </div>
-              )}
             </div>
           ))}
         </div>

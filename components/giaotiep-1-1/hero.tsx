@@ -13,9 +13,6 @@ export default function Hero() {
           
           {/* Left Column: The Narrative */}
           <div className="lg:col-span-7 z-10">
-            <span className="inline-block text-[#B6914C] font-bold tracking-[2px] text-xs md:text-sm uppercase mb-4 bg-[#B6914C]/10 px-4 py-1">
-              VMG FLEXTRACK PATHWAY
-            </span>
             <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#191c1c] leading-[1.1] tracking-tight mb-6 uppercase font-headline">
               LINH HOẠT ĐỂ HỌC TỐT. <br />
               <span className="text-[#BE202F] italic">VỮNG VÀNG</span> ĐỂ TIẾN XA.
@@ -45,14 +42,14 @@ export default function Hero() {
               ))}
             </div>
 
-            <button className="bg-[#BE202F] text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm hover:shadow-2xl transition-all rounded-none">
+            <button className="bg-[#BE202F] text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm hover:opacity-90 transition-all rounded-none">
               NHẬN TƯ VẤN MIỄN PHÍ
             </button>
           </div>
 
           {/* Right Column: Video Placeholder (3:4 Portrait) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[450px] aspect-[3/4] bg-slate-200 overflow-hidden shadow-2xl group max-h-[70vh]">
+          <div className="lg:col-span-5 flex justify-center lg:justify-end h-full">
+            <div className="relative w-full max-w-[450px] aspect-[3/4] bg-slate-200 overflow-hidden group max-h-[70vh]">
               {/* Architectural Border */}
               <div className="absolute inset-0 border-[15px] border-[#f3f4f4] z-10 pointer-events-none"></div>
               
@@ -65,7 +62,6 @@ export default function Hero() {
                 playsInline
                 poster="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzZ9Hf8lRYDMFCAgMRTNylBU6uYNGJJgUKLhhbhwmlrhRM3PTLNiKrOfDxuuQ1luthmNbLmjVuRn-Yf0n7ktOsjr4qXypVCYuPJNPpPLw9A-LMbgUSB5L2t3J-_k-jlx_c6ujngDcDFY1V9UplrIdgQs666EtnpPCs41UgsOV8VsKm1ZRyLXH_7SriXiTxS3-NdQCT7_Y3sgLiGhrIky5nTrYAFZSGfLm8g1Y1pFxmIZVVgiW8jRKRDMKJkFHoWe6V7aKq1LfaA0"
               >
-                {/* <source src="/path-to-your-video.mp4" type="video/mp4" /> */}
               </video>
 
               {/* Play Overlay (Aesthetic) */}

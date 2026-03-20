@@ -2,13 +2,10 @@
 
 export default function EvaluationPaths() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="max-w-2xl">
-            <label className="text-[#B6914C] font-bold tracking-[1.5px] text-xs md:text-sm uppercase mb-4 block underline decoration-2 underline-offset-8">
-              CHỌN PHƯƠNG THỨC ĐÁNH GIÁ
-            </label>
             <h2 className="text-4xl md:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
               Xác Định Năng Lực <br />
               <span className="text-[#BE202F]">Bắt Đầu Lộ Trình</span>

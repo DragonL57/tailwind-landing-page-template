@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-2 md:py-3 bg-white/80 backdrop-blur-xl border-b-2 border-[#B6914C] shadow-[0_24px_48px_rgba(25,28,28,0.06)]">
+    <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-2 md:py-3 bg-white border-b-2 border-[#B6914C]">
       <Link href="/giaotiep-1-1" className="relative h-6 md:h-8 w-48 md:w-64">
         <Image
           src="/flextrack/flextrack_logo_white.png"

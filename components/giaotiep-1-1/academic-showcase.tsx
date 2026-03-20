@@ -26,9 +26,6 @@ export default function AcademicShowcase() {
         </div>
         
         <div className="w-full lg:w-7/12 lg:pl-20 mt-12 lg:mt-0">
-          <label className="text-[#BE202F] font-bold tracking-[1.5px] text-xs md:text-sm uppercase mb-4 block">
-            DI SẢN & ĐỔI MỚI
-          </label>
           <h2 className="text-4xl md:text-5xl font-bold text-[#191c1c] mb-8 leading-tight font-headline uppercase">
             Nơi Tư Duy Gặp Gỡ <br />
             <span className="text-[#BE202F]">Sự Kiến Tạo Bản Lĩnh</span>

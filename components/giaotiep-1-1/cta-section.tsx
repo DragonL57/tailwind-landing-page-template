@@ -9,7 +9,7 @@ export default function CTASection() {
   return (
     <section className="py-32 bg-[#f8f9f9] relative" style={academicGridStyle}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="bg-white/80 backdrop-blur-xl p-8 md:p-16 border-t-2 border-[#B6914C] text-center max-w-5xl mx-auto shadow-[0_24px_48px_rgba(25,28,28,0.06)] relative overflow-hidden">
+        <div className="bg-white p-8 md:p-16 border-t-2 border-[#B6914C] text-center max-w-5xl mx-auto relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#B6914C]/5 rotate-45 translate-x-24 -translate-y-24"></div>
           <h2 className="text-3xl md:text-5xl font-bold mb-8 text-[#191c1c] uppercase tracking-[1.5px] font-headline">
             Sẵn Sàng Cho Chuyến Hành Trình <br /> 

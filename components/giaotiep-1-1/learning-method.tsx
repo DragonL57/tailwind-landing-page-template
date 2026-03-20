@@ -29,9 +29,6 @@ export default function LearningMethod() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col lg:flex-row justify-between items-start mb-20 gap-12">
           <div className="max-w-3xl">
-            <span className="inline-block text-[#BE202F] font-bold tracking-[2px] text-xs md:text-sm uppercase mb-6 bg-[#BE202F]/10 px-4 py-1">
-              LEARNING METHODOLOGY
-            </span>
             <h2 className="text-4xl md:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-8">
               PHƯƠNG PHÁP <br />
               <span className="text-[#B6914C]">KIẾN TẠO TRI THỨC</span>

@@ -24,9 +24,6 @@ export default function Features() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div className="max-w-2xl">
-            <label className="text-[#B6914C] font-bold tracking-[1.5px] text-xs md:text-sm uppercase mb-4 block underline decoration-2 underline-offset-8">
-              ƯU ĐIỂM VƯỢT TRỘI
-            </label>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
               Nền Tảng Tri Thức Với <br />
               <span className="text-[#BE202F]">Độ Chính Xác Tuyệt Đối</span>
@@ -41,9 +38,11 @@ export default function Features() {
           {features.map((feature, i) => (
             <div key={i} className={`group relative bg-[#f3f4f4] p-10 hover:bg-white transition-all duration-500 border-l-4 border-transparent hover:${feature.color}`}>
               <div className="text-[#BE202F] mb-8">
-                <div className="w-12 h-12 border-2 border-current flex items-center justify-center font-bold">A{i+1}</div>
+                <div className="w-12 h-12 border-2 border-current flex items-center justify-center font-bold text-xl">
+                  {i + 1}
+                </div>
               </div>
-              <h4 className="text-xl md:text-2xl font-bold mb-4 uppercase tracking-[1.5px] font-headline">{feature.title}</h4>
+              <h4 className="text-xl md:text-2xl font-bold mb-4 uppercase tracking-[1.5px] font-headline text-[#191c1c]">{feature.title}</h4>
               <p className="text-[#5b403f] font-body leading-relaxed mb-8">
                 {feature.desc}
               </p>
