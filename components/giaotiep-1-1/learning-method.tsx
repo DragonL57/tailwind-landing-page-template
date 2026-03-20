@@ -1,6 +1,8 @@
 "use client";
 
-export default function LearningMethod() {
+import { motion, Variants } from "framer-motion";
+
+export default function LearningMethod({ isActive }: { isActive?: boolean }) {
   const methods = [
     {
       title: "Tương Tác Trực Tiếp",
@@ -9,62 +11,87 @@ export default function LearningMethod() {
     },
     {
       title: "Điều Chỉnh Cá Nhân",
-      desc: "Nội dung học được điều chỉnh linh hoạt theo tiến độ thực tế và mục tiêu riêng biệt của từng học viên.",
+      desc: "Nội dung học được điều chỉnh linh hoạt theo tiến độ thực tế và mục tiêu riêng biệt.",
       icon: "02"
     },
     {
       title: "Hệ Thống Mentor",
-      desc: "Mentor theo dõi sát sao tiến trình học tập và cung cấp hỗ trợ chuyên sâu trong suốt khóa học.",
+      desc: "Mentor theo dõi sát sao tiến trình học tập và hỗ trợ chuyên sâu trong suốt khóa học.",
       icon: "03"
     },
     {
       title: "Mục Tiêu Rõ Ràng",
-      desc: "Mỗi buổi học đều có mục tiêu đầu ra cụ thể và được theo dõi xuyên suốt toàn bộ lộ trình.",
+      desc: "Mỗi buổi học đều có mục tiêu đầu ra cụ thể và được theo dõi xuyên suốt lộ trình.",
       icon: "04"
     }
   ];
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
   return (
-    <section className="py-24 bg-[#f3f4f4]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="flex flex-col lg:flex-row justify-between items-start mb-20 gap-12">
+    <section className="relative h-full w-full py-8 md:py-12 bg-[#f3f4f4] flex flex-col justify-center overflow-hidden">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate={isActive ? "visible" : "hidden"}
+        className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
+      >
+        <div className="flex flex-col lg:flex-row justify-between items-start mb-10 gap-8">
           <div className="max-w-3xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-8">
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-4">
               PHƯƠNG PHÁP <br />
               <span className="text-[#B6914C]">KIẾN TẠO TRI THỨC</span>
-            </h2>
-            <p className="text-xl md:text-2xl text-[#5b403f] font-body leading-relaxed max-w-2xl border-l-4 border-[#B6914C] pl-8">
-              Tất cả các nhánh học đều áp dụng mô hình học 1–1 trực tuyến qua nền tảng học tương tác cao, đảm bảo sự tập trung và hiệu quả tối ưu.
-            </p>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-lg md:text-xl text-[#5b403f] font-body leading-relaxed max-w-2xl border-l-4 border-[#B6914C] pl-6 italic">
+              Học 1–1 trực tuyến qua nền tảng tương tác cao, đảm bảo sự tập trung và hiệu quả tối ưu.
+            </motion.p>
           </div>
           
-          {/* Decorative Element */}
-          <div className="hidden lg:flex flex-col items-end gap-2 text-[#B6914C]/40 pt-4">
-             <div className="w-48 h-px bg-current"></div>
-             <div className="text-sm font-bold tracking-[3px] uppercase">Architectural Model</div>
-          </div>
+          <motion.div variants={itemVariants} className="hidden lg:flex flex-col items-end gap-1 text-[#B6914C]/40 pt-2">
+             <div className="w-32 h-px bg-current"></div>
+             <div className="text-[10px] font-bold tracking-[2px] uppercase">Architectural Model</div>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">
           {methods.map((method, i) => (
-            <div 
+            <motion.div 
               key={i} 
-              className="bg-white p-10 hover:bg-[#f8f9f9] transition-all duration-300 group"
+              variants={itemVariants}
+              className="bg-white p-6 md:p-8 hover:bg-[#f8f9f9] transition-all duration-300 group"
             >
-              <div className="text-5xl font-bold font-headline text-[#f3f4f4] group-hover:text-[#BE202F]/10 transition-colors mb-8">
+              <div className="text-4xl font-bold font-headline text-[#f3f4f4] group-hover:text-[#BE202F]/10 transition-colors mb-6">
                 {method.icon}
               </div>
-              <h4 className="text-xl font-bold mb-4 uppercase tracking-[1.5px] font-headline text-[#191c1c]">
+              <h4 className="text-lg font-bold mb-3 uppercase tracking-[1.5px] font-headline text-[#191c1c]">
                 {method.title}
               </h4>
-              <p className="text-[#5b403f] font-body leading-relaxed text-sm md:text-base">
+              <p className="text-[#5b403f] font-body leading-relaxed text-xs md:text-sm">
                 {method.desc}
               </p>
-              <div className="mt-8 w-12 h-1 bg-[#BE202F] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-            </div>
+              <div className="mt-6 w-10 h-1 bg-[#BE202F] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

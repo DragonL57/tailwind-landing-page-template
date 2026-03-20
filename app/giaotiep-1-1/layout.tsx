@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Header from "@/components/giaotiep-1-1/header";
-import Footer from "@/components/giaotiep-1-1/footer";
 
 export const metadata: Metadata = {
   title: "Giao Tiếp 1-1 | VMG Education",
@@ -15,10 +14,9 @@ export default function Giaotiep11Layout({
   return (
     <div className="min-h-screen bg-[#f8f9f9] text-[#191c1c] antialiased selection:bg-[#BE202F] selection:text-white">
       <Header />
-      <main className="pt-12 md:pt-16">
+      <main className="pt-12 md:pt-16 relative z-10">
         {children}
       </main>
-      <Footer />
     </div>
   );
 }
