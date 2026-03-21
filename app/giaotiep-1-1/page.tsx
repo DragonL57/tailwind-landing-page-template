@@ -48,7 +48,11 @@ export default function Giaotiep11Page() {
           const index = sectionRefs.current.findIndex(ref => ref === entry.target);
           if (index !== -1) {
             setActiveIndex(index);
-            setVisibleSections(prev => new Set([...prev, index]));
+            setVisibleSections(prev => {
+              const next = new Set(prev);
+              next.add(index);
+              return next;
+            });
           }
         }
       });
