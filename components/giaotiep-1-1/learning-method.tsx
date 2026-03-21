@@ -51,7 +51,8 @@ export default function LearningMethod({ isActive }: { isActive?: boolean }) {
       <motion.div 
         variants={containerVariants}
         initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
         <div className="flex flex-col lg:flex-row justify-between items-start mb-10 gap-8">

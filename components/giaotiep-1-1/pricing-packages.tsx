@@ -56,7 +56,8 @@ export default function PricingPackages({ isActive }: { isActive?: boolean }) {
       <motion.div 
         variants={containerVariants}
         initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
         <div className="text-center mb-8 md:mb-12">

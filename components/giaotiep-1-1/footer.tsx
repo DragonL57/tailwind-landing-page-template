@@ -26,12 +26,13 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
   };
 
   return (
-    <footer className="bg-[#BE202F] text-white h-full w-full flex flex-col justify-center border-t-8 border-[#B6914C] px-6 md:px-12 relative overflow-hidden">
+    <footer className="bg-brand-crimson text-white h-full w-full flex flex-col justify-center border-t-8 border-brand-gold px-6 md:px-12 relative overflow-hidden">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
-        className="max-w-[1440px] mx-auto w-full"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 mb-16">
           
@@ -46,7 +47,7 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
                   className="object-contain object-left" 
                 />
               </div>
-              <p className="text-white/70 font-body text-sm md:text-base leading-relaxed max-w-md">
+              <p className="text-white font-body text-sm md:text-base leading-relaxed max-w-md">
                 Kiến tạo tương lai thông qua hệ thống giáo dục 1–1 trực tuyến, tích hợp công nghệ và lộ trình học thuật linh hoạt.
               </p>
             </div>
@@ -58,11 +59,11 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
 
           {/* Column 2: Navigation Links */}
           <motion.div variants={itemVariants} className="lg:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-[2px] text-[#B6914C] mb-6">Pathways</h4>
+            <h4 className="text-xs font-bold uppercase tracking-[2px] text-brand-gold mb-6">Pathways</h4>
             <ul className="space-y-3">
               {["FlexTrack Basic", "FlexTrack Pro", "FlexTrack Premium", "Evaluation"].map((item) => (
                 <li key={item}>
-                  <Link href="#" className="text-white/80 hover:text-white transition-colors font-body text-sm group flex items-center gap-2">
+                  <Link href="#" className="text-white hover:underline transition-colors font-body text-sm group flex items-center gap-2">
                     <span className="w-0 h-px bg-white group-hover:w-3 transition-all"></span>
                     {item}
                   </Link>
@@ -73,11 +74,11 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
 
           {/* Column 3: Institutional Disclosure */}
           <motion.div variants={itemVariants} className="lg:col-span-4">
-            <h4 className="text-xs font-bold uppercase tracking-[2px] text-[#B6914C] mb-6">Information</h4>
+            <h4 className="text-xs font-bold uppercase tracking-[2px] text-brand-gold mb-6">Information</h4>
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 {["Privacy Policy", "Terms of Service", "Contact"].map((item) => (
-                  <Link key={item} href="#" className="text-[10px] font-bold uppercase tracking-[1px] text-white/60 hover:text-white transition-colors">
+                  <Link key={item} href="#" className="text-[10px] font-bold uppercase tracking-[1px] text-white hover:underline transition-colors">
                     {item}
                   </Link>
                 ))}
@@ -85,7 +86,7 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
               
               <div className="flex gap-3 border-t border-white/10 pt-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-8 h-8 border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#BE202F] transition-all cursor-pointer">
+                  <div key={i} className="w-8 h-8 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand-crimson transition-all cursor-pointer">
                     <span className="text-[8px] font-bold">SC</span>
                   </div>
                 ))}

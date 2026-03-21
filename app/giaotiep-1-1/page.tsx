@@ -23,6 +23,7 @@ const SECTIONS = [
 export default function Giaotiep11Page() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set([0]));
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { scrollYProgress } = useScroll({
@@ -47,6 +48,7 @@ export default function Giaotiep11Page() {
           const index = sectionRefs.current.findIndex(ref => ref === entry.target);
           if (index !== -1) {
             setActiveIndex(index);
+            setVisibleSections(prev => new Set([...prev, index]));
           }
         }
       });
@@ -70,7 +72,7 @@ export default function Giaotiep11Page() {
     <div className="relative h-[calc(100vh-4rem)] md:overflow-hidden bg-[#f8f9f9]">
       {/* Scroll Progress Bar */}
       <motion.div 
-        className="fixed top-[4rem] left-0 right-0 h-1 bg-[#BE202F] origin-left z-50"
+        className="fixed top-[4rem] left-0 right-0 h-1 bg-brand-crimson origin-left z-50"
         style={{ scaleX }}
       />
 
@@ -80,11 +82,15 @@ export default function Giaotiep11Page() {
           <button
             key={i}
             onClick={() => scrollToSection(i)}
-            className={`w-3 h-3 border-2 border-[#BE202F] transition-all duration-300 rounded-none ${
-              activeIndex === i ? "bg-[#BE202F] scale-125" : "bg-transparent opacity-40 hover:opacity-100"
-            }`}
+            className="group relative p-3 flex items-center justify-center"
             aria-label={`Scroll to section ${i + 1}`}
-          />
+          >
+             <div 
+              className={`w-3 h-3 border-2 border-brand-crimson transition-all duration-300 rounded-none ${
+                activeIndex === i ? "bg-brand-crimson scale-125" : "bg-transparent opacity-40 group-hover:opacity-100"
+              }`}
+            />
+          </button>
         ))}
       </div>
 
@@ -99,7 +105,7 @@ export default function Giaotiep11Page() {
             ref={(el) => { sectionRefs.current[i] = el; }}
             className="w-full md:h-full md:snap-start flex flex-col justify-center overflow-hidden shrink-0 py-12 md:py-0 border-b border-slate-100 md:border-b-0"
           >
-            <Section.component isActive={activeIndex === i} />
+            <Section.component isActive={visibleSections.has(i)} />
           </div>
         ))}
       </div>

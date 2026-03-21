@@ -63,8 +63,9 @@ export default function TargetAudience({ isActive }: { isActive?: boolean }) {
       <motion.div 
         variants={containerVariants}
         initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
-        className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10 w-full"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
