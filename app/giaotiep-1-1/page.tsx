@@ -7,6 +7,7 @@ import EvaluationPaths from "@/components/giaotiep-1-1/evaluation-paths";
 import LearningMethod from "@/components/giaotiep-1-1/learning-method";
 import PricingPackages from "@/components/giaotiep-1-1/pricing-packages";
 import TargetAudience from "@/components/giaotiep-1-1/target-audience";
+import FacultySection from "@/components/giaotiep-1-1/faculty-section";
 import ConsultationForm from "@/components/giaotiep-1-1/consultation-form";
 import Footer from "@/components/giaotiep-1-1/footer";
 
@@ -16,6 +17,7 @@ const SECTIONS = [
   { id: "method", component: LearningMethod },
   { id: "pricing", component: PricingPackages },
   { id: "audience", component: TargetAudience },
+  { id: "faculty", component: FacultySection },
   { id: "form", component: ConsultationForm },
   { id: "footer", component: Footer },
 ];
@@ -107,9 +109,7 @@ export default function Giaotiep11Page() {
           <div 
             key={Section.id} 
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className={`w-full md:snap-start flex flex-col justify-center shrink-0 py-12 md:py-0 border-b border-slate-100 md:border-b-0 ${
-              Section.id === "form" ? "md:min-h-full" : "md:h-full overflow-hidden"
-            }`}
+            className="w-full md:snap-start shrink-0 border-b border-slate-100 md:border-b-0"
           >
             <Section.component isActive={visibleSections.has(i)} />
           </div>
