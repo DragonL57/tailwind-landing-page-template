@@ -26,7 +26,7 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
   };
 
   return (
-    <footer className="bg-brand-crimson text-white min-h-fit md:h-full w-full flex flex-col justify-center border-t-8 border-brand-gold py-20 md:py-0 relative overflow-hidden">
+    <footer className="bg-brand-crimson text-white min-h-fit w-full flex flex-col justify-center border-t-8 border-brand-gold py-20 md:py-32 relative overflow-hidden">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -61,7 +61,7 @@ export default function Footer({ isActive }: { isActive?: boolean }) {
           <motion.div variants={itemVariants} className="col-span-1 lg:col-span-3 flex flex-col items-start text-left">
             <h4 className="text-[10px] font-bold uppercase tracking-[2px] text-brand-gold mb-8">Lộ trình học</h4>
             <ul className="space-y-4">
-              {["FlexTrack Cơ bản", "FlexTrack Nâng cao", "FlexTrack Cao cấp", "Đánh giá năng lực"].map((item) => (
+              {["FlexTrack Basic", "FlexTrack Pro", "FlexTrack Premium", "Đánh giá năng lực"].map((item) => (
                 <li key={item}>
                   <Link href="#" className="text-white hover:text-brand-gold transition-colors font-body text-xs group flex items-center gap-2">
                     <span className="hidden lg:block w-0 h-px bg-white group-hover:w-3 transition-all"></span>
