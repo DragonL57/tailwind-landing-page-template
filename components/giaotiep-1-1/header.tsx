@@ -3,29 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LoginModal from "@/components/login-modal";
-import RegisterModal from "@/components/register-modal";
 
 export default function Header() {
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const openLogin = () => {
-    setLoginModalOpen(true);
-    setRegisterModalOpen(false);
-  };
-
-  const openRegister = () => {
-    setRegisterModalOpen(true);
-    setLoginModalOpen(false);
-  };
 
   const products = [
     { name: "TESOL E-path", href: "/tesolmooc" },
     { name: "Flextrack (giao tiếp 1-1)", href: "/giaotiep-1-1" },
   ];
+
+  const scrollToForm = () => {
+    const form = document.getElementById('name');
+    if (form) {
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <>
@@ -92,21 +86,13 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="hidden md:flex items-center gap-4">
-              <button
-                onClick={openLogin}
-                className="text-slate-600 font-bold hover:text-brand-crimson transition-colors font-body text-xs md:text-sm tracking-[1.5px] uppercase px-4 py-2"
-              >
-                Đăng nhập
-              </button>
-              <button
-                onClick={openRegister}
-                className="bg-brand-crimson text-white px-5 md:px-7 py-2 md:py-2.5 font-bold tracking-[1.5px] text-xs md:text-sm hover:opacity-90 transition-all uppercase rounded-none"
-              >
-                Đăng ký
-              </button>
-            </div>
+          <div className="flex items-center gap-2 md:gap-6">
+            <button
+              onClick={scrollToForm}
+              className="bg-brand-crimson text-white px-4 md:px-7 py-2 md:py-2.5 font-bold tracking-[1px] md:tracking-[1.5px] text-[10px] md:text-sm hover:opacity-90 transition-all uppercase rounded-none whitespace-nowrap"
+            >
+              Đăng ký tư vấn
+            </button>
 
             {/* Mobile menu button */}
             <button
@@ -145,36 +131,16 @@ export default function Header() {
 
               <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
                 <button
-                  onClick={() => { openLogin(); setMobileMenuOpen(false); }}
-                  className="w-full text-center text-slate-700 font-bold tracking-[1.5px] uppercase py-4 border-2 border-slate-200"
-                >
-                  Đăng nhập
-                </button>
-                <button
-                  onClick={() => { openRegister(); setMobileMenuOpen(false); }}
+                  onClick={scrollToForm}
                   className="w-full text-center bg-brand-crimson text-white font-bold tracking-[1.5px] uppercase py-4"
                 >
-                  Đăng ký
+                  Đăng ký tư vấn
                 </button>
               </div>
             </div>
           </div>
         )}
       </header>
-
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={loginModalOpen}
-        onCloseAction={() => setLoginModalOpen(false)}
-        onSwitchToRegister={openRegister}
-      />
-
-      {/* Register Modal */}
-      <RegisterModal
-        isOpen={registerModalOpen}
-        onCloseAction={() => setRegisterModalOpen(false)}
-        onSwitchToLogin={openLogin}
-      />
     </>
   );
 }
