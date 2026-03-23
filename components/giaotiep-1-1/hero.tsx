@@ -82,14 +82,16 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
               ))}
             </motion.div>
 
-            <motion.button 
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none"
-            >
-              BẮT ĐẦU LỘ TRÌNH NGAY
-            </motion.button>
+            <div className="flex justify-center lg:justify-start">
+              <motion.button 
+                variants={itemVariants}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none"
+              >
+                BẮT ĐẦU LỘ TRÌNH NGAY
+              </motion.button>
+            </div>
           </div>
 
           {/* Right Column: Video Placeholder (3:4 Portrait) */}
