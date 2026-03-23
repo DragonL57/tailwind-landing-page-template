@@ -68,7 +68,7 @@ export default function LearningMethod({ isActive }: { isActive?: boolean }) {
           
           <motion.div variants={itemVariants} className="hidden lg:flex flex-col items-end gap-1 text-[#B6914C]/40 pt-2">
              <div className="w-32 h-px bg-current"></div>
-             <div className="text-[10px] font-bold tracking-[2px] uppercase">Architectural Model</div>
+             <div className="text-[10px] font-bold tracking-[2px] uppercase">Mô hình kiến trúc</div>
           </motion.div>
         </div>
 

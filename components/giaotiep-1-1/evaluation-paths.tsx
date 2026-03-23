@@ -51,7 +51,7 @@ export default function EvaluationPaths({ isActive }: { isActive?: boolean }) {
             className="bg-white border-2 border-[#e3bebc] p-10 hover:border-brand-crimson transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-brand-crimson/5 rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:scale-150"></div>
-            <div className="text-brand-crimson font-bold text-xs uppercase tracking-[2px] mb-4">Case 01 / Automated</div>
+            <div className="text-brand-crimson font-bold text-xs uppercase tracking-[2px] mb-4">Trường hợp 01 / Tự động</div>
             <h3 className="text-3xl font-bold font-headline mb-6 uppercase">TEST VỚI AI</h3>
             <ul className="text-base text-[#5b403f] space-y-4 mb-10 font-body">
               {[
@@ -76,7 +76,7 @@ export default function EvaluationPaths({ isActive }: { isActive?: boolean }) {
             className="bg-[#f3f4f4] border-2 border-brand-gold/20 p-10 hover:border-brand-gold transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-brand-gold/5 rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:scale-150"></div>
-            <div className="text-brand-gold font-bold text-xs uppercase tracking-[2px] mb-4">Case 02 / Professional</div>
+            <div className="text-brand-gold font-bold text-xs uppercase tracking-[2px] mb-4">Trường hợp 02 / Chuyên sâu</div>
             <h3 className="text-3xl font-bold font-headline mb-6 uppercase">VỚI GIÁO VIÊN</h3>
             <ul className="text-base text-[#5b403f] space-y-4 mb-10 font-body">
               {[

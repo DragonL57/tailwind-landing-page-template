@@ -39,7 +39,7 @@ export default function Giaotiep11Page() {
   useEffect(() => {
     const observerOptions = {
       root: containerRef.current,
-      threshold: 0.4, 
+      threshold: 0.2, 
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -107,7 +107,9 @@ export default function Giaotiep11Page() {
           <div 
             key={Section.id} 
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className="w-full md:h-full md:snap-start flex flex-col justify-center overflow-hidden shrink-0 py-12 md:py-0 border-b border-slate-100 md:border-b-0"
+            className={`w-full md:snap-start flex flex-col justify-center shrink-0 py-12 md:py-0 border-b border-slate-100 md:border-b-0 ${
+              Section.id === "form" ? "md:min-h-full" : "md:h-full overflow-hidden"
+            }`}
           >
             <Section.component isActive={visibleSections.has(i)} />
           </div>

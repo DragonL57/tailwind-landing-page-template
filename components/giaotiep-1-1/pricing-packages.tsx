@@ -10,7 +10,7 @@ export default function PricingPackages({ isActive }: { isActive?: boolean }) {
       focus: "Lộ trình tập trung vào một nhóm mục tiêu chính.",
       audience: "Phù hợp với học viên muốn cải thiện kỹ năng trọng tâm.",
       accent: "border-[#BE202F]",
-      tag: "CORE"
+      tag: "CỐT LÕI"
     },
     {
       name: "FlexTrack Pro",
@@ -18,7 +18,7 @@ export default function PricingPackages({ isActive }: { isActive?: boolean }) {
       focus: "Lộ trình mở rộng, cá nhân hóa sâu hơn theo tiến độ.",
       audience: "Phù hợp với học viên cần sử dụng ổn định cho công việc.",
       accent: "border-[#BE202F]",
-      tag: "STANDARD"
+      tag: "TIÊU CHUẨN"
     },
     {
       name: "FlexTrack Premium",
@@ -26,7 +26,7 @@ export default function PricingPackages({ isActive }: { isActive?: boolean }) {
       focus: "Lộ trình toàn diện và dài hạn.",
       audience: "Mức độ cá nhân hóa cao, theo sát mục tiêu lâu dài.",
       accent: "border-[#B6914C]",
-      tag: "PRESTIGE",
+      tag: "ĐẲNG CẤP",
       isPremium: true
     }
   ];
