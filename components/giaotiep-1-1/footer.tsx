@@ -84,7 +84,7 @@ export default function Footer() {
             
             <div className="max-w-md border-l-4 border-brand-crimson pl-6 py-2">
               <p className="font-be-vietnam-pro text-lg leading-relaxed text-[#191c1c]/80 italic">
-                "Kiến tạo thế hệ công dân toàn cầu thông qua sự chính xác trong ngôn ngữ và tư duy học thuật đỉnh cao."
+                &quot;Kiến tạo thế hệ công dân toàn cầu thông qua sự chính xác trong ngôn ngữ và tư duy học thuật đỉnh cao.&quot;
               </p>
             </div>
 
