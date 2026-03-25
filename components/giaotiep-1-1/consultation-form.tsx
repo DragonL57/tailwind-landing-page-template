@@ -40,7 +40,7 @@ export default function ConsultationForm({ isActive }: { isActive?: boolean }) {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-t-4 border-brand-gold bg-white shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-t-4 border-brand-gold bg-white">
           
           {/* Left: Narrative Content (Layer 2 - Shifts) */}
           <motion.div variants={itemVariants} className="lg:col-span-4 bg-[#f3f4f4] p-10 md:p-12 flex flex-col justify-between border-r border-slate-200">
@@ -205,7 +205,7 @@ export default function ConsultationForm({ isActive }: { isActive?: boolean }) {
                       ))}
                     </div>
                   </div>
-                  <button type="submit" className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs hover:bg-[#93001a] transition-all rounded-none w-full md:w-auto shadow-xl">
+                  <button type="submit" className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs hover:bg-[#93001a] transition-all rounded-none w-full md:w-auto">
                     XÁC NHẬN ĐẶT LỊCH
                   </button>
                 </div>

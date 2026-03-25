@@ -61,8 +61,8 @@ export default function Header() {
 
               {/* Dropdown Menu - Academic Style */}
               {coursesDropdownOpen && (
-                <div 
-                  className="absolute top-full left-0 w-64 bg-white border-2 border-brand-gold/20 shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 z-50"
+                <div
+                  className="absolute top-full left-0 w-64 bg-white border-2 border-brand-gold/20 overflow-hidden animate-in fade-in slide-in-from-top-2 z-50"
                 >
                   {products.map((product, index) => (
                     <Link

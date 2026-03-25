@@ -1,6 +1,6 @@
 import "./css/style.css";
 
-import { Montserrat } from "next/font/google";
+import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
 import Script from "next/script";
 import Header from "@/components/ui/header";
 import FloatingContact from "@/components/floating-contact";
@@ -9,6 +9,13 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
+});
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-be-vietnam-pro',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
 });
 
 export const metadata = {
@@ -48,7 +55,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${montserrat.variable} bg-white font-montserrat tracking-tight text-gray-900 antialiased`}
+        className={`${montserrat.variable} ${beVietnamPro.variable} bg-white font-be-vietnam-pro tracking-tight text-gray-900 antialiased`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>

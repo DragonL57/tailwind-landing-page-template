@@ -75,7 +75,7 @@ export default function FacultySection({ isActive }: { isActive?: boolean }) {
               variants={itemVariants}
               className="group"
             >
-              <div className="relative aspect-[4/5] mb-8 overflow-hidden bg-slate-100 shadow-xl max-w-[320px] mx-auto lg:mx-0">
+              <div className="relative aspect-[4/5] mb-8 overflow-hidden bg-slate-100 max-w-[320px] mx-auto lg:mx-0">
                 {/* Image Placeholder */}
                 <img
                   src={teacher.image}
