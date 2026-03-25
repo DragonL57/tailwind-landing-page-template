@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from "react";
 import { ShieldCheck, Laptop, Zap, DollarSign } from "lucide-react";
 import DealBanner from "./deal-banner";
@@ -50,10 +51,10 @@ export default function TesolBenefits() {
     <div className="relative overflow-hidden bg-vmg-blue py-24 px-4 w-full">
       {/* Background Silhouette Logos - Full Opacity */}
       <div className="absolute -left-24 -top-12 w-[600px] h-[600px] pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-100 brightness-0 invert rotate-12" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-full h-full object-contain opacity-100 brightness-0 invert rotate-12" />
       </div>
       <div className="absolute -right-32 -bottom-24 w-[700px] h-[700px] pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-100 brightness-0 invert -rotate-12" />
+        <Image src="/images/Picture1.png" alt="" width={700} height={700} className="w-full h-full object-contain opacity-100 brightness-0 invert -rotate-12" />
       </div>
 
       <div className="relative max-w-[1200px] mx-auto z-10 px-4 sm:px-6">

@@ -25,7 +25,7 @@ export default function TesolMoocLayout({
     <>
       <main className="grow">{children}</main>
 
-      <Footer border={true} />
+      <Footer />
     </>
   );
 }

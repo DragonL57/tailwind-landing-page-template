@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { 
-  CreditCard, 
-  User, 
+import {
+  CreditCard,
+  User,
   ChevronRight,
-  ShieldCheck,
-  Lock,
   Eye,
   EyeOff,
   CheckCircle2
@@ -311,7 +309,7 @@ export default function CheckoutPage() {
                 </button>
 
                 <p className="text-[10px] text-slate-400 leading-relaxed text-center font-medium mt-2">
-                  Bằng cách nhấn nút "Xác nhận", quý khách đồng ý với các <Link href="#" className="underline">Điều khoản</Link> và <Link href="#" className="underline">Chính sách bảo mật</Link>.
+                  Bằng cách nhấn nút &quot;Xác nhận&quot;, quý khách đồng ý với các <Link href="#" className="underline">Điều khoản</Link> và <Link href="#" className="underline">Chính sách bảo mật</Link>.
                 </p>
               </div>
             </section>

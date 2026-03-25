@@ -25,7 +25,6 @@ const SECTIONS = [
 export default function Giaotiep11Page() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set([0]));
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { scrollYProgress } = useScroll({
@@ -50,11 +49,6 @@ export default function Giaotiep11Page() {
           const index = sectionRefs.current.findIndex(ref => ref === entry.target);
           if (index !== -1) {
             setActiveIndex(index);
-            setVisibleSections(prev => {
-              const next = new Set(prev);
-              next.add(index);
-              return next;
-            });
           }
         }
       });
@@ -111,7 +105,7 @@ export default function Giaotiep11Page() {
             ref={(el) => { sectionRefs.current[i] = el; }}
             className="w-full md:snap-start shrink-0 border-b border-slate-100 md:border-b-0"
           >
-            <Section.component isActive={visibleSections.has(i)} />
+            <Section.component />
           </div>
         ))}
       </div>

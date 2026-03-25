@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 
-export default function EvaluationPaths({ isActive }: { isActive?: boolean }) {
+export default function EvaluationPaths() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {

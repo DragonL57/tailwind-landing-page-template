@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 
-export default function TargetAudience({ isActive }: { isActive?: boolean }) {
+export default function TargetAudience() {
   const academicGridStyle = {
     backgroundImage: "radial-gradient(#e1e3e3 1px, transparent 1px)",
     backgroundSize: "40px 40px",

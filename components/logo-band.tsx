@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from 'next/image';
 import FadeSlideUp from "./fade-slide-up";
 
 export default function LogoBand() {
@@ -24,10 +25,12 @@ export default function LogoBand() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <img 
-              src="/images/tesol_certificate.avif" 
-              alt="TESOL Certificate Zoomed" 
-              className="rounded-lg shadow-2xl max-w-full max-h-[85vh] object-contain cursor-zoom-out animate-in zoom-in-95 duration-300"
+            <Image
+              src="/images/tesol_certificate.avif"
+              alt="TESOL Certificate Zoomed"
+              fill
+              className="rounded-lg shadow-2xl object-contain cursor-zoom-out animate-in zoom-in-95 duration-300"
+              sizes="100vw"
             />
           </div>
         </div>
@@ -41,11 +44,11 @@ export default function LogoBand() {
           <div className="relative z-10 flex flex-col items-center">
             {/* Logos with elegant spacing */}
             <div className="flex flex-wrap items-center justify-center gap-6 md:gap-20 mb-8 md:mb-10 transition-opacity duration-700">
-              <img src="/images/INTESOL_WORLDWIDE.svg" alt="INTESOL Worldwide Logo" className="h-10 md:h-20 object-contain" />
+              <Image src="/images/INTESOL_WORLDWIDE.svg" alt="INTESOL Worldwide Logo" height={80} width={200} className="h-10 md:h-20 object-contain" />
               <div className="h-8 md:h-10 w-px bg-vmg-navy/10 hidden md:block"></div>
-              <img src="/images/ALAP.png" alt="ALAP Logo" className="h-14 md:h-28 object-contain" />
+              <Image src="/images/ALAP.png" alt="ALAP Logo" height={112} width={200} className="h-14 md:h-28 object-contain" />
               <div className="h-8 md:h-10 w-px bg-vmg-navy/10 hidden md:block"></div>
-              <img src="/images/INTESOL_VIETNAM.svg" alt="INTESOL Vietnam Logo" className="h-10 md:h-20 object-contain" />
+              <Image src="/images/INTESOL_VIETNAM.svg" alt="INTESOL Vietnam Logo" height={80} width={200} className="h-10 md:h-20 object-contain" />
             </div>
 
             {/* Expansive Title Section */}
@@ -71,7 +74,7 @@ export default function LogoBand() {
                   <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
                       <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-vmg-blue-soft flex items-center justify-center overflow-hidden">
-                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=Teacher${i}`} alt="user" />
+                        <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=Teacher${i}`} alt="user" width={32} height={32} className="w-full h-full rounded-full" />
                       </div>
                     ))}
                   </div>
@@ -87,10 +90,11 @@ export default function LogoBand() {
                   className="relative bg-white p-1 md:p-1.5 rounded-xl shadow-lg border border-vmg-blue/5 rotate-1 md:rotate-2 group-hover:rotate-0 transition-transform duration-500 cursor-zoom-in"
                   onClick={() => setIsZoomed(true)}
                 >
-                  <img 
-                    src="/images/tesol_certificate.avif" 
-                    alt="TESOL Certificate" 
-                    className="rounded-lg w-full shadow-sm"
+                  <Image
+                    src="/images/tesol_certificate.avif"
+                    alt="TESOL Certificate"
+                    fill
+                    className="rounded-lg object-cover shadow-sm"
                   />
                   {/* Zoom Indicator */}
                   <div className="absolute bottom-4 right-4 bg-vmg-navy/60 backdrop-blur-md rounded-full p-2 text-white opacity-0 group-hover:opacity-100 transition-opacity">

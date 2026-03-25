@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 export default function FloatingPurchaseCTA() {
   // Visible only after passing hero section; discount always shown
   const [isVisible, setIsVisible] = useState(false);
-  const [discountActive, setDiscountActive] = useState(true);
+  const [discountActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

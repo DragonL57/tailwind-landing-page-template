@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 
-export default function PricingPackages({ isActive }: { isActive?: boolean }) {
+export default function PricingPackages() {
   const packages = [
     {
       name: "FlexTrack Basic",

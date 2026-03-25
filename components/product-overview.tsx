@@ -1,19 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import FadeSlideUp from "./fade-slide-up";
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function ProductOverview() {
-  const [openAccordion, setOpenAccordion] = useState<number[]>([0, 1]);
 
-  const toggleAccordion = (index: number) => {
-    if (openAccordion.includes(index)) {
-      setOpenAccordion(openAccordion.filter(i => i !== index));
-    } else {
-      setOpenAccordion([...openAccordion, index]);
-    }
-  };
 
   const features = [
     {
@@ -61,10 +53,12 @@ export default function ProductOverview() {
     <div className="relative p-2 md:p-4">
       {/* Gemini Background Logo - Blended */}
       <div className="absolute inset-0 pointer-events-none overflow-visible">
-        <img
+        <Image
           src="/images/gemini_bg.svg"
           alt=""
-          className="absolute top-0 right-0 w-[400px] h-auto opacity-20"
+          fill
+          className="object-contain opacity-20 top-0 right-0 w-[400px] h-auto"
+          sizes="50vw"
         />
       </div>
       <div className="relative space-y-12">

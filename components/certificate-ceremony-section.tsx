@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Image from 'next/image';
 import FadeSlideUp from "./fade-slide-up";
 
 export default function CertificateCeremonySection() {
@@ -24,10 +24,12 @@ export default function CertificateCeremonySection() {
     <div className="w-[300px] md:w-[450px] shrink-0">
       <div className="bg-white rounded-3xl overflow-hidden shadow-md border border-vmg-blue/5 group/card transition-all duration-500 hover:shadow-xl hover:-translate-y-1 hover:border-vmg-blue/20">
         <div className="relative aspect-[4/3] overflow-hidden">
-          <img
+          <Image
             src={moment.image}
             alt={moment.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
+            fill
+            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-vmg-navy/40 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
         </div>
@@ -82,18 +84,22 @@ export default function CertificateCeremonySection() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="rounded-[2.5rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[16/10]">
-                <img
+                <Image
                   src="/images/vmg-intesolvietnam/image.png"
                   alt="Strategic Partnership"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
 
               <div className="rounded-[2.5rem] overflow-hidden group relative border border-vmg-blue/10 hover:border-vmg-blue/30 transition-all duration-500 aspect-[16/10]">
-                <img
+                <Image
                   src="/images/vmg-intesolvietnam/image1.png"
                   alt="Signing Ceremony"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </div>

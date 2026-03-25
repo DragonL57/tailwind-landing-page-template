@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from "react";
 import { Check } from "lucide-react";
 
@@ -6,7 +7,7 @@ export default function CourseContent() {
     <div className="relative overflow-hidden">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-1 -bottom-20 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-50 h-50 object-contain opacity-5 grayscale" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-50 h-50 object-contain opacity-5 grayscale" />
       </div>
 
       {/* Nội dung khóa học - Bento Grid */}

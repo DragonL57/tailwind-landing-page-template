@@ -37,8 +37,7 @@ export interface CouponValidationResult {
 
 export function validateCoupon(
   code: string,
-  orderTotal: number,
-  phone?: string
+  orderTotal: number
 ): CouponValidationResult {
   const couponCode = code.trim().toUpperCase();
   const coupon = COUPONS[couponCode];

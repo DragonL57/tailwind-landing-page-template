@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import Logo from "./logo";
 import LoginModal from "@/components/login-modal";
@@ -8,7 +9,6 @@ import RegisterModal from "@/components/register-modal";
 export default function Header() {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -39,9 +39,9 @@ export default function Header() {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center gap-10">
-              <a href="/" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
+              <Link href="/" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
                 Trang chủ
-              </a>
+              </Link>
 
               {/* Courses Dropdown */}
               <div className="relative">
@@ -131,7 +131,7 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white animate-in slide-in-from-top">
             <div className="px-4 py-6 space-y-4">
-              <a href="/" className="block text-lg font-medium text-gray-700 hover:text-vmg-blue">Trang chủ</a>
+              <Link href="/" className="block text-lg font-medium text-gray-700 hover:text-vmg-blue">Trang chủ</Link>
               
               <div className="space-y-2">
                 <div className="text-lg font-medium text-gray-700">Khóa học</div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, ArrowRight, BookOpen, Sparkles } from "lucide-react";
+import { X, ArrowRight, BookOpen } from "lucide-react";
 
 interface ExitIntentPopupProps {
   ebookTitle?: string;
@@ -94,7 +94,7 @@ export default function ExitIntentPopup({
                   </h2>
                   <p className="text-base md:text-lg text-vmg-navy/60 font-medium leading-relaxed">
                     Chúng tôi muốn gửi tặng bạn bộ cẩm nang <br className="hidden md:block" />
-                    <span className="text-vmg-blue font-bold italic">"{ebookTitle}"</span> <br className="hidden md:block" />
+                    <span className="text-vmg-blue font-bold italic">{ebookTitle}</span> <br className="hidden md:block" />
                     hoàn toàn miễn phí để hỗ trợ sự nghiệp của bạn.
                   </p>
                 </div>

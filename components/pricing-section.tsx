@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from 'next/image';
 import FadeSlideUp from "./fade-slide-up";
 import Link from "next/link";
 import { Check, ShieldCheck, CreditCard, ArrowRight, Tag } from "lucide-react";
@@ -70,10 +71,10 @@ export default function PricingSection() {
 
       {/* Background PNG silhouettes copied from TesolBenefits */}
       <div className="absolute -right-24 -top-12 w-[600px] h-[600px] pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-100 brightness-0 invert -rotate-12" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-full h-full object-contain opacity-100 brightness-0 invert -rotate-12" />
       </div>
       <div className="absolute -left-32 -bottom-24 w-[700px] h-[700px] pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-100 brightness-0 invert rotate-12" />
+        <Image src="/images/Picture1.png" alt="" width={700} height={700} className="w-full h-full object-contain opacity-100 brightness-0 invert rotate-12" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 relative z-10">
@@ -110,7 +111,7 @@ export default function PricingSection() {
 
             <div className="mt-12 p-6 bg-vmg-blue/5 rounded-3xl border border-vmg-blue/10">
               <p className="text-xs text-vmg-blue/70 font-medium italic leading-relaxed text-center">
-                "Khóa học được thiết kế trọn gói, cam kết không phát sinh bất kỳ phụ phí nào cho đến khi học viên nhận chứng chỉ quốc tế trên tay."
+                &quot;Khóa học được thiết kế trọn gói, cam kết không phát sinh bất kỳ phụ phí nào cho đến khi học viên nhận chứng chỉ quốc tế trên tay.&quot;
               </p>
             </div>
           </div>

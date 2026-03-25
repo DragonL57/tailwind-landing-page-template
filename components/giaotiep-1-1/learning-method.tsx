@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 
-export default function LearningMethod({ isActive }: { isActive?: boolean }) {
+export default function LearningMethod() {
   const methods = [
     {
       title: "Tương Tác Trực Tiếp",

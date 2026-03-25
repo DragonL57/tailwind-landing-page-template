@@ -3,7 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 
-export default function FacultySection({ isActive }: { isActive?: boolean }) {
+export default function FacultySection() {
   const teachers = [
     {
       name: "Ms. Elena Nguyen",
@@ -77,10 +77,12 @@ export default function FacultySection({ isActive }: { isActive?: boolean }) {
             >
               <div className="relative aspect-[4/5] mb-8 overflow-hidden bg-slate-100 max-w-[320px] mx-auto lg:mx-0">
                 {/* Image Placeholder */}
-                <img
+                <Image
                   src={teacher.image}
                   alt={teacher.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 {/* Architectural Borders */}
                 <div className="absolute top-4 left-4 right-4 bottom-4 border border-white/20 z-10 group-hover:border-white/40 transition-colors"></div>

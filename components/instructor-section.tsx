@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React from "react";
 import FadeSlideUp from "./fade-slide-up";
 
@@ -24,10 +25,11 @@ const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, de
         <div className="relative">
           <div className={`absolute -inset-2 rounded-[2rem] bg-gradient-to-br ${isReversed ? 'from-vmg-blue/10 to-vmg-green/10' : 'from-vmg-red/10 to-vmg-blue/10'} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-gray-100 shadow-lg bg-gray-50">
-            <img
+            <Image
               src={image}
               alt={name}
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
           </div>
         </div>
@@ -68,7 +70,7 @@ const InstructorCard = ({ name, image, degree, ielts, sat, experience, quote, de
 
         <div className="space-y-4 pt-6 border-t border-vmg-navy/5">
           <p className="text-xl leading-relaxed text-vmg-navy/80 italic font-medium">
-            "{quote}"
+            {quote}
           </p>
           <p className="text-base leading-relaxed text-vmg-navy/60 max-w-2xl">
             {description}
@@ -109,7 +111,7 @@ export default function InstructorSection() {
     <FadeSlideUp className="section-padding bg-white relative overflow-hidden">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none -z-10 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-full h-full object-contain" />
       </div>
 
       <div className="w-full px-4 max-w-[1200px] mx-auto">

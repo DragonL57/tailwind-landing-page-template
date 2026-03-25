@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 
-export default function Hero({ isActive }: { isActive?: boolean }) {
+export default function Hero() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {

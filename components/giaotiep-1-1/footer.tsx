@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 
-export default function Footer({ isActive }: { isActive?: boolean }) {
+export default function Footer() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {

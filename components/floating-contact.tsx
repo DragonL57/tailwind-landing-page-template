@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);

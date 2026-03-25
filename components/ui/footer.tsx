@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Logo from "./logo";
-import { Mail, Phone, MapPin, Facebook, Youtube, Linkedin } from "lucide-react";
+import { Facebook, Youtube } from "lucide-react";
 
-export default function Footer({ border = false }: { border?: boolean }) {
+export default function Footer() {
   return (
     <footer className="bg-white border-t border-vmg-blue/10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">

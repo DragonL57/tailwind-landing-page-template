@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from 'next/image';
 import { Star } from "lucide-react";
 import FadeSlideUp from "./fade-slide-up";
 
@@ -59,7 +60,7 @@ export default function TestimonialsSection() {
     <FadeSlideUp className="section-padding bg-vmg-blue relative overflow-hidden">
       {/* Background Silhouette Logo */}
       <div className="absolute -right-32 -bottom-32 w-[600px] h-[600px] opacity-100 pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-full h-full object-contain" />
       </div>
 
       <div className="w-full px-4 relative z-10">
@@ -107,15 +108,17 @@ export default function TestimonialsSection() {
                     ))}
                   </div>
                   {/* Quote */}
-                  <p className="text-vmg-navy mb-6 text-base leading-relaxed line-clamp-4 font-medium">"{testimonial.quote}"</p>
+                  <p className="text-vmg-navy mb-6 text-base leading-relaxed line-clamp-4 font-medium">&quot;{testimonial.quote}&quot;</p>
 
                   {/* Author */}
                   <div className="flex items-center mt-auto">
                     <div className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-vmg-blue">
-                      <img
+                      <Image
                         src={testimonial.image}
                         alt={testimonial.author}
-                        className="w-full h-full object-cover"
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover rounded-full"
                       />
                     </div>
                     <div>

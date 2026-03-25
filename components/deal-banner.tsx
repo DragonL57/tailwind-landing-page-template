@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { isCouponValid } from "@/lib/coupons";
-import { Timer, Gift, ArrowRight, Check } from "lucide-react";
+import { Gift, ArrowRight, Check } from "lucide-react";
 
 export default function DealBanner() {
   const [phone, setPhone] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  
-  const couponStillValid = isCouponValid();
   const couponCode = "VMG";
 
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });

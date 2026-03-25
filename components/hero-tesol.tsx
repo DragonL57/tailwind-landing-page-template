@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import FadeSlideUp from "./fade-slide-up";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, Play } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 import LogoBand from "./logo-band";
 import CourseContent from "./course-content";
 import TesolBenefits from "./tesol-benefits";
 import ConsultationForm from "./consultation-form";
-import DealBanner from "./deal-banner";
 import CourseCurriculum from "./course-curriculum";
 import PricingSection from "./pricing-section";
 import TestimonialsSection from "./testimonials-section";
@@ -24,18 +21,15 @@ import Link from "next/link";
 import FloatingPurchaseCTA from "./floating-purchase-cta";
 
 export default function HeroTesol() {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const driveFileId = "1NfaN8Gjs0DcueFvt0KHaWH3DP-SanaDK";
   // Use the local thumbnail as the primary to avoid Drive's unreliable direct-link thumbnail service
-  const localHdThumb = "/images/hero-drive-thumb-1920.jpg";
-  const unsplashFallback = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2400";
 
   return (
     <>
     <div id="hero-section" className="relative w-full overflow-hidden bg-white h-auto lg:h-[calc(100vh-64px)] lg:min-h-[600px] flex items-center mt-20 py-12 lg:py-0">
       {/* Background Silhouette Logo */}
       <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-100 pointer-events-none z-0 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain opacity-10 grayscale" />
+        <Image src="/images/Picture1.png" alt="" width={800} height={800} className="w-full h-full object-contain opacity-10 grayscale" />
       </div>
 
       {/* Background Graphic Elements */}
@@ -107,7 +101,7 @@ export default function HeroTesol() {
             <div className="flex -space-x-3">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="w-11 h-11 rounded-full border-4 border-white overflow-hidden bg-gray-100 shadow-sm">
-                  <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=User${i}`} alt="student" />
+                  <Image src={`https://api.dicebear.com/7.x/avataaars/svg?seed=User${i}`} alt="student" width={44} height={44} className="w-full h-full rounded-full" />
                 </div>
               ))}
             </div>

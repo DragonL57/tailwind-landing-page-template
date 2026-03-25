@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from 'next/image';
 import FadeSlideUp from "./fade-slide-up";
 
 export default function ConsultationForm() {
@@ -28,7 +29,7 @@ export default function ConsultationForm() {
     <FadeSlideUp id="contact" className="relative section-padding overflow-hidden scroll-mt-24 bg-white">
       {/* Background Silhouette Logo */}
       <div className="absolute -right-40 -bottom-40 w-[600px] h-[600px] opacity-100 pointer-events-none -z-10 select-none">
-        <img src="/images/Picture1.png" alt="" className="w-full h-full object-contain" />
+        <Image src="/images/Picture1.png" alt="" width={600} height={600} className="w-full h-full object-contain" />
       </div>
 
       {/* Background decorations */}
