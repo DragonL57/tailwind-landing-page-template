@@ -1,34 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
-
-import AOS from "aos";
-import "aos/dist/aos.css";
-
-import Header from "@/components/ui/header";
-import Footer from "@/components/ui/footer";
+import Header from "@/components/homepage/header";
+import Footer from "@/components/homepage/footer";
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    AOS.init({
-      once: true,
-      disable: "phone",
-      duration: 700,
-      easing: "ease-out-cubic",
-    });
-  });
-
   return (
-    <>
+    <div className="min-h-screen bg-[#f8f9f9] text-[#191c1c] antialiased selection:bg-brand-crimson selection:text-white">
       <Header />
-
-      <main className="grow">{children}</main>
-
+      <main className="pt-16 relative z-10">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
