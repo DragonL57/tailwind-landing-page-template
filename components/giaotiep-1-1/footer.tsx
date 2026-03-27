@@ -234,8 +234,8 @@ export default function Footer() {
             © 2026 VMG EDUCATION GROUP. ALL RIGHTS RESERVED. ACADEMIC ARCHITECT SYSTEM.
           </p>
           <div className="flex gap-8">
-            <Link href="#" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Chính sách bảo mật</Link>
-            <Link href="#" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Điều khoản sử dụng</Link>
+            <Link href="/privacy" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Chính sách bảo mật</Link>
+            <Link href="/terms" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Điều khoản sử dụng</Link>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
-import { ArrowRight, BookOpen, Users, Globe, Award } from "lucide-react";
+import { BookOpen, Users, Globe, Award } from "lucide-react";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -23,10 +23,10 @@ const stagger: Variants = {
 };
 
 const stats = [
-  { value: "10+", label: "Năm kinh nghiệm", accent: "border-t-4 border-brand-crimson" },
-  { value: "15+", label: "Trung tâm toàn quốc", accent: "border-t-4 border-brand-gold" },
-  { value: "50K+", label: "Học viên đã đào tạo", accent: "border-t-4 border-brand-crimson" },
-  { value: "98%", label: "Hài lòng chương trình", accent: "border-t-4 border-brand-gold" },
+  { value: "10+", label: "Năm kinh nghiệm" },
+  { value: "15+", label: "Trung tâm toàn quốc" },
+  { value: "50K+", label: "Học viên đã đào tạo" },
+  { value: "98%", label: "Hài lòng chương trình" },
 ];
 
 const programs = [
@@ -36,7 +36,6 @@ const programs = [
     description: "Lộ trình TESOL trực tuyến 100% với chứng chỉ ALAP quốc tế, mentor đồng hành và cam kết việc làm.",
     href: "/tesolmooc",
     icon: Award,
-    accent: "border-l-4 border-brand-crimson",
     badge: "CHỨNG CHỈ QUỐC TẾ",
   },
   {
@@ -45,7 +44,6 @@ const programs = [
     description: "Hệ chương trình tiếng Anh 1-1 trực tuyến được thiết kế riêng biệt cho mục tiêu học thuật và sự nghiệp.",
     href: "/giaotiep-1-1",
     icon: Users,
-    accent: "border-l-4 border-brand-gold",
     badge: "LỘ TRÌNH CÁ NHÂN",
   },
 ];
@@ -79,7 +77,7 @@ export default function Home() {
             <div className="lg:col-span-7 z-10">
               <motion.div variants={fadeUp} className="mb-6">
                 <span className="inline-block font-bold text-[10px] uppercase tracking-[2px] text-brand-gold border-l-4 border-brand-gold pl-4">
-                  VMG Education Group
+                  VMG
                 </span>
               </motion.div>
 
@@ -101,6 +99,18 @@ export default function Home() {
                 </p>
               </motion.div>
 
+              <motion.div
+                variants={fadeUp}
+                className="grid grid-cols-2 gap-y-3 gap-x-6 mb-10 max-w-2xl border-t-2 border-brand-gold py-6"
+              >
+                {["Chứng chỉ ALAP quốc tế", "Lớp học 1-1 tương tác cao", "Mentor đồng hành 24/7", "Cam kết đầu ra"].map((feature, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-brand-gold" />
+                    <span className="font-bold text-xs uppercase tracking-[1.5px] text-[#191c1c]">{feature}</span>
+                  </div>
+                ))}
+              </motion.div>
+
               <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
                 <Link
                   href="/tesolmooc"
@@ -117,13 +127,12 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Right: Decorative image placeholder */}
             <motion.div variants={fadeUp} className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-full max-w-[450px] aspect-[3/4] bg-[#e7e8e8] overflow-hidden">
                 <div className="absolute inset-0 border-[15px] border-[#f3f4f4] z-10 pointer-events-none" />
                 <Image
                   src="/images/homepage-hero.jpg"
-                  alt="VMG Education"
+                  alt="VMG"
                   fill
                   className="object-cover grayscale brightness-110 contrast-125"
                   priority
@@ -147,13 +156,13 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-0 border-l border-t border-[#191c1c]/10"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {stats.map((stat, i) => (
               <motion.div
                 key={i}
                 variants={fadeUp}
-                className={`bg-white p-8 md:p-10 border-r border-b border-[#191c1c]/10 ${stat.accent}`}
+                className={`bg-white p-8 md:p-10 ${i % 2 === 0 ? "border-t-4 border-brand-crimson" : "border-t-4 border-brand-gold"}`}
               >
                 <p className="font-headline font-bold text-3xl md:text-4xl lg:text-5xl text-[#191c1c] mb-2">
                   {stat.value}
@@ -183,24 +192,21 @@ export default function Home() {
               <h2 className="font-headline font-bold text-3xl md:text-4xl uppercase text-[#191c1c] mt-4 tracking-tight">
                 LỘ TRÌNH DÀNH CHO BẠN
               </h2>
-              <div className="h-1 w-16 bg-brand-crimson mt-4" />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-l border-t border-[#191c1c]/10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {programs.map((program, i) => (
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  className={`${program.accent} bg-white p-8 md:p-12 border-r border-b border-[#191c1c]/10 group hover:bg-[#f8f9f9] transition-colors relative overflow-hidden`}
+                  className={`bg-[#f8f9f9] p-8 md:p-12 group hover:bg-white transition-colors ${i === 0 ? "border-l-4 border-brand-crimson" : "border-l-4 border-brand-gold"}`}
                 >
-                  <div className="absolute top-0 left-0 w-0 h-1 bg-brand-crimson group-hover:w-full transition-all duration-500" />
-
                   <span className="inline-block font-bold text-[9px] uppercase tracking-[2px] text-brand-gold mb-6">
                     {program.badge}
                   </span>
 
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 border-2 border-[#191c1c]/10 flex items-center justify-center text-brand-crimson">
+                    <div className="w-12 h-12 bg-white flex items-center justify-center text-brand-crimson">
                       <program.icon className="w-5 h-5" />
                     </div>
                     <div>
@@ -219,9 +225,9 @@ export default function Home() {
 
                   <Link
                     href={program.href}
-                    className="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-[1.5px] text-brand-crimson group-hover:gap-4 transition-all"
+                    className="inline-block bg-brand-crimson text-white px-8 py-3 font-bold tracking-[1.5px] uppercase text-xs transition-all rounded-none hover:opacity-90"
                   >
-                    Tìm hiểu thêm <ArrowRight className="w-4 h-4" />
+                    Tìm hiểu thêm
                   </Link>
                 </motion.div>
               ))}
@@ -231,9 +237,9 @@ export default function Home() {
       </section>
 
       {/* ===== VALUES ===== */}
-      <section className="bg-[#f8f9f9] relative overflow-hidden">
+      <section className="bg-[#f3f4f4] relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-30"
           style={{ backgroundImage: "radial-gradient(#e1e3e3 1px, transparent 1px)", backgroundSize: "40px 40px" }}
         />
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-20 md:py-28 relative z-10">
@@ -243,27 +249,26 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.div variants={fadeUp} className="mb-16 text-center">
+            <motion.div variants={fadeUp} className="mb-16">
               <span className="font-bold text-[10px] uppercase tracking-[2px] text-brand-gold border-l-4 border-brand-gold pl-4">
                 Tại sao chọn VMG
               </span>
               <h2 className="font-headline font-bold text-3xl md:text-4xl uppercase text-[#191c1c] mt-4 tracking-tight">
                 GIÁ TRỊ CỐT LÕI
               </h2>
-              <div className="h-1 w-16 bg-brand-crimson mt-4 mx-auto" />
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-l border-t border-[#191c1c]/10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {values.map((value, i) => (
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  className="bg-white p-8 md:p-12 border-r border-b border-[#191c1c]/10 hover:bg-[#f8f9f9] transition-colors group"
+                  className="bg-white p-8 md:p-12"
                 >
-                  <div className="w-14 h-14 border-2 border-brand-gold/30 flex items-center justify-center mb-6 text-brand-crimson group-hover:border-brand-crimson transition-colors">
+                  <div className="w-14 h-14 bg-[#f3f4f4] flex items-center justify-center mb-6 text-brand-crimson">
                     <value.icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-headline font-bold text-base md:text-lg uppercase text-[#191c1c] mb-3 tracking-[0.5px]">
+                  <h3 className="font-headline font-bold text-base md:text-lg uppercase text-[#191c1c] mb-3">
                     {value.title}
                   </h3>
                   <p className="font-body text-sm text-[#191c1c]/60 leading-relaxed">
@@ -278,10 +283,6 @@ export default function Home() {
 
       {/* ===== CTA ===== */}
       <section className="bg-brand-crimson relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-        />
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-20 md:py-28 relative z-10 text-center">
           <motion.div
             variants={stagger}

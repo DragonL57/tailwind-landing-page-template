@@ -57,7 +57,7 @@ export default function Footer() {
             <div className="relative h-12 w-48 lg:h-14 lg:w-52">
               <Image
                 src="/flextrack/flextrack_logo_white.png"
-                alt="VMG Education Logo"
+                alt="VMG Logo"
                 fill
                 className="object-contain object-left"
               />
@@ -129,8 +129,8 @@ export default function Footer() {
             © 2026 VMG EDUCATION GROUP. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-8">
-            <Link href="#" className="font-body font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Chính sách bảo mật</Link>
-            <Link href="#" className="font-body font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Điều khoản sử dụng</Link>
+            <Link href="/privacy" className="font-body font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Chính sách bảo mật</Link>
+            <Link href="/terms" className="font-body font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Điều khoản sử dụng</Link>
           </div>
         </div>
       </div>

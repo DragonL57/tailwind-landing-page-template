@@ -19,7 +19,7 @@ export default function Header() {
         <Link href="/" className="relative h-6 md:h-8 w-48 md:w-64">
           <Image
             src="/flextrack/flextrack_logo_white.png"
-            alt="VMG Education Logo"
+            alt="VMG Logo"
             fill
             className="object-contain object-left"
             priority
