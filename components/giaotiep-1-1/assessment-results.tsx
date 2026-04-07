@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { levelColor, levelBg, scoreToLevel } from "@/lib/ai-assessment/utils";
+import { levelColor, levelBg, scoreToLevel, levelToVietnamese } from "@/lib/ai-assessment/utils";
 import type { FullResult } from "@/lib/ai-assessment/types";
 
 interface AssessmentResultsProps {
@@ -33,7 +33,7 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
             {result.grandTotal}<span className="text-2xl text-[#191c1c]/30">/{result.grandMax}</span>
           </p>
           <span className={`inline-block mt-3 px-4 py-1 text-xs font-bold uppercase tracking-[1.5px] rounded-none ${levelBg(scoreToLevel(result.grandTotal / 10))}`}>
-            {scoreToLevel(result.grandTotal / 10)}
+            {levelToVietnamese(scoreToLevel(result.grandTotal / 10))}
           </span>
         </motion.div>
 
@@ -65,10 +65,12 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(part.criteria).map(([key, criterion]) => (
+                  {Object.entries(part.criteria)
+                    .filter(([_, criterion]) => criterion.score !== -1)
+                    .map(([key, criterion]) => (
                     <tr key={key} className="border-t border-slate-100 hover:bg-[#f8f9f9]/50 transition-colors">
                       <td className="p-4 font-body text-xs font-bold text-[#191c1c] capitalize whitespace-nowrap">
-                        {key === "questionHandling" ? "Question Handling" : key}
+                        {key === "pronunciation" ? "Phát âm" : key === "fluency" ? "Lưu loát" : key === "prosody" ? "Giọng điệu" : key === "vocabulary" ? "Từ vựng" : key === "grammar" ? "Ngữ pháp" : key === "questionHandling" ? "Xử lý câu hỏi" : key}
                       </td>
                       <td className="p-4 text-center">
                         <span className={`font-headline font-bold text-lg ${levelColor(criterion.level)}`}>
@@ -78,7 +80,7 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
                       </td>
                       <td className="p-4 text-center">
                         <span className={`inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-[1px] rounded-none ${levelBg(criterion.level)}`}>
-                          {criterion.level}
+                          {levelToVietnamese(criterion.level)}
                         </span>
                       </td>
                       <td className="p-4 font-body text-xs text-[#5b403f] max-w-xs">{criterion.comment}</td>
@@ -137,7 +139,7 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
               <>
                 <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Nhận báo cáo chi tiết</h3>
                 <p className="font-body text-sm text-[#5b403f] mb-6">
-                  Tổng điểm của bạn: <strong>{result.grandTotal}/{result.grandMax}</strong> ({scoreToLevel(result.grandTotal / 10)})
+                  Tổng điểm của bạn: <strong>{result.grandTotal}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal / 10))})
                 </p>
                 <form onSubmit={(e) => { e.preventDefault(); setRegSubmitted(true); }} className="space-y-5">
                   <div>

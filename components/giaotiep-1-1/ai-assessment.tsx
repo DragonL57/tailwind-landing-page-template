@@ -16,8 +16,8 @@ import ProcessingScreen from "@/components/giaotiep-1-1/assessment/processing-sc
 import { useAzureSpeech } from "@/hooks/use-azure-speech";
 import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants";
 import type { AssessmentPhase, FullResult } from "@/lib/ai-assessment/types";
-import type { StoredRecording } from "@/lib/ai-assessment/scoring";
-import { scoresToRecordingScores, computeFullResult, fetchContentScores } from "@/lib/ai-assessment/scoring";
+import type { RawRecording, StoredRecording } from "@/lib/ai-assessment/scoring";
+import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
 
 export default function AIAssessment() {
   const [phase, setPhase] = useState<AssessmentPhase>("intro");
@@ -27,7 +27,7 @@ export default function AIAssessment() {
   const [isReviewing, setIsReviewing] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState("");
-  const [recordings, setRecordings] = useState<StoredRecording[]>([]);
+  const [recordings, setRecordings] = useState<RawRecording[]>([]);
   const [finalResult, setFinalResult] = useState<FullResult | null>(null);
   const [countdown, setCountdown] = useState(0);
 
@@ -36,7 +36,6 @@ export default function AIAssessment() {
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const liveScoresRef = useRef<{ accuracyScore: number; fluencyScore: number } | null>(null);
 
   const azure = useAzureSpeech();
 
@@ -59,13 +58,7 @@ export default function AIAssessment() {
   }, [cleanup, audioUrl]);
 
   const startRecording = useCallback(async () => {
-    if (!azure.isReady) {
-      const ok = await azure.init();
-      if (!ok) return;
-    }
-
     setTranscript("");
-    liveScoresRef.current = null;
     setCountdown(3);
 
     let count = 3;
@@ -88,25 +81,13 @@ export default function AIAssessment() {
             };
             mr.start();
             mediaRecorderRef.current = mr;
-
-            const referenceText = currentPart === "part1"
-              ? PART1_SENTENCES[currentIndex]
-              : "";
-
-            azure.startRecognition(stream, referenceText, (t, scores) => {
-              setTranscript(t);
-              liveScoresRef.current = {
-                accuracyScore: scores.accuracyScore,
-                fluencyScore: scores.fluencyScore,
-              };
-            });
           })
           .catch(() => {
             setIsRecording(false);
           });
       }
     }, 1000);
-  }, [azure, currentPart, currentIndex]);
+  }, []);
 
   const cancelCountdown = useCallback(() => {
     if (countdownRef.current) clearInterval(countdownRef.current);
@@ -115,7 +96,6 @@ export default function AIAssessment() {
 
   const stopRecording = useCallback(() => {
     cancelCountdown();
-    azure.stopRecognition();
 
     if (!mediaRecorderRef.current) return;
 
@@ -134,7 +114,7 @@ export default function AIAssessment() {
     };
 
     mediaRecorderRef.current.stop();
-  }, [azure, cancelCountdown, audioUrl]);
+  }, [cancelCountdown, audioUrl]);
 
   const recordAgain = useCallback(() => {
     if (audioUrl) URL.revokeObjectURL(audioUrl);
@@ -158,25 +138,18 @@ export default function AIAssessment() {
 
     const transcriptText = transcript || referenceText || scenarioPrompt || "";
 
-    const scores = liveScoresRef.current
-      ? scoresToRecordingScores(liveScoresRef.current.accuracyScore, liveScoresRef.current.fluencyScore, 50, 50, 50)
-      : await azure.scoreAudioBlob(blob, referenceText).then(async (r) => {
-          const content = await fetchContentScores(transcriptText, referenceText, scenarioPrompt);
-          return scoresToRecordingScores(r.scores.accuracyScore, r.scores.fluencyScore, content.vocabulary, content.grammar, content.questionHandling);
-        });
-
-    const newRecording: StoredRecording = {
+    const newRecording: RawRecording = {
       audioBlob: blob,
       reference: referenceText,
       transcript: transcriptText,
-      scores,
+      scenarioPrompt,
+      isPart1,
     };
 
     setAudioUrl(null);
     setTranscript("");
     setIsReviewing(false);
     audioChunksRef.current = [];
-    liveScoresRef.current = null;
 
     setRecordings((prev) => [...prev, newRecording]);
 
@@ -190,12 +163,8 @@ export default function AIAssessment() {
       setPhase("part2");
     } else {
       setPhase("processing");
-      const allRecordings = [...recordings, newRecording];
-      const result = computeFullResult(allRecordings, PART1_SENTENCES.length);
-      setFinalResult(result);
-      setTimeout(() => setPhase("results"), 500);
     }
-  }, [audioUrl, currentPart, currentIndex, transcript, recordings, azure]);
+  }, [audioUrl, currentPart, currentIndex, transcript]);
 
   const resetAssessment = useCallback(() => {
     cleanup();
@@ -210,8 +179,17 @@ export default function AIAssessment() {
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
-    liveScoresRef.current = null;
   }, [cleanup, audioUrl]);
+
+  const handleBatchAssessment = useCallback(async () => {
+    console.log("[ASSESS] Starting batch assessment for", recordings.length, "recordings");
+
+    const storedRecordings = await batchAssessRecordings(recordings);
+    const result = computeFullResult(storedRecordings, PART1_SENTENCES.length);
+
+    setFinalResult(result);
+    setPhase("results");
+  }, [recordings]);
 
   const isPart1 = currentPart === "part1";
   const totalItems = PART1_SENTENCES.length + PART2_SCENARIOS.length;
@@ -221,7 +199,7 @@ export default function AIAssessment() {
   }
 
   if (phase === "processing") {
-    return <ProcessingScreen recordingCount={recordings.length} />;
+    return <ProcessingScreen recordingCount={recordings.length} onProcess={handleBatchAssessment} />;
   }
 
   if (phase === "results" && finalResult) {

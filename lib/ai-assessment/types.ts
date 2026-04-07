@@ -1,6 +1,6 @@
 export type CriterionLevel = "Excellent" | "Good" | "Adequate" | "Inadequate" | "Weak";
 
-export type CriterionKey = "vocabulary" | "grammar" | "pronunciation" | "fluency" | "questionHandling";
+export type CriterionKey = "vocabulary" | "grammar" | "pronunciation" | "fluency" | "prosody" | "questionHandling";
 
 export type AssessmentPhase = "intro" | "part1" | "part2" | "processing" | "results";
 

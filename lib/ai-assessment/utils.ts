@@ -24,7 +24,18 @@ export function levelBg(level: string) {
     case "Good": return "bg-emerald-50 text-emerald-600";
     case "Adequate": return "bg-yellow-50 text-yellow-700";
     case "Inadequate": return "bg-orange-50 text-orange-600";
-    default: return "bg-red-50 text-brand-crimson";
+    default: return "bg-red-50 text-red-600";
+  }
+}
+
+export function levelToVietnamese(level: CriterionLevel): string {
+  switch (level) {
+    case "Excellent": return "Xuất sắc";
+    case "Good": return "Tốt";
+    case "Adequate": return "Đạt yêu cầu";
+    case "Inadequate": return "Chưa đạt";
+    case "Weak": return "Yếu";
+    default: return level;
   }
 }
 
@@ -62,39 +73,46 @@ export function estimateCriterion(
 export function buildComment(criterion: string, level: string): string {
   const comments: Record<string, Record<string, string>> = {
     pronunciation: {
-      Excellent: "Pronunciation rarely interferes with communication. Clear and natural.",
-      Good: "Pronunciation generally does not interfere with communication.",
-      Adequate: "Pronunciation sometimes interferes with communication but mostly understandable.",
-      Inadequate: "Pronunciation interferes with communication. Needs focused practice.",
-      Weak: "Pronunciation severely interferes with communication. Intensive practice recommended.",
+      Excellent: "Phát âm rõ ràng, tự nhiên. Hiếm khi ảnh hưởng đến giao tiếp.",
+      Good: "Phát âm tốt, không ảnh hưởng nhiều đến giao tiếp.",
+      Adequate: "Phát âm đôi khi ảnh hưởng nhưng vẫn hiểu được.",
+      Inadequate: "Phát âm ảnh hưởng đến giao tiếp. Cần luyện tập thêm.",
+      Weak: "Phát âm nghiêm trọng ảnh hưởng đến giao tiếp. Cần luyện tập intensiv.",
     },
     fluency: {
-      Excellent: "Seldom hesitates. Excellent pace and natural flow.",
-      Good: "Sometimes hesitates but maintains good pace overall.",
-      Adequate: "Occasional pauses and hesitation. Pace could improve.",
-      Inadequate: "Frequent hesitation. Pace is inconsistent.",
-      Weak: "Significant hesitation and pauses. Fluency needs substantial development.",
+      Excellent: "Trôi chảy, tốc độ tốt, tự nhiên.",
+      Good: "Đôi khi ngập ngừng nhưng vẫn duy trì được tốc độ.",
+      Adequate: "Thỉnh thoảng dừng lại và ngập ngừng. Tốc độ có thể cải thiện.",
+      Inadequate: "Ngập ngừng thường xuyên. Tốc độ không đều.",
+      Weak: "Ngập ngừng đáng kể. Cần cải thiện lưu loát đáng kể.",
+    },
+    prosody: {
+      Excellent: "Giọng điệu tự nhiên, nhấn mạnh đúng chỗ. Nghe như người bản ngữ.",
+      Good: "Nhìn chung tốt, thỉnh thoảng có phần đơn điệu.",
+      Adequate: "Một số vấn đề về ngữ điệu. Có thể hiểu nhưng chưa tự nhiên.",
+      Inadequate: "Phẳng lặng, máy móc. Sử dụng ít mô hình ngữ điệu.",
+      Weak: "Giọng đơn điệu. Không có mô hình nhấn hoặc ngữ điệu tự nhiên.",
     },
     vocabulary: {
-      Excellent: "Excellent use and range of vocabulary. Only few usage errors.",
-      Good: "Some vocabulary problems that generally do not interfere with communication.",
-      Adequate: "Several vocabulary problems that interfere with communication.",
-      Inadequate: "Many vocabulary problems that severely interfere with communication.",
-      Weak: "Very serious vocabulary problems that prevent communication.",
+      Excellent: "Sử dụng từ vựng xuất sắc và đa dạng. Rất ít lỗi.",
+      Good: "Một số vấn đề từ vựng nhưng nhìn chung không ảnh hưởng đến giao tiếp.",
+      Adequate: "Một số vấn đề từ vựng ảnh hưởng đến giao tiếp.",
+      Inadequate: "Nhiều vấn đề từ vựng nghiêm trọng ảnh hưởng đến giao tiếp.",
+      Weak: "Vấn đề từ vựng rất nghiêm trọng, cản trở giao tiếp.",
     },
     grammar: {
-      Excellent: "Very good language control. Only few grammatical errors.",
-      Good: "Good language control. Several grammatical errors evident but do not interfere.",
-      Adequate: "Adequate language control. Grammatical problems interfere with communication.",
-      Inadequate: "Serious language use and grammatical problems that interfere with communication.",
-      Weak: "Very serious grammatical errors that prevent effective communication.",
+      Excellent: "Kiểm soát ngôn ngữ rất tốt. Rất ít lỗi ngữ pháp.",
+      Good: "Kiểm soát ngôn ngữ tốt. Một số lỗi nhưng không ảnh hưởng.",
+      Adequate: "Kiểm soát ngôn ngữ đủ. Vấn đề ngữ pháp ảnh hưởng đến giao tiếp.",
+      Inadequate: "Sử dụng ngôn ngữ và vấn đề ngữ pháp nghiêm trọng ảnh hưởng giao tiếp.",
+      Weak: "Lỗi ngữ pháp rất nghiêm trọng cản trở giao tiếp hiệu quả.",
     },
     questionHandling: {
-      Excellent: "Provides good and clear responses. Excellent question comprehension.",
-      Good: "Provides mostly clear responses. Good understanding of questions.",
-      Adequate: "Provides adequate and often clear responses. May need to ask for clarification.",
-      Inadequate: "Often provides weak responses. Serious problems with question comprehension.",
-      Weak: "Provides confusing responses. Almost no question comprehension.",
+      Excellent: "Trả lời tốt và rõ ràng. Hiểu câu hỏi xuất sắc.",
+      Good: "Trả lời khá rõ. Hiểu câu hỏi tốt.",
+      Adequate: "Trả lời đủ và thường rõ. Có thể cần làm rõ thêm.",
+      Inadequate: "Thường trả lời yếu. Vấn đề nghiêm trọng về hiểu câu hỏi.",
+      Weak: "Trả lời gây nhầm lẫn. Hầu như không hiểu câu hỏi.",
     },
   };
   return comments[criterion]?.[level] || "";

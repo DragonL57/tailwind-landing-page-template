@@ -6,15 +6,25 @@ export async function POST(req: Request) {
   try {
     const { transcript, referenceText, scenarioPrompt } = await req.json();
 
+    console.log("[ASSESS] === Content Assessment Request ===");
+    console.log("[ASSESS] Transcript:", transcript);
+    console.log("[ASSESS] Reference text:", referenceText || "(none - unscripted)");
+    console.log("[ASSESS] Scenario prompt:", scenarioPrompt || "(none)");
+
     if (!transcript) {
       return NextResponse.json({ error: "Missing transcript" }, { status: 400 });
     }
 
     const isPart2 = !referenceText && scenarioPrompt;
+    console.log("[ASSESS] Assessment type:", isPart2 ? "Part 2 (Role Play)" : "Part 1 (Scripted)");
+
     const scores = await getContentScores(transcript, referenceText, scenarioPrompt, isPart2);
+    console.log("[ASSESS] Final scores:", JSON.stringify(scores));
+    console.log("[ASSESS] === End Assessment ===\n");
+
     return NextResponse.json(scores);
   } catch (error) {
-    console.error("Content assessment error:", error);
+    console.error("[ASSESS] Content assessment error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Assessment failed" },
       { status: 500 }
@@ -24,6 +34,7 @@ export async function POST(req: Request) {
 
 async function getContentScores(transcript: string, referenceText: string, scenarioPrompt?: string, isPart2?: boolean) {
   if (!INCEPTION_KEY) {
+    console.warn("[ASSESS] INCEPTION_API_KEY not set, returning default scores");
     return { vocabulary: 50, grammar: 50, questionHandling: 50 };
   }
 
@@ -55,6 +66,11 @@ Criteria:
 
 Respond with ONLY: {"vocabulary": number, "grammar": number}${!isPart2 ? ', "questionHandling": number' : ''}}`;
 
+  console.log("[ASSESS] System prompt:", systemPrompt);
+  console.log("[ASSESS] User prompt:", userPrompt);
+
+  console.log("[ASSESS] Calling Inception API (model: mercury-2)...");
+
   const resp = await fetch("https://api.inceptionlabs.ai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -72,17 +88,22 @@ Respond with ONLY: {"vocabulary": number, "grammar": number}${!isPart2 ? ', "que
   });
 
   if (!resp.ok) {
-    console.error("Inception API error:", await resp.text());
+    const errorText = await resp.text();
+    console.error("[ASSESS] Inception API error:", resp.status, errorText);
     return { vocabulary: 50, grammar: 50, questionHandling: 50 };
   }
 
   const data = await resp.json();
+  console.log("[ASSESS] Inception API response:", JSON.stringify(data, null, 2));
+
   const content = data.choices?.[0]?.message?.content || "{}";
+  console.log("[ASSESS] LLM raw output:", content);
 
   try {
     const match = content.match(/\{[\s\S]*"vocabulary"[\s\S]*"grammar"[\s\S]*\}/);
     if (match) {
       const parsed = JSON.parse(match[0]);
+      console.log("[ASSESS] Parsed scores:", parsed);
       return {
         vocabulary: Math.max(0, Math.min(100, parsed.vocabulary ?? 50)),
         grammar: Math.max(0, Math.min(100, parsed.grammar ?? 50)),
@@ -91,7 +112,7 @@ Respond with ONLY: {"vocabulary": number, "grammar": number}${!isPart2 ? ', "que
     }
     throw new Error("No JSON found");
   } catch {
-    console.error("Failed to parse Inception response:", content);
+    console.error("[ASSESS] Failed to parse Inception response:", content);
     return { vocabulary: 50, grammar: 50, questionHandling: 50 };
   }
 }

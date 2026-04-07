@@ -66,13 +66,13 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
     if (!config) return null;
 
     const { SpeechSDK, speechConfig } = config;
-    const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(
+    const pronConfig = SpeechSDK.PronunciationAssessmentConfig.fromJSON(JSON.stringify({
       referenceText,
-      SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark,
-      SpeechSDK.PronunciationAssessmentGranularity.Phoneme,
-      false
-    );
-    pronConfig.enableProsodyAssessment();
+      gradingSystem: "HundredMark",
+      granularity: "Phoneme",
+      enableMiscue: false,
+      enableProsodyAssessment: true,
+    }));
     return { SpeechSDK, speechConfig, pronConfig };
   }, [getSpeechConfig]);
 
@@ -100,12 +100,17 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
   const startRecognition = useCallback(
     (stream: MediaStream, referenceText: string, onResult: (transcript: string, scores: PronunciationScores) => void) => {
       const config = createPronConfig(referenceText);
-      if (!config) return;
+      if (!config) {
+        console.error("[AZURE] Failed to create pronunciation config");
+        return;
+      }
 
       const { SpeechSDK, speechConfig, pronConfig } = config;
       const audioConfig = SpeechSDK.AudioConfig.fromStreamInput(stream);
       const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, "en-US", audioConfig);
       pronConfig.applyTo(recognizer);
+
+      console.log("[AZURE] Recognition started for reference:", referenceText.substring(0, 50));
 
       recognizer.recognized = (_s: any, e: any) => {
         const result = e.result;
@@ -114,6 +119,8 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
             result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)
           );
           const { transcript, scores } = extractScores(jsonResult);
+          console.log("[AZURE] Recognized:", transcript);
+          console.log("[AZURE] Scores:", JSON.stringify(scores));
           if (scores.pronScore > 0) {
             onResult(transcript, scores);
           }
@@ -121,12 +128,16 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
       };
 
       recognizer.canceled = (_s: any, e: any) => {
-        console.error("Azure recognition canceled:", e.reason, e.errorDetails);
+        console.error("[AZURE] Recognition canceled:", e.reason, e.errorDetails);
+      };
+
+      recognizer.sessionStopped = (_s: any, e: any) => {
+        console.log("[AZURE] Session stopped");
       };
 
       recognizer.startContinuousRecognitionAsync(
-        () => console.log("Azure recognition started"),
-        (err: string) => console.error("Failed to start Azure recognition:", err)
+        () => console.log("[AZURE] Recognition started successfully"),
+        (err: string) => console.error("[AZURE] Failed to start recognition:", err)
       );
 
       recognizerRef.current = recognizer as AzureRecognizer;
@@ -152,15 +163,19 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
 
   const scoreAudioBlob = useCallback(
     async (blob: Blob, referenceText: string): Promise<{ transcript: string; scores: PronunciationScores }> => {
+      console.log("[AZURE-BATCH] Scoring audio blob, size:", blob.size, "type:", blob.type);
+
       const config = createPronConfig(referenceText);
       if (!config) {
+        console.error("[AZURE-BATCH] Failed to create pronunciation config");
         return { transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } };
       }
 
       return new Promise((resolve) => {
         const { SpeechSDK, speechConfig, pronConfig } = config;
-        const audioConfig = SpeechSDK.AudioConfig.fromStreamInput(blob);
-        const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, "en-US", audioConfig);
+
+        const audioConfig = SpeechSDK.AudioConfig.fromWavFileInput(blob);
+        const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
         pronConfig.applyTo(recognizer);
 
         let resolved = false;
@@ -168,28 +183,44 @@ export function useAzureSpeech(): UseAzureSpeechReturn {
           if (!resolved) {
             resolved = true;
             try { recognizer.close(); } catch {}
+            console.log("[AZURE-BATCH] Final result:", JSON.stringify(result));
             resolve(result);
           }
         };
 
         recognizer.recognized = (_s: any, e: any) => {
           const result = e.result;
+          console.log("[AZURE-BATCH] Recognized event, reason:", result.reason);
           if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
             const jsonResult = JSON.parse(
               result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)
             );
+            console.log("[AZURE-BATCH] JSON result:", JSON.stringify(jsonResult));
             finish(extractScores(jsonResult));
           }
         };
 
         recognizer.canceled = (_s: any, e: any) => {
-          console.error("Scoring canceled:", e.reason);
+          console.error("[AZURE-BATCH] Canceled:", e.reason, e.errorDetails);
           finish({ transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } });
         };
 
         recognizer.recognizeOnceAsync(
-          () => finish({ transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } }),
-          () => finish({ transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } })
+          (result: any) => {
+            console.log("[AZURE-BATCH] recognizeOnceAsync completed, reason:", result.reason);
+            if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+              const jsonResult = JSON.parse(
+                result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)
+              );
+              finish(extractScores(jsonResult));
+            } else {
+              finish({ transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } });
+            }
+          },
+          (err: string) => {
+            console.error("[AZURE-BATCH] recognizeOnceAsync error:", err);
+            finish({ transcript: "", scores: { accuracyScore: 50, fluencyScore: 50, completenessScore: 50, pronScore: 50 } });
+          }
         );
       });
     },

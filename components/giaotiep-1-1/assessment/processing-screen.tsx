@@ -1,12 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface ProcessingScreenProps {
   recordingCount: number;
+  onProcess: () => Promise<void>;
 }
 
-export default function ProcessingScreen({ recordingCount }: ProcessingScreenProps) {
+export default function ProcessingScreen({ recordingCount, onProcess }: ProcessingScreenProps) {
+  const processedRef = useRef(false);
+
+  useEffect(() => {
+    if (processedRef.current) return;
+    processedRef.current = true;
+    onProcess();
+  }, [onProcess]);
+
   return (
     <div className="h-[calc(100vh-4rem)] overflow-hidden bg-white">
       <div className="h-full flex">
