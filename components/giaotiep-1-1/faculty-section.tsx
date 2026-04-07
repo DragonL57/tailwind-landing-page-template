@@ -57,15 +57,11 @@ export default function FacultySection() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10"
       >
-        <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
-          <div className="max-w-2xl">
-            <motion.div variants={itemVariants} className="text-brand-gold font-bold text-[10px] tracking-[3px] uppercase mb-4">Expert Faculty</motion.div>
-            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
-              HỘI ĐỒNG <br />
-              <span className="text-brand-crimson">CHUYÊN GIA ĐỒNG HÀNH</span>
-            </motion.h2>
-          </div>
-          <motion.div variants={itemVariants} className="hidden lg:block w-32 h-1 bg-brand-gold mb-4"></motion.div>
+        <div className="mb-12">
+          <motion.h2 variants={itemVariants} className="text-2xl md:text-3xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
+            HỘI ĐỒNG <br />
+            <span className="text-brand-crimson">CHUYÊN GIA ĐỒNG HÀNH</span>
+          </motion.h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-12 max-w-6xl mx-auto">

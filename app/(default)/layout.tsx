@@ -2,6 +2,7 @@
 
 import Header from "@/components/homepage/header";
 import Footer from "@/components/homepage/footer";
+import FloatingContact from "@/components/floating-contact";
 
 export default function DefaultLayout({
   children,
@@ -15,6 +16,7 @@ export default function DefaultLayout({
         {children}
       </main>
       <Footer />
+      <FloatingContact />
     </div>
   );
 }

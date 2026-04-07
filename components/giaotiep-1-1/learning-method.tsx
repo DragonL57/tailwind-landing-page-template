@@ -55,21 +55,14 @@ export default function LearningMethod() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
-        <div className="flex flex-col lg:flex-row justify-between items-start mb-10 gap-8">
-          <div className="max-w-3xl">
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-4">
-              PHƯƠNG PHÁP <br />
-              <span className="text-[#B6914C]">KIẾN TẠO TRI THỨC</span>
-            </motion.h2>
-            <motion.p variants={itemVariants} className="text-lg md:text-xl text-[#5b403f] font-body leading-relaxed max-w-2xl border-l-4 border-[#B6914C] pl-6 italic">
-              Học 1–1 trực tuyến qua nền tảng tương tác cao, đảm bảo sự tập trung và hiệu quả tối ưu.
-            </motion.p>
-          </div>
-          
-          <motion.div variants={itemVariants} className="hidden lg:flex flex-col items-end gap-1 text-[#B6914C]/40 pt-2">
-             <div className="w-32 h-px bg-current"></div>
-             <div className="text-[10px] font-bold tracking-[2px] uppercase">Mô hình kiến trúc</div>
-          </motion.div>
+        <div className="mb-10">
+          <motion.h2 variants={itemVariants} className="text-2xl md:text-3xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-4">
+            PHƯƠNG PHÁP <br />
+            <span className="text-[#B6914C]">KIẾN TẠO TRI THỨC</span>
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-base md:text-lg text-[#5b403f] font-body leading-relaxed max-w-2xl border-l-4 border-[#B6914C] pl-6">
+            Học 1–1 trực tuyến qua nền tảng tương tác cao, đảm bảo sự tập trung và hiệu quả tối ưu.
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">

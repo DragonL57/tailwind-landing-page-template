@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import Link from "next/link";
 
 export default function EvaluationPaths() {
   const containerVariants: Variants = {
@@ -32,16 +33,11 @@ export default function EvaluationPaths() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10 w-full"
       >
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="max-w-2xl">
-            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
-              XÁC ĐỊNH NĂNG LỰC <br />
-              <span className="text-brand-crimson">KIẾN TẠO LỘ TRÌNH</span>
-            </motion.h2>
-          </div>
-          <motion.p variants={itemVariants} className="text-[#5b403f] font-body max-w-sm text-right border-r-4 border-brand-crimson pr-6 italic">
-            Lựa chọn phương thức đánh giá phù hợp để thiết lập nền móng vững chắc nhất cho hành trình học thuật của bạn.
-          </motion.p>
+        <div className="mb-12">
+          <motion.h2 variants={itemVariants} className="text-2xl md:text-3xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
+            XÁC ĐỊNH NĂNG LỰC <br />
+            <span className="text-brand-crimson">KIẾN TẠO LỘ TRÌNH</span>
+          </motion.h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -51,8 +47,7 @@ export default function EvaluationPaths() {
             className="bg-white border-2 border-[#e3bebc] p-10 hover:border-brand-crimson transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-brand-crimson/5 rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:scale-150"></div>
-            <div className="text-brand-crimson font-bold text-xs uppercase tracking-[2px] mb-4">Trường hợp 01 / Tự động</div>
-            <h3 className="text-3xl font-bold font-headline mb-6 uppercase">TEST VỚI AI</h3>
+            <h3 className="text-xl md:text-2xl font-bold font-headline mb-6 uppercase">Test với AI</h3>
             <ul className="text-base text-[#5b403f] space-y-4 mb-10 font-body">
               {[
                 "Điền Form khảo sát nhu cầu mục tiêu",
@@ -65,9 +60,12 @@ export default function EvaluationPaths() {
                 </li>
               ))}
             </ul>
-            <button className="w-full bg-brand-crimson text-white py-5 font-bold tracking-[1.5px] uppercase text-sm hover:opacity-90 transition-all rounded-none">
+            <Link
+              href="/giaotiep-1-1/danh-gia-lo-trinh"
+              className="w-full bg-brand-crimson text-white py-5 font-bold tracking-[1.5px] uppercase text-sm hover:opacity-90 transition-all rounded-none block text-center"
+            >
               BẮT ĐẦU VỚI AI
-            </button>
+            </Link>
           </motion.div>
 
           {/* Case 2: Teacher Test */}
@@ -76,8 +74,7 @@ export default function EvaluationPaths() {
             className="bg-[#f3f4f4] border-2 border-brand-gold/20 p-10 hover:border-brand-gold transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-brand-gold/5 rotate-45 translate-x-12 -translate-y-12 transition-transform group-hover:scale-150"></div>
-            <div className="text-brand-gold font-bold text-xs uppercase tracking-[2px] mb-4">Trường hợp 02 / Chuyên sâu</div>
-            <h3 className="text-3xl font-bold font-headline mb-6 uppercase">VỚI GIÁO VIÊN</h3>
+            <h3 className="text-xl md:text-2xl font-bold font-headline mb-6 uppercase">Với giáo viên</h3>
             <ul className="text-base text-[#5b403f] space-y-4 mb-10 font-body">
               {[
                 "Điền Form đăng ký lịch hẹn",

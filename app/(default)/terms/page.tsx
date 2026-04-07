@@ -67,7 +67,7 @@ export default function TermsOfUse() {
             <motion.div variants={fadeUp} className="mb-6">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 font-bold text-[10px] uppercase tracking-[2px] text-brand-gold hover:text-brand-crimson transition-colors border-l-4 border-brand-gold pl-4"
+                className="inline-flex items-center gap-2 font-bold text-[10px] uppercase tracking-[2px] text-brand-gold hover:text-brand-crimson transition-colors"
               >
                 <ArrowLeft className="w-3 h-3" /> Quay lại trang chủ
               </Link>

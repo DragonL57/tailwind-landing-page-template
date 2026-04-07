@@ -60,9 +60,9 @@ export default function PricingPackages() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
-        <div className="text-center mb-8 md:mb-12">
-          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
-            CÁC GÓI HỌC TRONG <br />
+        <div className="text-center mb-10 md:mb-12">
+          <motion.h2 variants={itemVariants} className="text-2xl md:text-3xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
+            CÁC GÓI HỌC <br />
             <span className="text-[#BE202F]">FLEXTRACK PATHWAY</span>
           </motion.h2>
         </div>
@@ -74,21 +74,11 @@ export default function PricingPackages() {
               variants={itemVariants}
               className={`relative bg-[#f8f9f9] border-t-4 md:border-t-8 ${pkg.accent} p-6 md:p-8 flex flex-col transition-all duration-500 hover:bg-white group ${pkg.isPremium ? 'lg:-translate-y-2' : ''}`}
             >
-              <div className="flex justify-between items-start mb-4 md:mb-6">
-                <span className={`text-[9px] font-bold tracking-[2px] uppercase px-2 py-0.5 ${pkg.isPremium ? 'bg-[#B6914C] text-white' : 'bg-slate-200 text-slate-600'}`}>
-                  {pkg.tag}
-                </span>
-                <span className="text-2xl font-bold font-headline text-slate-200 group-hover:text-[#BE202F]/10 transition-colors">
-                  0{i + 1}
-                </span>
-              </div>
-
               <h3 className="text-xl md:text-2xl font-bold font-headline text-[#191c1c] mb-1 uppercase">
                 {pkg.name}
               </h3>
               
-              <div className="flex items-baseline gap-2 mb-4 md:mb-6">
-                <span className="text-[10px] font-bold text-[#B6914C] uppercase tracking-[1px]">Thời lượng:</span>
+              <div className="mb-4 md:mb-6">
                 <span className="text-lg font-bold text-[#191c1c]">{pkg.duration}</span>
               </div>
 

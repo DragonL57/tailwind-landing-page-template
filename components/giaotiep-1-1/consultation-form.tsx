@@ -45,27 +45,13 @@ export default function ConsultationForm() {
           {/* Left: Narrative Content (Layer 2 - Shifts) */}
           <motion.div variants={itemVariants} className="lg:col-span-4 bg-[#f3f4f4] p-10 md:p-12 flex flex-col justify-between border-r border-slate-200">
             <div>
-              <div className="text-brand-gold font-bold text-[10px] tracking-[3px] uppercase mb-4">Registration</div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-headline leading-[1.1] text-[#191c1c] uppercase mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold font-headline leading-[1.1] text-[#191c1c] uppercase mb-6">
                 ĐẶT LỊCH <br />
                 <span className="text-brand-crimson">TƯ VẤN 1-1</span>
               </h2>
-              <p className="text-sm md:text-base text-[#5b403f] font-body leading-relaxed border-l-4 border-brand-crimson pl-6 mb-12 italic">
-                Chúng tôi sẽ ngưng nhận đăng ký khi đủ số lượng để đảm bảo chất lượng chuyên môn tốt nhất cho từng học viên.
+              <p className="text-sm md:text-base text-[#5b403f] font-body leading-relaxed border-l-4 border-brand-crimson pl-6">
+                Đăng ký để được tư vấn lộ trình phù hợp với mục tiêu của bạn.
               </p>
-            </div>
-
-            <div className="space-y-8 hidden lg:block">
-              {[
-                { id: "01", text: "Xác định mục tiêu học thuật" },
-                { id: "02", text: "Thiết kế lộ trình cá nhân" },
-                { id: "03", text: "Cam kết đầu ra chuẩn quốc tế" }
-              ].map((outcome, i) => (
-                <div key={i} className="flex flex-col gap-1">
-                  <span className="text-[9px] font-bold uppercase tracking-[2px] text-brand-gold opacity-60">Bước {outcome.id}</span>
-                  <span className="text-xs font-bold uppercase font-headline text-[#191c1c]">{outcome.text}</span>
-                </div>
-              ))}
             </div>
           </motion.div>
 

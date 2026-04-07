@@ -2,8 +2,6 @@ import "./css/style.css";
 
 import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
 import Script from "next/script";
-import Header from "@/components/ui/header";
-import FloatingContact from "@/components/floating-contact";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -66,11 +64,7 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <div className="w-full min-h-screen flex flex-col overflow-x-clip">
-          <Header />
-          <main className="flex-1 w-full flex flex-col">{children}</main>
-          <FloatingContact />
-        </div>
+        {children}
       </body>
     </html>
   );

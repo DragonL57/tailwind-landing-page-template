@@ -75,12 +75,6 @@ export default function Home() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             <div className="lg:col-span-7 z-10">
-              <motion.div variants={fadeUp} className="mb-6">
-                <span className="inline-block font-bold text-[10px] uppercase tracking-[2px] text-brand-gold border-l-4 border-brand-gold pl-4">
-                  VMG
-                </span>
-              </motion.div>
-
               <motion.h1
                 variants={fadeUp}
                 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#191c1c] leading-[1.05] tracking-tight mb-8 uppercase font-headline"
@@ -185,11 +179,8 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.div variants={fadeUp} className="mb-16">
-              <span className="font-bold text-[10px] uppercase tracking-[2px] text-brand-gold border-l-4 border-brand-gold pl-4">
-                Chương trình đào tạo
-              </span>
-              <h2 className="font-headline font-bold text-3xl md:text-4xl uppercase text-[#191c1c] mt-4 tracking-tight">
+            <motion.div variants={fadeUp} className="mb-12">
+              <h2 className="font-headline font-bold text-2xl md:text-3xl uppercase text-[#191c1c] tracking-tight">
                 LỘ TRÌNH DÀNH CHO BẠN
               </h2>
             </motion.div>
@@ -201,10 +192,6 @@ export default function Home() {
                   variants={fadeUp}
                   className={`bg-[#f8f9f9] p-8 md:p-12 group hover:bg-white transition-colors ${i === 0 ? "border-l-4 border-brand-crimson" : "border-l-4 border-brand-gold"}`}
                 >
-                  <span className="inline-block font-bold text-[9px] uppercase tracking-[2px] text-brand-gold mb-6">
-                    {program.badge}
-                  </span>
-
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-white flex items-center justify-center text-brand-crimson">
                       <program.icon className="w-5 h-5" />
@@ -249,11 +236,8 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.div variants={fadeUp} className="mb-16">
-              <span className="font-bold text-[10px] uppercase tracking-[2px] text-brand-gold border-l-4 border-brand-gold pl-4">
-                Tại sao chọn VMG
-              </span>
-              <h2 className="font-headline font-bold text-3xl md:text-4xl uppercase text-[#191c1c] mt-4 tracking-tight">
+            <motion.div variants={fadeUp} className="mb-12">
+              <h2 className="font-headline font-bold text-2xl md:text-3xl uppercase text-[#191c1c] tracking-tight">
                 GIÁ TRỊ CỐT LÕI
               </h2>
             </motion.div>
