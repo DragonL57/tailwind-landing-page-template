@@ -1,10 +1,9 @@
-import type { AssessmentReport, LevelInfo } from "./types";
-import type { IndustryId, GoalId } from "./constants";
+import type { AssessmentReport } from "./types";
 
 export function generateAssessmentEmail(
   report: AssessmentReport
 ): { subject: string; body: string; html: string } {
-  const { currentLevel, targetLevel, gapHours, packageLabel, scores, strengths, weaknesses, roadmap, industry, goal } = report;
+  const { currentLevel, targetLevel, gapHours, packageLabel, scores, strengths, weaknesses, roadmap } = report;
 
   const subject = "Kết quả đánh giá trình độ tiếng Anh - giaotiep-1-1";
 
@@ -14,8 +13,8 @@ Xin chào${report.userName ? ` ${report.userName}` : ''},
 Cảm ơn bạn đã tham gia bài đánh giá trình độ tiếng Anh của giaotiep-1-1.
 
 KẾT QUẢ ĐÁNH GIÁ
-- Trình độ hiện tại: ${currentLevel.level} (${currentLevel.cefr})
-- Mục tiêu của bạn: ${targetLevel.level} (${targetLevel.cefr})
+- Trình độ hiện tại: ${currentLevel.cefr}
+- Mục tiêu của bạn: ${targetLevel.cefr}
 - Khoảng cách: ${gapHours > 0 ? `${gapHours} giờ học (${packageLabel})` : 'Bạn đã đạt mục tiêu!'}
 
 ĐIỂM MẠNH
@@ -73,13 +72,11 @@ Trân trọng,
       <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
         <div>
           <div class="score-label">TRÌNH ĐỘ HIỆN TẠI</div>
-          <div class="level">${currentLevel.level}</div>
-          <div>${currentLevel.cefr}</div>
+          <div class="level">${currentLevel.cefr}</div>
         </div>
         <div style="text-align: right;">
           <div class="score-label">MỤC TIÊU</div>
-          <div class="level">${targetLevel.level}</div>
-          <div>${targetLevel.cefr}</div>
+          <div class="level">${targetLevel.cefr}</div>
         </div>
       </div>
       <div style="background: #003366; color: white; padding: 10px; text-align: center; border-radius: 4px;">
@@ -148,32 +145,19 @@ Trân trọng,
   return { subject, body, html };
 }
 
-export function createAssessmentReport(
-  industry: IndustryId,
-  goal: GoalId,
-  currentLevel: LevelInfo,
-  targetLevel: LevelInfo,
-  gapHours: number,
-  packageLabel: string,
-  criteria: { pronunciation: number; fluency: number; vocabulary: number; grammar: number; questionHandling: number },
-  strengths: string[],
-  weaknesses: string[],
-  roadmap: string[],
-  userEmail?: string,
-  userName?: string
-): AssessmentReport {
-  return {
-    userEmail,
-    userName,
-    industry,
-    goal,
-    currentLevel,
-    targetLevel,
-    gapHours,
-    packageLabel,
-    scores: criteria,
-    strengths,
-    weaknesses,
-    roadmap,
-  };
+export async function sendAssessmentEmail(
+  report: AssessmentReport
+): Promise<{ success: boolean; message: string }> {
+  console.log("[EMAIL] Sending assessment report to:", report.userEmail);
+  
+  // In a real app, you would use Resend, SendGrid, etc.
+  // For this template, we've already logged the lead in the assessment-lead API.
+  // We'll return success to simulate the flow.
+  
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, message: "Email sent successfully (simulated)" });
+    }, 1000);
+  });
 }
+

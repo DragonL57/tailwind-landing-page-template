@@ -1,4 +1,4 @@
-import type { IndustryId, SkillId } from "./constants";
+import type { IndustryId, SkillId, GoalId } from "./constants";
 
 export type CriterionLevel = "Excellent" | "Good" | "Adequate" | "Inadequate" | "Weak";
 
@@ -32,7 +32,6 @@ export interface PartResult {
 }
 
 export interface LevelInfo {
-  level: string;
   cefr: string;
 }
 

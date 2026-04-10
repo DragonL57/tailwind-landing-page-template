@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Azure credentials not configured" }, { status: 500 });
     }
 
-    const token = await getAzureToken();
+    await getAzureToken();
     console.log("[AZURE-TEST] Got token, region:", AZURE_REGION);
 
     const audioBuffer = await audioFile.arrayBuffer();

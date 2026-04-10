@@ -2,8 +2,6 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import SurveyStep from "@/components/giaotiep-1-1/survey-step";
-import AssessmentIntro from "@/components/giaotiep-1-1/assessment-intro";
 import AssessmentResults from "@/components/giaotiep-1-1/assessment-results";
 import AssessmentProgress from "@/components/giaotiep-1-1/assessment/assessment-progress";
 import AssessmentPrompt from "@/components/giaotiep-1-1/assessment/assessment-prompt";
@@ -79,6 +77,8 @@ export default function AIAssessmentFlow() {
     setPhase(targetPhase);
     
     const routeMap: Record<AssessmentPhase, string> = {
+      survey: "/giaotiep-1-1/danh-gia-lo-trinh/khao-sat",
+      intro: "/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu",
       part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
@@ -167,12 +167,10 @@ export default function AIAssessmentFlow() {
       ? PART2_SCENARIOS[currentIndex]?.prompt
       : undefined;
 
-    const transcriptText = transcript || referenceText || scenarioPrompt || "";
-
     const newRecording: RawRecording = {
       audioBlob: blob,
       reference: referenceText,
-      transcript: transcriptText,
+      transcript: transcript,
       scenarioPrompt,
       isPart1,
     };
@@ -247,12 +245,6 @@ export default function AIAssessmentFlow() {
     sessionStorage.setItem("assessmentResult", JSON.stringify(result));
     navigateTo("results");
   }, [recordings, surveyData, navigateTo]);
-
-  const handleSurveyComplete = useCallback((data: SurveyData) => {
-    setSurveyData(data);
-    sessionStorage.setItem("surveyData", JSON.stringify(data));
-    navigateTo("intro");
-  }, [navigateTo]);
 
   const isPart1 = currentPart === "part1";
   const totalItems = PART1_SENTENCES.length + PART2_SCENARIOS.length;

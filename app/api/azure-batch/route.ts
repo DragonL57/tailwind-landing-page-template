@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
 const AZURE_KEY = process.env.AZURE_SPEECH_KEY;
@@ -33,6 +32,9 @@ export async function POST(req: Request) {
         const sendProgress = (progress: number, message: string) => {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ progress, message })}\n\n`));
         };
+
+        // Send initial progress immediately
+        sendProgress(0, "Đang chuẩn bị phân tích...");
 
         const results = await processBatch(items as BatchAudioItem[], sendProgress);
         console.log("[AZURE-BATCH] Results:", JSON.stringify(results, null, 2));
@@ -148,7 +150,7 @@ async function processBatch(
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    console.log(`[AZURE-BATCH] Processing item ${item.index + 1}, reference: "${item.referenceText.substring(0, 50)}"`);
+    console.log(`[AZURE-BATCH] Processing item ${i + 1}, reference: "${item.referenceText.substring(0, 50)}"`);
 
     const progress = Math.round(((i + 1) / items.length) * 80);
     sendProgress(progress, `Đang chấm câu ${i + 1}/${items.length}...`);
@@ -158,7 +160,7 @@ async function processBatch(
       const result = await processItem(audioBuffer, item.referenceText);
       results.push(result);
     } catch (e) {
-      console.error(`[AZURE-BATCH] Item ${item.index} error:`, e);
+      console.error(`[AZURE-BATCH] Item ${i} error:`, e);
       results.push({ transcript: "", accuracyScore: -1, fluencyScore: -1, completenessScore: -1, pronScore: -1, prosodyScore: -1 });
     }
   }

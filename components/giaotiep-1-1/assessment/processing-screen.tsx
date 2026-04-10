@@ -15,7 +15,8 @@ export default function ProcessingScreen({ recordingCount, onProcess, progress: 
   const processedRef = useRef(false);
   const [internalProgress, setInternalProgress] = useState(0);
 
-  const progress = externalProgress ?? internalProgress;
+  // Use external progress if it's greater than 0, otherwise use internal fake progress
+  const progress = Math.max(internalProgress, externalProgress || 0);
 
   const loadingMessages = [
     "Đang phân tích giọng nói...",
@@ -36,24 +37,26 @@ export default function ProcessingScreen({ recordingCount, onProcess, progress: 
     if (processedRef.current) return;
     processedRef.current = true;
 
-    if (externalProgress !== undefined) return;
-
+    // Start a slow fake progress if stuck at 0 to show the app is alive
     const interval = setInterval(() => {
       setInternalProgress((prev) => {
-        if (prev >= 100) {
+        if (prev >= 90) {
           clearInterval(interval);
-          return 100;
+          return 90;
         }
-        return prev + Math.random() * 15 + 5;
+        return prev + 1;
       });
-    }, 800);
+    }, 1500);
 
     onProcess().finally(() => {
+      clearInterval(interval);
       setInternalProgress(100);
     });
 
     return () => clearInterval(interval);
+    // Keep dependencies stable to avoid React Hook errors during hot-reload
   }, [onProcess, externalProgress]);
+
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6">
@@ -91,6 +94,7 @@ export default function ProcessingScreen({ recordingCount, onProcess, progress: 
               className="h-full bg-brand-crimson"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5 }}
             />
           </div>
         </div>

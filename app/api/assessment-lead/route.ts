@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { INDUSTRY_ROADMAPS } from "@/lib/ai-assessment/constants";
+import { INDUSTRY_ROADMAPS, type IndustryId } from "@/lib/ai-assessment/constants";
 
 export async function POST(req: Request) {
   try {
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
     console.log("[LEAD] New assessment lead:", { name, email, phone, industry, goal });
 
-    const roadmap = INDUSTRY_ROADMAPS[industry] || INDUSTRY_ROADMAPS.general;
+    const roadmap = INDUSTRY_ROADMAPS[industry as IndustryId] || INDUSTRY_ROADMAPS.general;
 
     const leadData = {
       name,

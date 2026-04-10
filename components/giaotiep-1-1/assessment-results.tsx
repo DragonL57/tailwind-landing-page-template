@@ -51,13 +51,11 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
           <div className="grid md:grid-cols-3 gap-6">
             <div>
               <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Trình độ hiện tại</p>
-              <p className="font-headline font-bold text-2xl">{result.currentLevel?.level || "Pre EPLUS"}</p>
-              <p className="text-white/80">{result.currentLevel?.cefr || "A1"}</p>
+              <p className="font-headline font-bold text-3xl">{result.currentLevel?.cefr || "A1"}</p>
             </div>
             <div>
               <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Mục tiêu</p>
-              <p className="font-headline font-bold text-2xl">{result.targetLevel?.level || "EPLUS 3"}</p>
-              <p className="text-white/80">{result.targetLevel?.cefr || "B1"}</p>
+              <p className="font-headline font-bold text-3xl">{result.targetLevel?.cefr || "B1"}</p>
             </div>
             <div>
               <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Khuyến nghị</p>
@@ -98,7 +96,7 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
                 </thead>
                 <tbody>
                   {Object.entries(part.criteria)
-                    .filter(([_, criterion]) => criterion.score !== -1)
+                    .filter(([ , criterion]) => criterion.score !== -1)
                     .map(([key, criterion]) => (
                     <tr key={key} className="border-t border-slate-100 hover:bg-[#f8f9f9]/50 transition-colors">
                       <td className="p-4 font-body text-xs font-bold text-[#191c1c] capitalize whitespace-nowrap">
