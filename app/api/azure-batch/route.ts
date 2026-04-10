@@ -11,30 +11,50 @@ interface BatchAudioItem {
 }
 
 export async function POST(req: Request) {
-  try {
-    const { items } = await req.json();
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const { items } = await req.json();
 
-    console.log("[AZURE-BATCH] === Azure Batch Assessment ===");
-    console.log("[AZURE-BATCH] Count:", items?.length || 0);
+        console.log("[AZURE-BATCH] === Azure Batch Assessment ===");
+        console.log("[AZURE-BATCH] Count:", items?.length || 0);
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ error: "Missing audio items" }, { status: 400 });
-    }
+        if (!items || items.length === 0) {
+          controller.enqueue(encoder.encode(`data: {"error": "Missing audio items"}\n\n`));
+          return;
+        }
 
-    if (!AZURE_KEY || !AZURE_REGION) {
-      console.error("[AZURE-BATCH] Azure credentials not configured");
-      return NextResponse.json({ error: "Azure credentials not configured" }, { status: 500 });
-    }
+        if (!AZURE_KEY || !AZURE_REGION) {
+          controller.enqueue(encoder.encode(`data: {"error": "Azure credentials not configured"}\n\n`));
+          return;
+        }
 
-    const results = await processBatch(items as BatchAudioItem[]);
-    console.log("[AZURE-BATCH] Results:", JSON.stringify(results, null, 2));
-    console.log("[AZURE-BATCH] === End Azure Batch ===\n");
+        const sendProgress = (progress: number, message: string) => {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ progress, message })}\n\n`));
+        };
 
-    return NextResponse.json({ results });
-  } catch (error) {
-    console.error("[AZURE-BATCH] Error:", error);
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
-  }
+        const results = await processBatch(items as BatchAudioItem[], sendProgress);
+        console.log("[AZURE-BATCH] Results:", JSON.stringify(results, null, 2));
+        console.log("[AZURE-BATCH] === End Azure Batch ===\n");
+
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ results, progress: 100, message: "Hoàn tất" })}\n\n`));
+      } catch (error) {
+        console.error("[AZURE-BATCH] Error:", error);
+        controller.enqueue(encoder.encode(`data: {"error": "Internal error"}\n\n`));
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    },
+  });
 }
 
 function processItem(audioBuffer: Buffer, referenceText: string): Promise<{
@@ -113,7 +133,10 @@ function processItem(audioBuffer: Buffer, referenceText: string): Promise<{
   });
 }
 
-async function processBatch(items: BatchAudioItem[]) {
+async function processBatch(
+  items: BatchAudioItem[],
+  sendProgress: (progress: number, message: string) => void
+) {
   const results: Array<{
     transcript: string;
     accuracyScore: number;
@@ -123,8 +146,12 @@ async function processBatch(items: BatchAudioItem[]) {
     prosodyScore: number;
   }> = [];
 
-  for (const item of items) {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
     console.log(`[AZURE-BATCH] Processing item ${item.index + 1}, reference: "${item.referenceText.substring(0, 50)}"`);
+
+    const progress = Math.round(((i + 1) / items.length) * 80);
+    sendProgress(progress, `Đang chấm câu ${i + 1}/${items.length}...`);
 
     try {
       const audioBuffer = Buffer.from(item.audioBase64, "base64");

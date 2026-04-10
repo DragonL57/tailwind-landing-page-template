@@ -5,15 +5,19 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { levelColor, levelBg, scoreToLevel, levelToVietnamese } from "@/lib/ai-assessment/utils";
 import type { FullResult } from "@/lib/ai-assessment/types";
+import type { SurveyData } from "@/lib/ai-assessment/types";
 
 interface AssessmentResultsProps {
   result: FullResult;
   onReset: () => void;
+  surveyData?: SurveyData | null;
+  onBackToSurvey?: () => void;
 }
 
-export default function AssessmentResults({ result, onReset }: AssessmentResultsProps) {
+export default function AssessmentResults({ result, onReset, surveyData, onBackToSurvey }: AssessmentResultsProps) {
   const [showRegistration, setShowRegistration] = useState(false);
   const [regSubmitted, setRegSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="py-8 md:py-12">
@@ -29,12 +33,40 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
           className="bg-white border border-slate-200 p-6 md:p-10 mb-8 text-center"
         >
           <p className="font-body text-xs uppercase tracking-[1.5px] text-[#191c1c]/40 mb-2">Tổng điểm</p>
-          <p className={`font-headline font-bold text-5xl md:text-6xl ${levelColor(scoreToLevel(result.grandTotal / 10))}`}>
+          <p className={`font-headline font-bold text-5xl md:text-6xl ${levelColor(scoreToLevel(result.grandTotal))}`}>
             {result.grandTotal}<span className="text-2xl text-[#191c1c]/30">/{result.grandMax}</span>
           </p>
-          <span className={`inline-block mt-3 px-4 py-1 text-xs font-bold uppercase tracking-[1.5px] rounded-none ${levelBg(scoreToLevel(result.grandTotal / 10))}`}>
-            {levelToVietnamese(scoreToLevel(result.grandTotal / 10))}
+          <span className={`inline-block mt-3 px-4 py-1 text-xs font-bold uppercase tracking-[1.5px] rounded-none ${levelBg(scoreToLevel(result.grandTotal))}`}>
+            {levelToVietnamese(scoreToLevel(result.grandTotal))}
           </span>
+        </motion.div>
+
+        {/* Level & Recommendation */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-gradient-to-r from-[#003366] to-[#004488] p-6 md:p-10 mb-8 text-center text-white"
+        >
+          <div className="grid md:grid-cols-3 gap-6">
+            <div>
+              <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Trình độ hiện tại</p>
+              <p className="font-headline font-bold text-2xl">{result.currentLevel?.level || "Pre EPLUS"}</p>
+              <p className="text-white/80">{result.currentLevel?.cefr || "A1"}</p>
+            </div>
+            <div>
+              <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Mục tiêu</p>
+              <p className="font-headline font-bold text-2xl">{result.targetLevel?.level || "EPLUS 3"}</p>
+              <p className="text-white/80">{result.targetLevel?.cefr || "B1"}</p>
+            </div>
+            <div>
+              <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Khuyến nghị</p>
+              <p className="font-headline font-bold text-2xl text-brand-gold">{result.packageLabel || "Gói 36h"}</p>
+              {result.gapHours > 0 && (
+                <p className="text-white/80">{result.gapHours} giờ học</p>
+              )}
+            </div>
+          </div>
         </motion.div>
 
         {[result.part1, result.part2].map((part, pi) => (
@@ -111,7 +143,12 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
         </motion.div>
 
         <div className="flex justify-center gap-6 mt-8 pb-8">
-          <button onClick={onReset} className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">← Làm lại bài đánh giá</button>
+          {onBackToSurvey && (
+            <button onClick={onBackToSurvey} className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">
+              ← Sửa thông tin
+            </button>
+          )}
+          <button onClick={onReset} className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Làm lại bài đánh giá</button>
           <Link href="/giaotiep-1-1" className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Quay lại trang chủ</Link>
         </div>
       </div>
@@ -139,9 +176,44 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
               <>
                 <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Nhận báo cáo chi tiết</h3>
                 <p className="font-body text-sm text-[#5b403f] mb-6">
-                  Tổng điểm của bạn: <strong>{result.grandTotal}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal / 10))})
+                  Tổng điểm của bạn: <strong>{result.grandTotal}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal))})
                 </p>
-                <form onSubmit={(e) => { e.preventDefault(); setRegSubmitted(true); }} className="space-y-5">
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsSubmitting(true);
+                  
+                  const formData = new FormData(e.currentTarget);
+                  const leadData = {
+                    name: formData.get("name"),
+                    email: formData.get("email"),
+                    phone: formData.get("phone"),
+                    industry: surveyData?.industry,
+                    goal: surveyData?.skills,
+                    currentLevel: result.currentLevel,
+                    targetLevel: result.targetLevel,
+                    gapHours: result.gapHours,
+                    packageLabel: result.packageLabel,
+                    scores: {
+                      grandTotal: result.grandTotal,
+                      grandMax: result.grandMax,
+                      part1: result.part1.total,
+                      part2: result.part2.total,
+                    },
+                  };
+                  
+                  try {
+                    await fetch("/api/assessment-lead", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(leadData),
+                    });
+                    setRegSubmitted(true);
+                  } catch (error) {
+                    console.error("Failed to submit lead:", error);
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }} className="space-y-5">
                   <div>
                     <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Họ tên (*)</label>
                     <input type="text" required className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
@@ -154,7 +226,9 @@ export default function AssessmentResults({ result, onReset }: AssessmentResults
                     <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Số điện thoại (*)</label>
                     <input type="tel" required className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
                   </div>
-                  <button type="submit" className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer">Gửi báo cáo cho tôi</button>
+                  <button type="submit" disabled={isSubmitting} className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer disabled:opacity-50">
+                    {isSubmitting ? "Đang gửi..." : "Gửi báo cáo cho tôi"}
+                  </button>
                 </form>
               </>
             )}

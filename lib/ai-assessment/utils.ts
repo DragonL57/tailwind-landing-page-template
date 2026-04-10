@@ -1,10 +1,10 @@
 import type { CriterionKey, CriterionLevel, CriterionScore } from "./types";
 
 export function scoreToLevel(score: number): CriterionLevel {
-  if (score >= 9) return "Excellent";
-  if (score >= 7) return "Good";
-  if (score >= 5) return "Adequate";
-  if (score >= 3) return "Inadequate";
+  if (score >= 80) return "Excellent";
+  if (score >= 60) return "Good";
+  if (score >= 40) return "Adequate";
+  if (score >= 20) return "Inadequate";
   return "Weak";
 }
 
@@ -50,23 +50,23 @@ export function estimateCriterion(
 ): number {
   switch (criterion) {
     case "pronunciation":
-      return Math.round(accuracyScore / 10);
+      return Math.round(accuracyScore);
     case "fluency":
-      return Math.round(((fluencyScore * 0.6 + completenessScore * 0.4) / 10));
+      return Math.round((fluencyScore * 0.6 + completenessScore * 0.4));
     case "vocabulary": {
-      const vocabBase = wordCount > 15 ? 7 : wordCount > 8 ? 5 : 3;
-      const vocabPenalty = (errorWords / Math.max(wordCount, 1)) * 4;
-      return Math.max(1, Math.min(10, Math.round(vocabBase - vocabPenalty)));
+      const vocabBase = wordCount > 15 ? 70 : wordCount > 8 ? 50 : 30;
+      const vocabPenalty = (errorWords / Math.max(wordCount, 1)) * 40;
+      return Math.max(0, Math.min(100, Math.round(vocabBase - vocabPenalty)));
     }
     case "grammar": {
-      const grammarBase = accuracyScore > 80 ? 7 : accuracyScore > 60 ? 5 : 3;
-      const grammarPenalty = (errorWords / Math.max(wordCount, 1)) * 3;
-      return Math.max(1, Math.min(10, Math.round(grammarBase - grammarPenalty)));
+      const grammarBase = accuracyScore > 80 ? 70 : accuracyScore > 60 ? 50 : 30;
+      const grammarPenalty = (errorWords / Math.max(wordCount, 1)) * 30;
+      return Math.max(0, Math.min(100, Math.round(grammarBase - grammarPenalty)));
     }
     case "questionHandling":
-      return Math.round((completenessScore / 10) * 0.5 + (accuracyScore / 10) * 0.3 + (fluencyScore / 10) * 0.2);
+      return Math.round(completenessScore * 0.5 + accuracyScore * 0.3 + fluencyScore * 0.2);
     default:
-      return 5;
+      return 50;
   }
 }
 
@@ -119,5 +119,5 @@ export function buildComment(criterion: string, level: string): string {
 }
 
 export function createEmptyCriterion(): CriterionScore {
-  return { score: 0, maxScore: 10, level: "Weak", comment: "No recording" };
+  return { score: 0, maxScore: 100, level: "Weak", comment: "No recording" };
 }

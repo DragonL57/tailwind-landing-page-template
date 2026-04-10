@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import Link from "next/link";
 
 export default function Hero() {
   const containerVariants: Variants = {
@@ -82,14 +83,16 @@ export default function Hero() {
             </motion.div>
 
             <div className="flex justify-center lg:justify-start">
-              <motion.button 
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none"
-              >
-                BẮT ĐẦU LỘ TRÌNH NGAY
-              </motion.button>
+              <Link href="/giaotiep-1-1/danh-gia-lo-trinh">
+                <motion.button 
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none"
+                >
+                  BẮT ĐẦU LỘ TRÌNH NGAY
+                </motion.button>
+              </Link>
             </div>
           </div>
 

@@ -1,14 +1,99 @@
-import type { CriterionKey, CriterionScore, PartResult, FullResult } from "@/lib/ai-assessment/types";
+import type { CriterionKey, CriterionScore, PartResult, FullResult, LevelInfo, SurveyData } from "@/lib/ai-assessment/types";
 import { scoreToLevel, buildComment, createEmptyCriterion } from "@/lib/ai-assessment/utils";
 import { blobToWav } from "@/lib/ai-assessment/audio-utils";
+import { HOURS_RECOMMENDATION, INDUSTRY_ROADMAPS, type IndustryId } from "./constants";
+
+export function mapToRubric(score: number): number {
+  if (score >= 80) return 10;
+  if (score >= 60) return 8;
+  if (score >= 40) return 6;
+  if (score >= 20) return 4;
+  return 2;
+}
+
+export function getEPLUSLevel(totalScore: number, maxScore: number = 50): LevelInfo {
+  const percentage = maxScore > 0 ? (totalScore / maxScore) * 100 : 0;
+  
+  if (percentage >= 90) return { level: "EPLUS 4", cefr: "B1+" };
+  if (percentage >= 80) return { level: "EPLUS 3", cefr: "B1" };
+  if (percentage >= 70) return { level: "EPLUS 2", cefr: "A2+" };
+  if (percentage >= 60) return { level: "EPLUS 1", cefr: "A2" };
+  if (percentage >= 50) return { level: "Pre EPLUS", cefr: "A1" };
+  return { level: "-", cefr: "< A1" };
+}
+
+const CEFR_ORDER = ["< A1", "A1", "A2", "A2+", "B1", "B1+", "B2", "C1", "C2"];
+
+export function calculateGapAndRecommendation(
+  currentCEFR: string,
+  targetCEFR: string
+): { gap: number; recommendedHours: number; packageLabel: string } {
+  const currentIdx = CEFR_ORDER.indexOf(currentCEFR);
+  const targetIdx = CEFR_ORDER.indexOf(targetCEFR);
+  const gap = Math.max(0, targetIdx - currentIdx);
+  
+  const rec = HOURS_RECOMMENDATION.find(h => gap <= h.maxGap);
+  return { 
+    gap, 
+    recommendedHours: rec?.hours ?? 180, 
+    packageLabel: rec?.label ?? "Gói 180h" 
+  };
+}
+
+export function getRoadmap(industry: IndustryId): string[] {
+  return INDUSTRY_ROADMAPS[industry] || INDUSTRY_ROADMAPS.general;
+}
+
+export function getStrengthsAndWeaknesses(criteria: Record<CriterionKey, CriterionScore>): { strengths: string[]; weaknesses: string[] } {
+  const strengths: string[] = [];
+  const weaknesses: string[] = [];
+  
+  Object.entries(criteria).forEach(([key, c]) => {
+    if (c.score >= 8) {
+      strengths.push(c.comment);
+    } else if (c.score <= 4) {
+      weaknesses.push(c.comment);
+    }
+  });
+  
+  return { strengths, weaknesses };
+}
 
 export interface RecordingScores {
   pronunciation: number;
   fluency: number;
   prosody: number;
+  completeness: number;
   vocabulary: number;
   grammar: number;
   questionHandling: number;
+  pronScore: number;
+}
+
+export function scoresToRecordingScores(
+  azure: {
+    accuracyScore: number;
+    fluencyScore: number;
+    prosodyScore: number;
+    completenessScore: number;
+    pronScore: number;
+  },
+  llm: {
+    vocabulary: number;
+    grammar: number;
+    questionHandling: number;
+  }
+): RecordingScores {
+  return {
+    pronunciation: Math.max(0, Math.min(100, azure.accuracyScore)),
+    fluency: Math.max(0, Math.min(100, azure.fluencyScore)),
+    prosody: Math.max(0, Math.min(100, azure.prosodyScore)),
+    completeness: Math.max(0, Math.min(100, azure.completenessScore)),
+    vocabulary: Math.max(0, Math.min(100, llm.vocabulary)),
+    grammar: Math.max(0, Math.min(100, llm.grammar)),
+    questionHandling: Math.max(0, Math.min(100, llm.questionHandling)),
+    pronScore: Math.max(0, Math.min(100, azure.pronScore)),
+  };
 }
 
 export interface RawRecording {
@@ -17,8 +102,6 @@ export interface RawRecording {
   transcript: string;
   scenarioPrompt?: string;
   isPart1: boolean;
-  accuracyScore?: number;
-  fluencyScore?: number;
 }
 
 export interface StoredRecording {
@@ -43,37 +126,15 @@ export interface LlmScore {
   questionHandling: number;
 }
 
-export function scoresToRecordingScores(
-  accuracyScore: number,
-  fluencyScore: number,
-  prosodyScore: number,
-  vocabulary: number,
-  grammar: number,
-  questionHandling: number
-): RecordingScores {
-  const to10 = (v: number) => Math.max(1, Math.min(10, Math.round(v / 10)));
-
-  return {
-    pronunciation: to10(accuracyScore),
-    fluency: to10(fluencyScore),
-    prosody: to10(prosodyScore),
-    vocabulary: to10(vocabulary),
-    grammar: to10(grammar),
-    questionHandling: to10(questionHandling),
-  };
-}
-
 export async function batchAssessRecordings(
   rawRecordings: RawRecording[],
+  onProgress?: (progress: number, message: string) => void,
 ): Promise<StoredRecording[]> {
   console.log("[BATCH] Starting batch assessment for", rawRecordings.length, "recordings");
 
-  const azureResults: { transcript: string; accuracyScore: number; fluencyScore: number; completenessScore: number; prosodyScore: number; pronScore: number }[] = [];
-
-  const audioItems = await Promise.all(rawRecordings.map(async (raw, i) => {
+  const audioItems = await Promise.all(rawRecordings.map(async (raw) => {
     const wavBlob = await blobToWav(raw.audioBlob);
     const buffer = await wavBlob.arrayBuffer();
-    // Safe base64 conversion for large audio files
     const bytes = new Uint8Array(buffer);
     let binary = '';
     const chunkSize = 8192;
@@ -82,11 +143,12 @@ export async function batchAssessRecordings(
     }
     const base64 = btoa(binary);
     return {
-      index: i,
       audioBase64: base64,
       referenceText: raw.reference,
     };
   }));
+
+  let azureResults: AzureResult[] = [];
 
   try {
     const resp = await fetch("/api/azure-batch", {
@@ -100,120 +162,108 @@ export async function batchAssessRecordings(
       throw new Error("Azure batch failed");
     }
 
-    const data = await resp.json();
-    console.log("[BATCH] Azure results:", JSON.stringify(data.results));
+    const reader = resp.body?.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
 
-    data.results.forEach((r: AzureResult, i: number) => {
-      azureResults.push({
-        transcript: r.transcript || rawRecordings[i].transcript,
-        accuracyScore: r.accuracyScore,
-        fluencyScore: r.fluencyScore,
-        completenessScore: r.completenessScore ?? -1,
-        prosodyScore: r.prosodyScore ?? -1,
-        pronScore: r.pronScore ?? -1,
-      });
-    });
+    if (reader) {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.error) {
+                console.error("[BATCH] Error:", data.error);
+              } else if (data.progress !== undefined) {
+                onProgress?.(data.progress, data.message || "");
+                if (data.results) {
+                  azureResults = data.results.map((r: AzureResult) => ({
+                    transcript: r.transcript || "",
+                    accuracyScore: r.accuracyScore ?? -1,
+                    fluencyScore: r.fluencyScore ?? -1,
+                    completenessScore: r.completenessScore ?? -1,
+                    prosodyScore: r.prosodyScore ?? -1,
+                    pronScore: r.pronScore ?? -1,
+                  }));
+                }
+              }
+            } catch {}
+          }
+        }
+      }
+    }
   } catch (e) {
     console.error("[BATCH] Azure batch error:", e);
-    rawRecordings.forEach((raw) => {
-      azureResults.push({
-        transcript: raw.transcript,
-        accuracyScore: -1,
-        fluencyScore: -1,
-        completenessScore: -1,
-        prosodyScore: -1,
-        pronScore: -1,
-      });
-    });
   }
 
-  // Build part1/part2 arrays with proper transcripts from Azure results
-  const part1Recs = rawRecordings.map((r, i) => ({ 
-    ...r, 
-    transcript: azureResults[i]?.accuracyScore !== -1 ? azureResults[i].transcript : r.transcript 
-  })).filter(r => r.isPart1);
-  
-  const part2Recs = rawRecordings.map((r, i) => ({ 
-    ...r, 
-    transcript: azureResults[i]?.accuracyScore !== -1 ? azureResults[i].transcript : r.transcript 
-  })).filter(r => !r.isPart1);
+  if (azureResults.length === 0) {
+    azureResults = rawRecordings.map((raw) => ({
+      transcript: raw.transcript,
+      accuracyScore: -1,
+      fluencyScore: -1,
+      completenessScore: -1,
+      prosodyScore: -1,
+      pronScore: -1,
+    }));
+  }
 
-  // Part 1: Only pronunciation and fluency from Azure (no vocab/grammar for scripted reading)
-  // Part 2: All 5 criteria from LLM (vocabulary, grammar, questionHandling) + Azure (pronunciation, fluency)
+  onProgress?.(85, "Đang đánh giá nội dung...");
 
-  // Only fetch content scores for Part 2 (unscripted role-play) that have audio
-  let part2Content: Awaited<ReturnType<typeof fetchBatchContentScores>> = [];
+  const part2Recs = rawRecordings.filter(r => !r.isPart1);
   const part2WithAudio = part2Recs.filter(r => r.transcript && r.transcript.length > 0);
 
+  let llmScores: LlmScore[] = [];
   if (part2WithAudio.length > 0) {
-    part2Content = await fetchBatchContentScores(part2WithAudio, true);
+    llmScores = await fetchBatchContentScores(part2WithAudio);
   }
 
-  // Map content scores only for Part 2 items
-  const contentMap = new Map<number, { vocabulary: number; grammar: number; questionHandling: number }>();
-  
-  // Map part2 content scores to correct indices
+  const contentMap = new Map<number, LlmScore>();
   rawRecordings.forEach((raw, i) => {
-    if (!raw.isPart1 && azureResults[i]?.accuracyScore !== -1 && part2WithAudio.includes(rawRecordings[i])) {
-      const audioIdx = part2WithAudio.indexOf(rawRecordings[i]);
-      if (audioIdx >= 0 && part2Content[audioIdx]) {
-        contentMap.set(i, part2Content[audioIdx]);
+    if (!raw.isPart1 && azureResults[i]?.accuracyScore !== -1) {
+      const idx = part2WithAudio.indexOf(rawRecordings[i]);
+      if (idx >= 0 && llmScores[idx]) {
+        contentMap.set(i, llmScores[idx]);
       }
     }
   });
 
+  onProgress?.(95, "Đang tính điểm tổng...");
+
   const stored: StoredRecording[] = rawRecordings.map((raw, i) => {
     const azure = azureResults[i];
+    const content = contentMap.get(i);
     const hasAudio = azure?.accuracyScore !== -1;
 
     if (!hasAudio) {
-      // No audio - return -1 for all scores
       return {
         audioBlob: raw.audioBlob,
         reference: raw.reference,
         transcript: "",
-        scores: { pronunciation: -1, fluency: -1, prosody: -1, vocabulary: -1, grammar: -1, questionHandling: -1 },
-      };
-    }
-
-    if (raw.isPart1) {
-      // Part 1 (Scripted Reading): Only pronunciation and fluency from Azure
-      // vocab/grammar/questionHandling are N/A for hardcoded text
-      const to10 = (v: number) => Math.max(1, Math.min(10, Math.round(v / 10)));
-      return {
-        audioBlob: raw.audioBlob,
-        reference: raw.reference,
-        transcript: azure.transcript,
         scores: {
-          pronunciation: to10(azure.accuracyScore),
-          fluency: to10(azure.fluencyScore),
-          prosody: to10(azure.prosodyScore ?? 50),
-          vocabulary: -1, // N/A for scripted reading
-          grammar: -1,    // N/A for scripted reading
-          questionHandling: -1, // N/A for scripted reading
+          pronunciation: -1,
+          fluency: -1,
+          prosody: -1,
+          completeness: -1,
+          vocabulary: -1,
+          grammar: -1,
+          questionHandling: -1,
+          pronScore: -1,
         },
       };
     }
 
-    // Part 2 (Role Play): All 5 criteria
-    const content = contentMap.get(i);
-    const vocab = content?.vocabulary ?? 50;
-    const gram = content?.grammar ?? 50;
-    const qh = content?.questionHandling ?? 50;
-    const to10 = (v: number) => Math.max(1, Math.min(10, Math.round(v / 10)));
+    const llm = content ?? { vocabulary: -1, grammar: -1, questionHandling: -1 };
 
     return {
       audioBlob: raw.audioBlob,
       reference: raw.reference,
       transcript: azure.transcript,
-      scores: {
-        pronunciation: to10(azure.accuracyScore),
-        fluency: to10(azure.fluencyScore),
-        prosody: to10(azure.prosodyScore ?? 50),
-        vocabulary: to10(vocab),
-        grammar: to10(gram),
-        questionHandling: to10(qh),
-      },
+      scores: scoresToRecordingScores(azure, llm),
     };
   });
 
@@ -222,7 +272,6 @@ export async function batchAssessRecordings(
 }
 
 interface BatchTranscript {
-  index: number;
   transcript: string;
   referenceText: string;
   scenarioPrompt?: string;
@@ -230,11 +279,9 @@ interface BatchTranscript {
 
 async function fetchBatchContentScores(
   recordings: RawRecording[],
-  isPart2: boolean
-): Promise<{ vocabulary: number; grammar: number; questionHandling: number }[]> {
+): Promise<LlmScore[]> {
   try {
-    const batch: BatchTranscript[] = recordings.map((r, i) => ({
-      index: i,
+    const batch: BatchTranscript[] = recordings.map((r) => ({
       transcript: r.transcript,
       referenceText: r.reference,
       scenarioPrompt: r.scenarioPrompt,
@@ -243,27 +290,27 @@ async function fetchBatchContentScores(
     const resp = await fetch("/api/assess-batch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ transcripts: batch, isPart2 }),
+      body: JSON.stringify({ transcripts: batch, isPart2: true }),
     });
 
     if (!resp.ok) {
-      console.error("[BATCH] Batch scoring failed:", resp.status);
-      return recordings.map(() => ({ vocabulary: 50, grammar: 50, questionHandling: 50 }));
+      console.error("[BATCH] LLM scoring failed:", resp.status);
+      return recordings.map(() => ({ vocabulary: -1, grammar: -1, questionHandling: -1 }));
     }
 
     const data = await resp.json();
     return (data.scores || []).map((s: LlmScore) => ({
-      vocabulary: Math.max(0, Math.min(100, s.vocabulary ?? 50)),
-      grammar: Math.max(0, Math.min(100, s.grammar ?? 50)),
-      questionHandling: Math.max(0, Math.min(100, s.questionHandling ?? 50)),
+      vocabulary: Math.max(0, Math.min(100, s.vocabulary ?? -1)),
+      grammar: Math.max(0, Math.min(100, s.grammar ?? -1)),
+      questionHandling: Math.max(0, Math.min(100, s.questionHandling ?? -1)),
     }));
   } catch {
-    console.error("[BATCH] Batch scoring error");
-    return recordings.map(() => ({ vocabulary: 50, grammar: 50, questionHandling: 50 }));
+    console.error("[BATCH] LLM scoring error");
+    return recordings.map(() => ({ vocabulary: -1, grammar: -1, questionHandling: -1 }));
   }
 }
 
-export function computePart(recs: StoredRecording[], name: string): PartResult {
+export function computePart(recs: StoredRecording[], name: string, useRubric: boolean = true): PartResult {
   if (recs.length === 0) {
     return {
       name,
@@ -273,6 +320,7 @@ export function computePart(recs: StoredRecording[], name: string): PartResult {
         pronunciation: createEmptyCriterion(),
         fluency: createEmptyCriterion(),
         prosody: createEmptyCriterion(),
+        completeness: createEmptyCriterion(),
         questionHandling: createEmptyCriterion(),
       },
       total: 0,
@@ -280,43 +328,44 @@ export function computePart(recs: StoredRecording[], name: string): PartResult {
     };
   }
 
-  // Count how many criteria have actual scores (not -1/N/A) in the recordings
-  // Part 1 typically has pronunciation, fluency, prosody (3)
-  // Part 2 typically has all 6 criteria
   const criteriaKeys: (keyof RecordingScores)[] = [
     "pronunciation",
     "fluency",
     "prosody",
+    "completeness",
     "vocabulary",
     "grammar",
-    "questionHandling"
+    "questionHandling",
   ];
-  
-  // Check which criteria have at least one valid score across all recordings
+
   const validCriteria = criteriaKeys.filter(key => {
     const values = recs.map(r => r.scores[key]);
     return values.some(v => v !== -1);
   });
-  
-  const maxTotal = validCriteria.length * 10;
+
+  const maxScorePerCriterion = useRubric ? 10 : 100;
+  const maxTotal = validCriteria.length * maxScorePerCriterion;
 
   const avg = (key: keyof RecordingScores) => {
-    // Skip -1 values (N/A)
     const values = recs.map(r => r.scores[key]).filter(v => v !== -1);
     if (values.length === 0) return 0;
     return values.reduce((s, v) => s + v, 0) / values.length;
   };
 
   const criteria: Record<CriterionKey, CriterionScore> = {
-    pronunciation: { score: Math.round(avg("pronunciation")), maxScore: 10, level: "Weak", comment: "" },
-    fluency: { score: Math.round(avg("fluency")), maxScore: 10, level: "Weak", comment: "" },
-    prosody: { score: Math.round(avg("prosody")), maxScore: 10, level: "Weak", comment: "" },
-    vocabulary: { score: Math.round(avg("vocabulary")), maxScore: 10, level: "Weak", comment: "" },
-    grammar: { score: Math.round(avg("grammar")), maxScore: 10, level: "Weak", comment: "" },
-    questionHandling: { score: Math.round(avg("questionHandling")), maxScore: 10, level: "Weak", comment: "" },
+    pronunciation: { score: Math.round(avg("pronunciation")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    fluency: { score: Math.round(avg("fluency")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    prosody: { score: Math.round(avg("prosody")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    completeness: { score: Math.round(avg("completeness")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    vocabulary: { score: Math.round(avg("vocabulary")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    grammar: { score: Math.round(avg("grammar")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
+    questionHandling: { score: Math.round(avg("questionHandling")), maxScore: maxScorePerCriterion, level: "Weak", comment: "" },
   };
 
   Object.entries(criteria).forEach(([key, c]) => {
+    if (useRubric) {
+      c.score = mapToRubric(c.score);
+    }
     c.level = scoreToLevel(c.score);
     c.comment = buildComment(key as CriterionKey, c.level);
   });
@@ -327,15 +376,45 @@ export function computePart(recs: StoredRecording[], name: string): PartResult {
 
 export function computeFullResult(
   recordings: StoredRecording[],
-  part1Count: number
+  part1Count: number,
+  surveyData?: SurveyData
 ): FullResult {
-  const part1Result = computePart(recordings.slice(0, part1Count), "Part 1: Interview");
-  const part2Result = computePart(recordings.slice(part1Count), "Part 2: Role Play");
+  const part1Result = computePart(recordings.slice(0, part1Count), "Part 1: Interview", true);
+  const part2Result = computePart(recordings.slice(part1Count), "Part 2: Role Play", true);
+
+  const rubricTotal = part1Result.total + part2Result.total;
+  const rubricMax = part1Result.maxTotal + part2Result.maxTotal;
+  const currentLevel = getEPLUSLevel(rubricTotal, rubricMax);
+
+  let targetLevel: LevelInfo = { level: "EPLUS 1", cefr: "A2" };
+  let gapHours = 0;
+  let packageLabel = "Gói 36h";
+
+  if (surveyData?.targetCEFR) {
+    targetLevel = { level: "", cefr: surveyData.targetCEFR };
+    const gapResult = calculateGapAndRecommendation(currentLevel.cefr, surveyData.targetCEFR);
+    gapHours = gapResult.recommendedHours;
+    packageLabel = gapResult.packageLabel;
+    
+    const levelMap: Record<string, string> = {
+      "A1": "Pre EPLUS", "A2": "EPLUS 1", "A2+": "EPLUS 2", "B1": "EPLUS 3", "B1+": "EPLUS 4"
+    };
+    targetLevel.level = levelMap[surveyData.targetCEFR] || "";
+  }
 
   return {
     part1: part1Result,
     part2: part2Result,
-    grandTotal: part1Result.total + part2Result.total,
-    grandMax: 100,
+    grandTotal: rubricTotal,
+    grandMax: rubricMax,
+    currentLevel,
+    targetLevel,
+    gapHours,
+    packageLabel,
+    rubricScores: {
+      part1: part1Result.total,
+      part2: part2Result.total,
+      total: rubricTotal
+    }
   };
 }

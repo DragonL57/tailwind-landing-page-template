@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import SurveyStep from "@/components/giaotiep-1-1/survey-step";
 import AssessmentIntro from "@/components/giaotiep-1-1/assessment-intro";
 import AssessmentResults from "@/components/giaotiep-1-1/assessment-results";
 import AssessmentProgress from "@/components/giaotiep-1-1/assessment/assessment-progress";
@@ -15,12 +17,16 @@ import {
 import ProcessingScreen from "@/components/giaotiep-1-1/assessment/processing-screen";
 import { useAzureSpeech } from "@/hooks/use-azure-speech";
 import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants";
-import type { AssessmentPhase, FullResult } from "@/lib/ai-assessment/types";
-import type { RawRecording, StoredRecording } from "@/lib/ai-assessment/scoring";
+import type { AssessmentPhase, FullResult, SurveyData } from "@/lib/ai-assessment/types";
+import type { RawRecording } from "@/lib/ai-assessment/scoring";
 import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
 
-export default function AIAssessment() {
-  const [phase, setPhase] = useState<AssessmentPhase>("intro");
+export default function AIAssessmentFlow() {
+  const router = useRouter();
+  const pathname = usePathname();
+  
+  const [phase, setPhase] = useState<AssessmentPhase>("part1");
+  const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
   const [currentPart, setCurrentPart] = useState<"part1" | "part2">("part1");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
@@ -30,7 +36,8 @@ export default function AIAssessment() {
   const [recordings, setRecordings] = useState<RawRecording[]>([]);
   const [finalResult, setFinalResult] = useState<FullResult | null>(null);
   const [countdown, setCountdown] = useState(0);
-
+  const [processingProgress, setProcessingProgress] = useState(0);
+  const [processingMessage, setProcessingMessage] = useState("");
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -38,6 +45,17 @@ export default function AIAssessment() {
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const azure = useAzureSpeech();
+
+  useEffect(() => {
+    const storedSurvey = sessionStorage.getItem("surveyData");
+    if (storedSurvey) {
+      setSurveyData(JSON.parse(storedSurvey));
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("[GA4] Page view:", pathname);
+  }, [pathname]);
 
   const cleanup = useCallback(() => {
     if (streamRef.current) {
@@ -56,6 +74,19 @@ export default function AIAssessment() {
       if (audioUrl) URL.revokeObjectURL(audioUrl);
     };
   }, [cleanup, audioUrl]);
+
+  const navigateTo = useCallback((targetPhase: AssessmentPhase) => {
+    setPhase(targetPhase);
+    
+    const routeMap: Record<AssessmentPhase, string> = {
+      part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      results: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+    };
+    
+    router.push(routeMap[targetPhase]);
+  }, [router]);
 
   const startRecording = useCallback(async () => {
     setTranscript("");
@@ -160,16 +191,16 @@ export default function AIAssessment() {
     } else if (isPart1) {
       setCurrentPart("part2");
       setCurrentIndex(0);
-      setPhase("part2");
+      navigateTo("part2");
     } else {
-      setPhase("processing");
+      navigateTo("processing");
     }
-  }, [audioUrl, currentPart, currentIndex, transcript]);
+  }, [audioUrl, currentPart, currentIndex, transcript, navigateTo]);
 
   const resetAssessment = useCallback(() => {
     cleanup();
     if (audioUrl) URL.revokeObjectURL(audioUrl);
-    setPhase("intro");
+    setPhase("survey");
     setCurrentPart("part1");
     setCurrentIndex(0);
     setRecordings([]);
@@ -179,31 +210,66 @@ export default function AIAssessment() {
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
-  }, [cleanup, audioUrl]);
+    sessionStorage.removeItem("surveyData");
+    sessionStorage.removeItem("assessmentResult");
+    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+  }, [cleanup, audioUrl, router]);
+
+  const backToSurvey = useCallback(() => {
+    cleanup();
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    setPhase("survey");
+    setCurrentPart("part1");
+    setCurrentIndex(0);
+    setRecordings([]);
+    setFinalResult(null);
+    setAudioUrl(null);
+    setTranscript("");
+    setIsRecording(false);
+    setIsReviewing(false);
+    setCountdown(0);
+    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+  }, [cleanup, audioUrl, router]);
 
   const handleBatchAssessment = useCallback(async () => {
     console.log("[ASSESS] Starting batch assessment for", recordings.length, "recordings");
 
-    const storedRecordings = await batchAssessRecordings(recordings);
-    const result = computeFullResult(storedRecordings, PART1_SENTENCES.length);
+    setProcessingProgress(0);
+    setProcessingMessage("Đang chuẩn bị...");
+
+    const storedRecordings = await batchAssessRecordings(recordings, (progress, message) => {
+      setProcessingProgress(progress);
+      setProcessingMessage(message);
+    });
+    const result = computeFullResult(storedRecordings, PART1_SENTENCES.length, surveyData || undefined);
 
     setFinalResult(result);
-    setPhase("results");
-  }, [recordings]);
+    sessionStorage.setItem("assessmentResult", JSON.stringify(result));
+    navigateTo("results");
+  }, [recordings, surveyData, navigateTo]);
+
+  const handleSurveyComplete = useCallback((data: SurveyData) => {
+    setSurveyData(data);
+    sessionStorage.setItem("surveyData", JSON.stringify(data));
+    navigateTo("intro");
+  }, [navigateTo]);
 
   const isPart1 = currentPart === "part1";
   const totalItems = PART1_SENTENCES.length + PART2_SCENARIOS.length;
 
-  if (phase === "intro") {
-    return <AssessmentIntro onStart={() => setPhase("part1")} />;
-  }
-
   if (phase === "processing") {
-    return <ProcessingScreen recordingCount={recordings.length} onProcess={handleBatchAssessment} />;
+    return (
+      <ProcessingScreen
+        recordingCount={recordings.length}
+        onProcess={handleBatchAssessment}
+        progress={processingProgress}
+        progressMessage={processingMessage}
+      />
+    );
   }
 
   if (phase === "results" && finalResult) {
-    return <AssessmentResults result={finalResult} onReset={resetAssessment} />;
+    return <AssessmentResults result={finalResult} onReset={resetAssessment} surveyData={surveyData} onBackToSurvey={backToSurvey} />;
   }
 
   const items = isPart1 ? PART1_SENTENCES : PART2_SCENARIOS;
@@ -235,8 +301,6 @@ export default function AIAssessment() {
           ) : (
             <StartRecordingButton onStart={startRecording} error={azure.error} />
           )}
-
-
         </div>
       </div>
     </div>

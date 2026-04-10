@@ -1,0 +1,8 @@
+{
+  "track_id": "cefr_mapping_20250408",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2025-04-08T02:00:00Z",
+  "updated_at": "2025-04-08T02:00:00Z",
+  "description": "Create CEFR/IELTS framework mapping for Azure AI assessment scores to generate personalized learning paths (lộ trình cá nhân hóa) and send via email"
+}

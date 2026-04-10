@@ -47,13 +47,56 @@ async function getBatchScores(transcripts: BatchTranscript[], isPart2: boolean) 
     return transcripts.map(() => ({ vocabulary: 50, grammar: 50, questionHandling: 50 }));
   }
 
-  const systemPrompt = isPart2
-    ? `You are an experienced ESL/EFL teacher. Grade each spoken English transcript for vocabulary, grammar, and question handling on a 0-100 scale. Output ONLY a JSON array of objects. Each object has three keys: "vocabulary", "grammar", and "questionHandling". No explanation, no markdown, no code blocks, no backticks.`
-    : `You are an experienced ESL/EFL teacher. Grade each spoken English transcript for vocabulary and grammar on a 0-100 scale. Output ONLY a JSON array of objects. Each object has three keys: "vocabulary", "grammar", and "questionHandling". No explanation, no markdown, no code blocks, no backticks.`;
+  const systemPrompt = `You are an experienced ESL/EFL teacher grading spoken English based on the EPLUS Speaking Rubric. 
+Grade each transcript for vocabulary, grammar, and question handling on a 0-100 scale following the detailed scoring guides provided.
+Output ONLY a JSON array of objects with keys: "vocabulary", "grammar", "questionHandling". 
+No explanation, no markdown, no code blocks.`;
 
   const criteriaSection = isPart2
-    ? `- vocabulary (0-100): word range, appropriateness, advanced usage, misused words, repetition\n- grammar (0-100): sentence structure, verb tense, articles, prepositions, subject-verb agreement, errors\n- questionHandling (0-100): how well the speaker addresses the scenario, stays on topic, uses appropriate conversational language, and demonstrates communicative competence`
-    : `- vocabulary (0-100): word range, appropriateness, advanced usage, misused words, repetition\n- grammar (0-100): sentence structure, verb tense, articles, prepositions, subject-verb agreement, errors\n- questionHandling (0-100): how well the speaker handles the conversation topic`;
+    ? `## Vocabulary Scoring Guide (0-100):
+- 80-100: Excellent - Uses wide range of vocabulary, very few errors, communication not affected
+- 60-79: Good - Adequate vocabulary range, some problems but generally does not interfere with communication
+- 40-59: Adequate - Several vocabulary problems that interfere with communication
+- 20-39: Inadequate - Many vocabulary problems that severely interfere with communication
+- 0-19: Weak - Very serious vocabulary problems that prevent communication
+
+## Grammar Scoring Guide (0-100):
+- 80-100: Excellent - Very good language control, very few grammatical errors
+- 60-79: Good - Good language control, several errors but generally does not interfere with communication
+- 40-59: Adequate - Grammatical problems that interfere with communication
+- 20-39: Inadequate - Serious grammatical problems that interfere with communication
+- 0-19: Weak - Very serious grammatical errors that prevent communication
+
+## Question Handling Scoring Guide (0-100):
+- 80-100: Excellent - Provides good and clear responses, addresses question fully
+- 60-79: Good - Provides mostly clear responses, minor issues but does not interfere with communication
+- 40-59: Adequate - Provides adequate responses but may need clarification sometimes
+- 20-39: Inadequate - Often provides weak responses, serious problems with question comprehension
+- 0-19: Weak - Provides confusing responses, almost no question comprehension
+
+Grade each transcript and provide ONLY scores (no explanations).`
+    : `## Vocabulary Scoring Guide (0-100):
+- 80-100: Excellent - Uses wide range of vocabulary, very few errors
+- 60-79: Good - Adequate vocabulary, some problems but generally does not interfere
+- 40-59: Adequate - Several vocabulary problems that interfere with communication
+- 20-39: Inadequate - Many vocabulary problems that severely interfere
+- 0-19: Weak - Very serious vocabulary problems that prevent communication
+
+## Grammar Scoring Guide (0-100):
+- 80-100: Excellent - Very good language control, very few grammatical errors
+- 60-79: Good - Good language control, several errors but generally does not interfere
+- 40-59: Adequate - Grammatical problems that interfere with communication
+- 20-39: Inadequate - Serious grammatical problems that interfere with communication
+- 0-19: Weak - Very serious grammatical errors that prevent communication
+
+## Question Handling Scoring Guide (0-100):
+- 80-100: Excellent - Provides good and clear responses
+- 60-79: Good - Provides mostly clear responses, minor issues
+- 40-59: Adequate - Provides adequate responses but may need clarification
+- 20-39: Inadequate - Often provides weak responses, serious comprehension problems
+- 0-19: Weak - Provides confusing responses, almost no comprehension
+
+Grade each transcript and provide ONLY scores (no explanations).`;
 
   const itemsText = transcripts.map((t, i) => {
     let text = `Item ${i + 1}:\n  Transcript: "${t.transcript}"`;

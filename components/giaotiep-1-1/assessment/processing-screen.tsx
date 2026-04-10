@@ -1,56 +1,97 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 interface ProcessingScreenProps {
   recordingCount: number;
   onProcess: () => Promise<void>;
+  progress?: number;
+  progressMessage?: string;
 }
 
-export default function ProcessingScreen({ recordingCount, onProcess }: ProcessingScreenProps) {
+export default function ProcessingScreen({ recordingCount, onProcess, progress: externalProgress, progressMessage: externalMessage }: ProcessingScreenProps) {
   const processedRef = useRef(false);
+  const [internalProgress, setInternalProgress] = useState(0);
+
+  const progress = externalProgress ?? internalProgress;
+
+  const loadingMessages = [
+    "Đang phân tích giọng nói...",
+    "Đang đánh giá nội dung...",
+    "Đang tính điểm...",
+    "Hoàn tất",
+  ];
+
+  const getCurrentMessage = () => {
+    if (externalMessage) return externalMessage;
+    if (progress < 25) return loadingMessages[0];
+    if (progress < 50) return loadingMessages[1];
+    if (progress < 75) return loadingMessages[2];
+    return loadingMessages[3];
+  };
 
   useEffect(() => {
     if (processedRef.current) return;
     processedRef.current = true;
-    onProcess();
-  }, [onProcess]);
+
+    if (externalProgress !== undefined) return;
+
+    const interval = setInterval(() => {
+      setInternalProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + Math.random() * 15 + 5;
+      });
+    }, 800);
+
+    onProcess().finally(() => {
+      setInternalProgress(100);
+    });
+
+    return () => clearInterval(interval);
+  }, [onProcess, externalProgress]);
 
   return (
-    <div className="h-[calc(100vh-4rem)] overflow-hidden bg-white">
-      <div className="h-full flex">
-        <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
-            <div className="w-16 h-16 border-4 border-[#191c1c] border-t-transparent animate-spin mx-auto mb-8" />
-            <h3 className="font-headline font-bold text-2xl uppercase text-[#191c1c] mb-3">
-              Đang chấm điểm
-            </h3>
-            <p className="font-body text-sm text-[#5b403f] max-w-md mx-auto">
-              AI đang phân tích phát âm, ngữ pháp và từ vựng của bạn...
-            </p>
-          </motion.div>
+    <div className="min-h-screen bg-white flex items-center justify-center px-6">
+      <div className="w-full max-w-md text-center">
+        {/* Logo */}
+        <div className="w-48 h-16 mx-auto mb-8 relative">
+          <Image
+            src="/flextrack/flextrack_logo_white.png"
+            alt="FlexTrack Logo"
+            fill
+            className="object-contain object-center"
+          />
         </div>
-        <div className="hidden md:flex flex-1 items-center justify-center bg-[#f8f9f9] border-l border-slate-100">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-brand-crimson/10 flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-10 h-10 text-brand-crimson"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 002 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <p className="font-body text-xs text-[#191c1c]/40 uppercase tracking-[1.5px]">
-              Đang xử lý {recordingCount} bản ghi âm
-            </p>
+
+        {/* Title */}
+        <h3 className="font-headline font-bold text-2xl uppercase text-[#191c1c] mb-2">
+          Đang chấm điểm
+        </h3>
+        <p className="font-body text-sm text-[#191c1c]/50 mb-12">
+          {recordingCount} bản ghi âm
+        </p>
+
+        {/* Progress */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-3">
+            <span className="font-headline font-bold text-4xl text-[#191c1c]">
+              {Math.round(progress)}%
+            </span>
+            <span className="font-body text-sm text-[#191c1c]/60">
+              {getCurrentMessage()}
+            </span>
+          </div>
+          <div className="h-2 bg-[#e7e8e8]">
+            <motion.div 
+              className="h-full bg-brand-crimson"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+            />
           </div>
         </div>
       </div>
