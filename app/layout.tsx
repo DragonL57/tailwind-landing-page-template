@@ -1,18 +1,24 @@
 import "./css/style.css";
 
-import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
+import { Montserrat, Be_Vietnam_Pro, Bricolage_Grotesque } from "next/font/google";
 import Script from "next/script";
 
+const bricolageGrotesque = Bricolage_Grotesque({
+  subsets: ["latin", "vietnamese"],
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
 const montserrat = Montserrat({
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
   variable: "--font-montserrat",
   display: "swap",
 });
 
 const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin', 'vietnamese'],
   variable: '--font-be-vietnam-pro',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
 
@@ -53,8 +59,10 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${montserrat.variable} ${beVietnamPro.variable} bg-white font-be-vietnam-pro tracking-tight text-gray-900 antialiased`}
+        className={`${bricolageGrotesque.variable} ${montserrat.variable} ${beVietnamPro.variable} bg-white font-be-vietnam-pro tracking-tight text-[#1a1a1a] antialiased`}
       >
+        {/* Noise Texture Overlay */}
+        <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe

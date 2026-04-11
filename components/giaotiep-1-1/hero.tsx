@@ -1,39 +1,64 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import { useRef } from "react";
+import Image from "next/image";
 
 export default function Hero() {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
-  const academicGridStyle = {
-    backgroundImage: "radial-gradient(#e1e3e3 1px, transparent 1px)",
-    backgroundSize: "30px 30px",
-  };
-
   return (
-    <section className="relative h-full w-full flex flex-col justify-center bg-white overflow-hidden">
-      {/* Background Decorative Element - Full Width with Academic Grid Texture */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#f3f4f4] -z-10 hidden lg:block overflow-hidden">
-        <div className="absolute inset-0 opacity-40" style={academicGridStyle}></div>
+    <section 
+      ref={targetRef}
+      className="relative h-full w-full flex flex-col justify-center bg-white"
+    >
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full -z-10 overflow-hidden">
+        <motion.div 
+          style={{ y }}
+          className="absolute inset-0 bg-[#f9fafb] opacity-80"
+        >
+          <div className="absolute inset-0 bg-pattern-grid opacity-10"></div>
+        </motion.div>
+        
+        {/* Silhouette Logo - Full Opacity */}
+        <motion.div 
+          style={{ rotate, y: useTransform(scrollYProgress, [0, 1], [-50, 150]) }}
+          className="absolute top-1/4 -right-32 w-[700px] h-[700px] pointer-events-none z-0"
+        >
+          <Image src="/images/Picture1.png" alt="Silhouette" fill className="object-contain" priority />
+        </motion.div>
+
+        {/* Large Geometric Shape */}
+        <div className="absolute top-[-10%] right-[-5%] w-[60%] h-[120%] bg-white/60 rotate-12 blur-3xl"></div>
       </div>
 
       <motion.div 
@@ -41,88 +66,102 @@ export default function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-[1440px] mx-auto w-full px-6 md:px-12 py-8 lg:py-12"
+        className="max-w-[1440px] mx-auto w-full px-6 md:px-12 py-12 lg:py-20"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Column: The Narrative */}
           <div className="lg:col-span-7 z-10">
             <motion.h1 
               variants={itemVariants}
-              className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#191c1c] leading-[1.1] tracking-tight mb-6 uppercase font-headline"
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-brand-dark leading-[0.95] tracking-[-0.04em] mb-8 font-headline"
             >
-              LINH HOẠT ĐỂ HỌC TỐT. <br />
-              <span className="text-brand-crimson italic">VỮNG VÀNG</span> ĐỂ TIẾN XA.
+              Tiếng Anh 1–1 <br />
+              <span className="text-brand-crimson italic">Tương tác thực</span>.<br />
+              Phản hồi thực.
             </motion.h1>
             
-            <motion.div variants={itemVariants} className="space-y-4 text-base md:text-lg text-[#5b403f] font-body leading-relaxed max-w-2xl mb-8">
-              <p className="border-l-4 border-brand-crimson pl-6 font-medium">
-                Hệ chương trình tiếng Anh 1–1 trực tuyến được thiết kế riêng biệt để đáp ứng các mục tiêu học thuật và sự nghiệp cao nhất.
+            <motion.div variants={itemVariants} className="max-w-xl mb-10">
+              <p className="text-lg md:text-xl text-brand-muted font-be-vietnam-pro leading-relaxed mb-6">
+                Hệ chương trình đào tạo trực tuyến cá nhân hóa chuyên biệt, giúp bạn biến kiến thức thành năng lực sử dụng thực tế ngay sau mỗi buổi học.
               </p>
-              <p className="pl-6 opacity-80 text-sm md:text-base">
-                Xây dựng lộ trình cá nhân hóa dựa trên năng lực thực tế, thời gian biểu cá nhân và mục đích sử dụng ngôn ngữ trong môi trường chuyên nghiệp.
-              </p>
+              
+              <div className="flex flex-wrap gap-x-8 gap-y-4 pt-6 border-t border-brand-dark/5">
+                {[
+                  { label: "Tương tác", value: "1-on-1" },
+                  { label: "Chuẩn đầu ra", value: "CEFR" },
+                  { label: "Chuyên sâu", value: "Ngành nghề" }
+                ].map((stat, i) => (
+                  <div key={i} className="flex flex-col">
+                    <span className="text-2xl font-bold text-brand-dark font-headline">{stat.value}</span>
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted font-bold">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
-            {/* Feature Bullets - Increased text size for readability */}
-            <motion.div 
-              variants={itemVariants}
-              className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 mb-8 max-w-2xl border-t border-b border-slate-200 py-6"
-            >
-              {[
-                "Lớp học 1–1 tương tác cao",
-                "Phân tích năng lực chuyên sâu",
-                "Lịch học linh hoạt 24/7",
-                "Tiêu chuẩn học thuật quốc tế"
-              ].map((feature, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 bg-brand-gold"></div>
-                  <span className="font-bold text-xs uppercase tracking-[1.5px] text-[#191c1c]">{feature}</span>
-                </div>
-              ))}
-            </motion.div>
-
-            <div className="flex justify-center lg:justify-start">
-              <Link href="/giaotiep-1-1/danh-gia-lo-trinh">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+              <Link href="/giaotiep-1-1/danh-gia-lo-trinh" className="w-full sm:w-auto">
                 <motion.button 
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none"
+                  className="w-full sm:w-auto bg-brand-crimson text-white px-10 py-5 font-bold tracking-[1px] text-sm transition-all hover:bg-brand-dark shadow-xl shadow-brand-crimson/20 flex items-center justify-center gap-3 group"
                 >
-                  BẮT ĐẦU LỘ TRÌNH NGAY
+                  XÁC ĐỊNH LỘ TRÌNH NGAY
+                  <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </motion.button>
               </Link>
-            </div>
+              
+              <button className="flex items-center gap-3 text-brand-dark font-bold text-sm group">
+                <div className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center group-hover:bg-brand-dark group-hover:text-white transition-all">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                TÌM HIỂU PHƯƠNG PHÁP
+              </button>
+            </motion.div>
           </div>
 
-          {/* Right Column: Video Placeholder (3:4 Portrait) */}
+          {/* Right Column: Visual Composition (Reverted to Image) */}
           <motion.div 
             variants={itemVariants}
-            className="lg:col-span-5 flex justify-center lg:justify-end h-full"
+            className="lg:col-span-5 relative"
           >
-            <div className="relative w-full max-w-[450px] aspect-[3/4] md:aspect-[3/4] bg-slate-200 overflow-hidden group max-h-[50vh] md:max-h-[70vh]">
-              {/* Architectural Border */}
-              <div className="absolute inset-0 border-[15px] border-[#f3f4f4] z-10 pointer-events-none"></div>
+            <div className="relative z-10 aspect-[4/5] w-full max-w-[480px] ml-auto overflow-hidden group shadow-2xl">
+              <Image 
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+                alt="Student learning"
+                fill
+                className="object-cover transition-all duration-1000 scale-105 group-hover:scale-100"
+              />
               
-              <video 
-                className="w-full h-full object-cover grayscale brightness-110 contrast-125 bg-slate-300"
-                autoPlay 
-                muted 
-                loop 
-                playsInline
-                poster="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzZ9Hf8lRYDMFCAgMRTNylBU6uYNGJJgUKLhhbhwmlrhRM3PTLNiKrOfDxuuQ1luthmNbLmjVuRn-Yf0n7ktOsjr4qXypVCYuPJNPpPLw9A-LMbgUSB5L2t3J-_k-jlx_c6ujngDcDFY1V9UplrIdgQs666EtnpPCs41UgsOV8VsKm1ZRyLXH_7SriXiTxS3-NdQCT7_Y3sgLiGhrIky5nTrYAFZSGfLm8g1Y1pFxmIZVVgiW8jRKRDMKJkFHoWe6V7aKq1LfaA0"
-              >
-              </video>
-
-              <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                 <div className="w-16 h-16 border-2 border-white flex items-center justify-center">
-                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[15px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
-                 </div>
+              {/* Glass Overlay Card */}
+              <div className="absolute bottom-8 left-8 right-8 p-6 backdrop-blur-md bg-white/80 border border-white/20 shadow-2xl">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden relative">
+                        <Image src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User avatar" fill className="object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-[10px] font-bold text-brand-dark uppercase tracking-wider">
+                    Đã cá nhân hóa 500+ lộ trình
+                  </div>
+                </div>
+                <p className="text-xs text-brand-muted font-medium italic leading-relaxed">
+                  &quot;Chương trình giúp tôi đi từ &apos;biết&apos; tiếng Anh đến thực sự &apos;dùng&apos; được tiếng Anh trong công việc.&quot;
+                </p>
               </div>
 
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 border-r-4 border-b-4 border-brand-crimson z-20"></div>
+              {/* Decorative Frame */}
+              <div className="absolute inset-4 border border-white/30 pointer-events-none"></div>
             </div>
+
+            {/* Decorative Background Elements */}
+            <div className="absolute -top-8 -left-8 w-32 h-32 bg-brand-gold/10 -z-10 rotate-12"></div>
+            <div className="absolute -bottom-12 -right-4 w-48 h-48 border-2 border-brand-crimson/10 -z-10 rounded-full"></div>
           </motion.div>
 
         </div>

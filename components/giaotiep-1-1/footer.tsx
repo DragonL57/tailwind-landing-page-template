@@ -56,24 +56,21 @@ export default function Footer() {
   };
 
   return (
-    <footer 
-      className="relative overflow-hidden bg-[#f8f9f9] text-[#191c1c] border-t-8 border-brand-crimson"
-      style={{
-        backgroundImage: 'radial-gradient(#e1e3e3 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+    <footer className="relative overflow-hidden bg-white text-brand-dark border-t border-brand-dark/5">
+      {/* Minimalist Grid Background */}
+      <div className="absolute inset-0 bg-pattern-grid opacity-[0.03] -z-10"></div>
+
+      <div className="max-w-[1440px] mx-auto px-6 py-20 md:py-32">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-20"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 mb-24"
         >
           {/* Brand Identity Section */}
-          <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col items-start gap-10">
-            <div className="relative h-12 w-48 lg:h-16 lg:w-56">
+          <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col items-start gap-12">
+            <div className="relative h-12 w-48 lg:h-14 lg:w-56">
               <Image
                 src="/flextrack/flextrack_logo_white.png"
                 alt="VMG FlexTrack Logo"
@@ -82,39 +79,39 @@ export default function Footer() {
               />
             </div>
             
-            <div className="max-w-md border-l-4 border-brand-crimson pl-6 py-2">
-              <p className="font-be-vietnam-pro text-lg leading-relaxed text-[#191c1c]/80 italic">
+            <div className="max-w-md border-l-2 border-brand-crimson pl-8 py-2">
+              <p className="font-be-vietnam-pro text-xl leading-relaxed text-brand-muted italic">
                 &quot;Kiến tạo thế hệ công dân toàn cầu thông qua sự chính xác trong ngôn ngữ và tư duy học thuật đỉnh cao.&quot;
               </p>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-6">
               {socials.map(({ icon: Icon, label }, i) => (
                 <motion.button
                   key={i}
-                  whileHover={{ backgroundColor: '#BE202F', color: '#ffffff' }}
+                  whileHover={{ y: -4, color: '#BE202F' }}
                   aria-label={label}
-                  className="w-12 h-12 border-2 border-[#191c1c]/10 flex items-center justify-center transition-all cursor-pointer rounded-none"
+                  className="w-10 h-10 border border-brand-dark/10 flex items-center justify-center transition-all cursor-pointer rounded-full hover:border-brand-crimson/30"
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-4 h-4" />
                 </motion.button>
               ))}
             </div>
           </motion.div>
 
           {/* Quick Links & Info Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-20">
             {/* Quick Links */}
             <motion.div variants={itemVariants}>
-              <h4 className="font-montserrat font-bold text-xs uppercase tracking-[2px] text-brand-gold mb-8">
-                DANH MỤC TRUY CẬP
+              <h4 className="font-headline font-bold text-xs uppercase tracking-[3px] text-brand-gold mb-10">
+                Danh mục
               </h4>
-              <ul className="grid grid-cols-1 gap-4">
+              <ul className="grid grid-cols-1 gap-5">
                 {quickLinks.map((link, i) => (
                   <li key={i}>
                     <Link
                       href={link.href}
-                      className="font-be-vietnam-pro font-bold text-xs uppercase tracking-[1.5px] text-[#191c1c]/60 hover:text-brand-crimson transition-colors block"
+                      className="font-be-vietnam-pro font-bold text-sm text-brand-dark/60 hover:text-brand-crimson transition-colors block"
                     >
                       {link.name}
                     </Link>
@@ -125,24 +122,24 @@ export default function Footer() {
 
             {/* Main Offices */}
             <motion.div variants={itemVariants}>
-              <h4 className="font-montserrat font-bold text-xs uppercase tracking-[2px] text-brand-gold mb-8">
-                TRỤ SỞ ĐIỀU HÀNH
+              <h4 className="font-headline font-bold text-xs uppercase tracking-[3px] text-brand-gold mb-10">
+                Trụ sở điều hành
               </h4>
-              <div className="space-y-8">
+              <div className="space-y-10">
                 <div className="group">
-                  <p className="font-montserrat font-bold text-[10px] uppercase tracking-[1.5px] text-brand-crimson mb-2 flex items-center gap-2">
-                    <MapPin className="w-3 h-3" /> TRỤ SỞ CHÍNH (TP.HCM)
+                  <p className="font-headline font-bold text-[10px] uppercase tracking-[2px] text-brand-crimson mb-3 flex items-center gap-2">
+                    <MapPin className="w-3 h-3" /> TP. Hồ Chí Minh
                   </p>
-                  <p className="font-be-vietnam-pro text-sm text-[#191c1c]/70 leading-relaxed">
+                  <p className="font-be-vietnam-pro text-sm text-brand-muted leading-relaxed">
                     Phòng L17-11, Tầng 17, Tòa nhà Vincom Center,<br />
                     72 Lê Thánh Tôn, P. Bến Nghé, Quận 1
                   </p>
                 </div>
                 <div className="group">
-                  <p className="font-montserrat font-bold text-[10px] uppercase tracking-[1.5px] text-brand-crimson mb-2 flex items-center gap-2">
-                    <MapPin className="w-3 h-3" /> VĂN PHÒNG ĐỒNG NAI
+                  <p className="font-headline font-bold text-[10px] uppercase tracking-[2px] text-brand-crimson mb-3 flex items-center gap-2">
+                    <MapPin className="w-3 h-3" /> Tỉnh Đồng Nai
                   </p>
-                  <p className="font-be-vietnam-pro text-sm text-[#191c1c]/70 leading-relaxed">
+                  <p className="font-be-vietnam-pro text-sm text-brand-muted leading-relaxed">
                     E99 Võ Thị Sáu, Khu phố 7,<br />
                     Phường Thống Nhất, TP. Biên Hòa
                   </p>
@@ -152,37 +149,38 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Center System Showcase (Bento Style) */}
+        {/* Center System Showcase */}
         <motion.div
           variants={itemVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mb-20 pt-16 border-t border-[#191c1c]/10"
+          className="mb-24 pt-20 border-t border-brand-dark/5"
         >
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
             <div>
-              <h4 className="font-montserrat font-bold text-xs uppercase tracking-[2px] text-brand-gold mb-2">
-                HỆ THỐNG ĐÀO TẠO
+              <h4 className="font-headline font-bold text-xs uppercase tracking-[3px] text-brand-gold mb-3">
+                Hệ thống đào tạo
               </h4>
-              <h3 className="font-montserrat font-bold text-2xl uppercase text-[#191c1c]">
-                MẠNG LƯỚI TRUNG TÂM
+              <h3 className="font-headline font-bold text-3xl text-brand-dark">
+                Mạng lưới trung tâm.
               </h3>
             </div>
-            <div className="h-1 w-24 bg-brand-crimson hidden md:block" />
+            <Link href="/centers" className="text-xs font-bold tracking-widest text-brand-crimson uppercase border-b border-brand-crimson pb-1">
+              Xem chi tiết bản đồ
+            </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-0 border-l border-t border-[#191c1c]/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-0 border-l border-t border-brand-dark/5">
             {centers.map((center, i) => (
               <div 
                 key={i} 
-                className="p-6 border-r border-b border-[#191c1c]/10 hover:bg-white transition-colors group relative overflow-hidden"
+                className="p-8 border-r border-b border-brand-dark/5 hover:bg-brand-surface/30 transition-all group relative"
               >
-                <div className="absolute top-0 left-0 w-1 h-0 bg-brand-crimson group-hover:h-full transition-all duration-300" />
-                <p className="font-montserrat font-bold text-[10px] uppercase tracking-[1px] text-brand-gold mb-3 group-hover:text-brand-crimson transition-colors">
+                <p className="font-headline font-bold text-[10px] uppercase tracking-[1px] text-brand-gold mb-4 group-hover:text-brand-crimson transition-colors">
                   {center.name}
                 </p>
-                <p className="font-be-vietnam-pro text-[11px] text-[#191c1c]/50 leading-relaxed">
+                <p className="font-be-vietnam-pro text-[11px] text-brand-muted/60 leading-relaxed">
                   {center.address}
                 </p>
               </div>
@@ -193,49 +191,49 @@ export default function Footer() {
         {/* Contact & Newsletter Bar */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col lg:flex-row gap-12 items-start lg:items-center justify-between pt-12 border-t-2 border-[#191c1c]"
+          className="flex flex-col lg:flex-row gap-16 items-start lg:items-center justify-between pt-16 border-t-2 border-brand-dark"
         >
-          <div className="flex flex-wrap gap-8">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 border border-[#191c1c]/10 flex items-center justify-center text-brand-crimson">
-                <Phone className="w-4 h-4" />
+          <div className="flex flex-wrap gap-12">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 border border-brand-dark/5 rounded-full flex items-center justify-center text-brand-crimson shadow-sm">
+                <Phone className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-montserrat font-bold text-[9px] uppercase tracking-[1.5px] text-[#191c1c]/40">Đường dây nóng</p>
-                <p className="font-be-vietnam-pro font-bold text-sm">1900 636 838</p>
+                <p className="font-headline font-bold text-[9px] uppercase tracking-[2px] text-brand-muted/40">Hotline</p>
+                <p className="font-be-vietnam-pro font-bold text-base">1900 636 838</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 border border-[#191c1c]/10 flex items-center justify-center text-brand-crimson">
-                <Mail className="w-4 h-4" />
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 border border-brand-dark/5 rounded-full flex items-center justify-center text-brand-crimson shadow-sm">
+                <Mail className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-montserrat font-bold text-[9px] uppercase tracking-[1.5px] text-[#191c1c]/40">Thư điện tử</p>
-                <p className="font-be-vietnam-pro font-bold text-sm uppercase">info@vmg.edu.vn</p>
+                <p className="font-headline font-bold text-[9px] uppercase tracking-[2px] text-brand-muted/40">Email</p>
+                <p className="font-be-vietnam-pro font-bold text-base uppercase">info@vmg.edu.vn</p>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-0">
+          <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-0 shadow-xl shadow-brand-dark/5">
             <input
               type="email"
               placeholder="ĐỊA CHỈ EMAIL CỦA BẠN"
-              className="px-6 py-4 bg-white border-2 border-[#191c1c] text-xs uppercase tracking-[1px] w-full sm:w-80 focus:outline-none placeholder:text-[#191c1c]/20 font-be-vietnam-pro font-bold rounded-none"
+              className="px-8 py-5 bg-white border border-brand-dark text-[10px] uppercase tracking-[2px] w-full sm:w-80 focus:outline-none placeholder:text-brand-muted/30 font-be-vietnam-pro font-bold"
             />
-            <button className="px-10 py-4 bg-brand-crimson text-white font-montserrat font-bold uppercase tracking-[2px] text-xs whitespace-nowrap hover:bg-[#a31b28] transition-all cursor-pointer rounded-none">
-              ĐĂNG KÝ NHẬN TIN
+            <button className="px-10 py-5 bg-brand-dark text-white font-headline font-bold uppercase tracking-[2px] text-[10px] whitespace-nowrap hover:bg-brand-crimson transition-all cursor-pointer">
+              Đăng ký nhận tin
             </button>
           </div>
         </motion.div>
 
         {/* Footer Bottom */}
-        <div className="mt-16 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 text-center md:text-left">
+        <div className="mt-20 flex flex-col md:flex-row justify-between items-center gap-8 pt-8 border-t border-brand-dark/5">
+          <p className="font-be-vietnam-pro font-bold text-[10px] uppercase tracking-[2px] text-brand-muted/30 text-center md:text-left">
             © 2026 VMG EDUCATION GROUP. ALL RIGHTS RESERVED. ACADEMIC ARCHITECT SYSTEM.
           </p>
-          <div className="flex gap-8">
-            <Link href="/privacy" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Chính sách bảo mật</Link>
-            <Link href="/terms" className="font-be-vietnam-pro font-bold text-[9px] uppercase tracking-[2px] text-[#191c1c]/30 hover:text-brand-crimson">Điều khoản sử dụng</Link>
+          <div className="flex gap-10">
+            <Link href="/privacy" className="font-be-vietnam-pro font-bold text-[10px] uppercase tracking-[2px] text-brand-muted/30 hover:text-brand-crimson transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="font-be-vietnam-pro font-bold text-[10px] uppercase tracking-[2px] text-brand-muted/30 hover:text-brand-crimson transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

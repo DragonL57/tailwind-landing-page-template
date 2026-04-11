@@ -1,13 +1,9 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function ConsultationForm() {
-  const academicGridStyle = {
-    backgroundImage: "radial-gradient(#e1e3e3 1px, transparent 1px)",
-    backgroundSize: "40px 40px",
-  };
-
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,14 +20,14 @@ export default function ConsultationForm() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
   return (
-    <section className="relative min-h-fit py-12 md:py-32 bg-[#f8f9f9] flex flex-col justify-center overflow-hidden">
-      {/* Background Dot Texture - The Academic Grid */}
-      <div className="absolute inset-0 opacity-60" style={academicGridStyle}></div>
+    <section className="relative min-h-fit py-20 md:py-32 bg-white flex flex-col justify-center overflow-hidden">
+      {/* Background Accent */}
+      <div className="absolute inset-0 bg-[#f9fafb] opacity-50 -z-10"></div>
 
       <motion.div 
         variants={containerVariants}
@@ -40,36 +36,57 @@ export default function ConsultationForm() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full relative z-10"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-t-4 border-brand-gold bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 shadow-2xl border border-brand-dark/5 bg-white overflow-hidden">
           
-          {/* Left: Narrative Content (Layer 2 - Shifts) */}
-          <motion.div variants={itemVariants} className="lg:col-span-4 bg-[#f3f4f4] p-10 md:p-12 flex flex-col justify-between border-r border-slate-200">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-headline leading-[1.1] text-[#191c1c] uppercase mb-6">
-                ĐẶT LỊCH <br />
-                <span className="text-brand-crimson">TƯ VẤN 1-1</span>
+          {/* Left: Narrative Content with World Map Animation (NOW WHITE) */}
+          <motion.div variants={itemVariants} className="lg:col-span-4 bg-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden border-r border-brand-dark/5">
+            {/* World Map Lottie - Subtle Background on White, lowered slightly */}
+            <div className="absolute inset-0 opacity-[0.15] pointer-events-none scale-150 grayscale transform translate-y-12">
+              <DotLottieReact
+                src="https://lottie.host/5628ae4f-69f6-4f31-ac82-c168e5ee5b35/fcarVkPVTi.lottie"
+                loop
+                autoplay
+              />
+            </div>
+            
+            <div className="absolute -top-12 -left-12 w-48 h-48 bg-brand-crimson/5 rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              <div className="text-brand-crimson font-bold text-[10px] tracking-[3px] uppercase mb-6">
+                Đừng chờ đợi nữa
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold font-headline leading-[1.1] text-brand-dark mb-8">
+                Đặt lịch <br />
+                <span className="text-brand-gold italic">tư vấn 1–1</span>.
               </h2>
-              <p className="text-sm md:text-base text-[#5b403f] font-body leading-relaxed border-l-4 border-brand-crimson pl-6">
-                Đăng ký để được tư vấn lộ trình phù hợp với mục tiêu của bạn.
+              <p className="text-base text-brand-muted font-be-vietnam-pro leading-relaxed border-l-2 border-brand-crimson pl-6 max-w-xs">
+                Sẵn sàng để trở thành công dân toàn cầu. Đăng ký để nhận bản phân tích năng lực chuyên sâu ngay hôm nay.
               </p>
+            </div>
+
+            <div className="relative z-10 mt-12 pt-12 border-t border-brand-dark/5 hidden lg:block">
+               <div className="flex items-center gap-4 text-brand-dark/40 text-[10px] font-bold tracking-widest uppercase">
+                  <span className="w-2 h-2 bg-brand-crimson rounded-full animate-pulse"></span>
+                  Phản hồi trong 2 giờ làm việc
+               </div>
             </div>
           </motion.div>
 
           {/* Right: The Modern Form */}
-          <motion.div variants={itemVariants} className="lg:col-span-8 p-8 md:p-12 lg:p-16">
-            <form className="space-y-10">
+          <motion.div variants={itemVariants} className="lg:col-span-8 p-8 md:p-16 lg:p-20 bg-white">
+            <form className="space-y-12">
               
               {/* Section: Basic Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
                 <div className="relative group">
                   <input 
                     type="text" 
                     id="name" 
                     required 
                     placeholder=" " 
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 pl-2 text-[#191c1c] outline-none focus:border-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none transition-all rounded-none font-body" 
+                    className="peer w-full bg-transparent border-b border-brand-dark/10 py-4 text-brand-dark outline-none focus:border-brand-crimson transition-all rounded-none font-be-vietnam-pro" 
                   />
-                  <label htmlFor="name" className="absolute left-2 -top-4 text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-500 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:font-bold peer-focus:text-brand-crimson">Họ tên của bạn là (*)</label>
+                  <label htmlFor="name" className="absolute left-0 -top-4 text-[10px] font-bold uppercase tracking-[2px] text-brand-gold transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-brand-muted peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-brand-crimson">Họ tên của bạn (*)</label>
                 </div>
 
                 <div className="relative group">
@@ -78,9 +95,9 @@ export default function ConsultationForm() {
                     id="email" 
                     required 
                     placeholder=" " 
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 pl-2 text-[#191c1c] outline-none focus:border-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none transition-all rounded-none font-body" 
+                    className="peer w-full bg-transparent border-b border-brand-dark/10 py-4 text-brand-dark outline-none focus:border-brand-crimson transition-all rounded-none font-be-vietnam-pro" 
                   />
-                  <label htmlFor="email" className="absolute left-2 -top-4 text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-500 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:font-bold peer-focus:text-brand-crimson">Email liên hệ (*)</label>
+                  <label htmlFor="email" className="absolute left-0 -top-4 text-[10px] font-bold uppercase tracking-[2px] text-brand-gold transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-brand-muted peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-brand-crimson">Email liên hệ (*)</label>
                 </div>
 
                 <div className="relative group md:col-span-2">
@@ -89,112 +106,52 @@ export default function ConsultationForm() {
                     id="phone" 
                     required 
                     placeholder=" " 
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 pl-2 text-[#191c1c] outline-none focus:border-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none transition-all rounded-none font-body" 
+                    className="peer w-full bg-transparent border-b border-brand-dark/10 py-4 text-brand-dark outline-none focus:border-brand-crimson transition-all rounded-none font-be-vietnam-pro" 
                   />
-                  <label htmlFor="phone" className="absolute left-2 -top-4 text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-500 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:font-bold peer-focus:text-brand-crimson">Số điện thoại (*)</label>
+                  <label htmlFor="phone" className="absolute left-0 -top-4 text-[10px] font-bold uppercase tracking-[2px] text-brand-gold transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-brand-muted peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-brand-crimson">Số điện thoại (*)</label>
                 </div>
               </div>
 
-              {/* Section: Course & Readiness */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-4">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold block mb-4">Lộ trình bạn quan tâm là (*)</label>
+              {/* Section: Options */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-4">
+                <div className="space-y-6">
+                  <label className="text-[10px] font-bold uppercase tracking-[2px] text-brand-gold block">Lộ trình quan tâm (*)</label>
                   <select 
                     required 
-                    className="w-full bg-[#f3f4f4] border-l-4 border-brand-crimson p-4 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none font-body text-sm rounded-none appearance-none cursor-pointer hover:bg-slate-100 transition-colors"
+                    className="w-full bg-[#f9fafb] border-l-2 border-brand-crimson p-5 outline-none font-be-vietnam-pro text-sm rounded-none appearance-none cursor-pointer hover:bg-slate-50 transition-colors"
                   >
-                    <option value="">Chọn gói học...</option>
-                    <option value="basic">FlexTrack Basic (60 Giờ)</option>
-                    <option value="pro">FlexTrack Pro (120 Giờ)</option>
-                    <option value="premium">FlexTrack Premium (180 Giờ)</option>
-                    <option value="specific">Tiếng Anh Giao Tiếp Chuyên Ngành</option>
-                    <option value="other">Cần tư vấn lộ trình riêng</option>
+                    <option value="">Chọn lộ trình...</option>
+                    <option value="basic">Lộ trình Chuyên nghiệp (A1-B1)</option>
+                    <option value="pro">Lộ trình Bứt phá (A1-B2)</option>
+                    <option value="premium">Lộ trình Tinh hoa (A1-C1)</option>
+                    <option value="business">Giải pháp Doanh nghiệp (B2B)</option>
                   </select>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold block mb-4">Bạn đã sẵn sàng đầu tư? (*)</label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {["Rất sẵn sàng", "Sẵn sàng", "Đang tìm hiểu"].map((option) => (
-                      <label key={option} className="flex items-center gap-3 cursor-pointer group">
-                        <input 
-                          type="radio" 
-                          name="readiness" 
-                          value={option} 
-                          className="w-4 h-4 accent-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none" 
-                        />
-                        <span className="text-xs font-body text-[#5b403f] group-hover:text-brand-crimson transition-colors">{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Section: Date & Time */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-4">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold block mb-4">Ngày trao đổi thuận tiện nhất (*)</label>
+                <div className="space-y-6">
+                  <label className="text-[10px] font-bold uppercase tracking-[2px] text-brand-gold block">Thời gian thuận tiện (*)</label>
                   <select 
                     required 
-                    className="w-full bg-[#f3f4f4] border-l-4 border-brand-gold p-4 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none font-body text-sm rounded-none appearance-none cursor-pointer"
-                  >
-                    <option value="">Chọn ngày...</option>
-                    <option value="mon">Thứ 2</option>
-                    <option value="tue">Thứ 3</option>
-                    <option value="wed">Thứ 4</option>
-                    <option value="thu">Thứ 5</option>
-                    <option value="fri">Thứ 6</option>
-                    <option value="sat">Thứ 7</option>
-                  </select>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold block mb-4">Khung giờ phù hợp (*)</label>
-                  <select 
-                    required 
-                    className="w-full bg-[#f3f4f4] border-l-4 border-brand-gold p-4 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none font-body text-sm rounded-none appearance-none cursor-pointer"
+                    className="w-full bg-[#f9fafb] border-l-2 border-brand-crimson p-5 outline-none font-be-vietnam-pro text-sm rounded-none appearance-none cursor-pointer hover:bg-slate-50 transition-colors"
                   >
                     <option value="">Chọn khung giờ...</option>
-                    <option value="morning">09h00 - 11h00</option>
-                    <option value="afternoon">14h00 - 17h00</option>
-                    <option value="evening">18h30 - 21h00</option>
+                    <option value="morning">Buổi sáng (09h - 11h)</option>
+                    <option value="afternoon">Buổi chiều (14h - 17h)</option>
+                    <option value="evening">Buổi tối (18h30 - 21h)</option>
                   </select>
                 </div>
               </div>
 
-              {/* Section: Commitment & Additional */}
-              <div className="space-y-8 pt-4">
-                <div className="relative group">
-                  <textarea 
-                    id="more" 
-                    rows={1} 
-                    placeholder=" " 
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 pl-2 text-[#191c1c] outline-none focus:border-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none transition-all rounded-none font-body resize-none" 
-                  />
-                  <label htmlFor="more" className="absolute left-2 -top-4 text-[10px] font-bold uppercase tracking-[1.5px] text-brand-gold transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-500 peer-focus:-top-4 peer-focus:text-[10px] peer-focus:font-bold peer-focus:text-brand-crimson">Cần tư vấn thêm điều gì?</label>
-                </div>
-
-                <div className="bg-slate-50 p-6 border-l-4 border-brand-crimson flex flex-col md:flex-row justify-between items-center gap-6">
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[1px] text-[#191c1c]">Bạn cam kết xuất hiện đúng giờ? (*)</p>
-                    <div className="flex gap-6">
-                      {["Tôi chắc chắn", "Tôi cam kết"].map((opt) => (
-                        <label key={opt} className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="radio" 
-                            name="commitment" 
-                            required 
-                            className="w-3 h-3 accent-brand-crimson focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none" 
-                          />
-                          <span className="text-[10px] font-bold uppercase text-slate-600">{opt}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <button type="submit" className="bg-brand-crimson text-white px-10 py-4 font-bold tracking-[2px] uppercase text-xs hover:bg-[#93001a] transition-all rounded-none w-full md:w-auto">
-                    XÁC NHẬN ĐẶT LỊCH
-                  </button>
-                </div>
+              <div className="pt-8">
+                <button type="submit" className="w-full bg-brand-crimson text-white py-6 font-bold tracking-[2px] uppercase text-sm hover:bg-brand-dark shadow-xl shadow-brand-crimson/20 transition-all duration-500 flex items-center justify-center gap-4 group/btn">
+                  XÁC NHẬN ĐĂNG KÝ
+                  <svg className="w-5 h-5 transform group-hover/btn:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+                <p className="text-[10px] text-brand-muted/50 text-center mt-6 uppercase tracking-widest font-bold">
+                  Bằng cách nhấn đăng ký, bạn đồng ý với chính sách bảo mật của chúng tôi.
+                </p>
               </div>
 
             </form>

@@ -15,8 +15,8 @@ const SECTIONS = [
   { id: "hero", component: Hero },
   { id: "evaluation", component: EvaluationPaths },
   { id: "method", component: LearningMethod },
-  { id: "pricing", component: PricingPackages },
   { id: "audience", component: TargetAudience },
+  { id: "pricing", component: PricingPackages },
   { id: "faculty", component: FacultySection },
   { id: "form", component: ConsultationForm },
   { id: "footer", component: Footer },
@@ -69,7 +69,7 @@ export default function Giaotiep11Page() {
   };
 
   return (
-    <div className="relative h-[calc(100vh-4rem)] md:overflow-hidden bg-[#f8f9f9]">
+    <div className="relative h-[calc(100vh-4rem)] md:overflow-hidden bg-[#f8f9f9] overflow-x-hidden">
       {/* Scroll Progress Bar */}
       <motion.div 
         className="fixed top-[4rem] left-0 right-0 h-1 bg-brand-crimson origin-left z-50"
@@ -97,13 +97,14 @@ export default function Giaotiep11Page() {
       {/* Main Scroll Container - Snap on Desktop, Natural on Mobile */}
       <div 
         ref={containerRef}
-        className="h-full overflow-y-auto md:scroll-snap-y md:snap-mandatory hide-scrollbar scroll-smooth"
+        className="h-full overflow-y-auto overflow-x-hidden md:scroll-snap-y md:snap-mandatory hide-scrollbar scroll-smooth"
       >
         {SECTIONS.map((Section, i) => (
           <div 
             key={Section.id} 
             ref={(el) => { sectionRefs.current[i] = el; }}
-            className="w-full md:snap-start shrink-0 border-b border-slate-100 md:border-b-0"
+            style={{ zIndex: SECTIONS.length - i }}
+            className="w-full md:snap-start shrink-0 border-b border-slate-100 md:border-b-0 relative"
           >
             <Section.component />
           </div>

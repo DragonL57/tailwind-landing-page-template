@@ -5,23 +5,23 @@ import { motion, Variants } from "framer-motion";
 export default function LearningMethod() {
   const methods = [
     {
-      title: "Tương Tác Trực Tiếp",
-      desc: "Giáo viên giảng dạy trực tiếp và tương tác liên tục với học viên trong suốt buổi học.",
+      title: "Học Để Dùng Thực Tế",
+      desc: "Ngôn ngữ được tích hợp trong các tình huống thật: phỏng vấn, thuyết trình, và đàm phán chuyên môn.",
       icon: "01"
     },
     {
-      title: "Điều Chỉnh Cá Nhân",
-      desc: "Nội dung học được điều chỉnh linh hoạt theo tiến độ thực tế và mục tiêu riêng biệt.",
+      title: "Tối Ưu Thời Lượng Nói",
+      desc: "Mô hình 1–1 giúp bạn tối đa hóa thời gian phản hồi, biến kiến thức thụ động thành phản xạ chủ động.",
       icon: "02"
     },
     {
-      title: "Hệ Thống Mentor",
-      desc: "Mentor theo dõi sát sao tiến trình học tập và hỗ trợ chuyên sâu trong suốt khóa học.",
+      title: "Phản Hồi Chuyên Sâu",
+      desc: "Chỉnh sửa phát âm, ngữ điệu và tư duy ngôn ngữ ngay lập tức từ đội ngũ chuyên gia học thuật.",
       icon: "03"
     },
     {
-      title: "Mục Tiêu Rõ Ràng",
-      desc: "Mỗi buổi học đều có mục tiêu đầu ra cụ thể và được theo dõi xuyên suốt lộ trình.",
+      title: "Lộ Trình Độc Bản",
+      desc: "Nội dung được tinh chỉnh 100% dựa trên năng lực đầu vào và mục tiêu sự nghiệp riêng biệt của bạn.",
       icon: "04"
     }
   ];
@@ -42,12 +42,12 @@ export default function LearningMethod() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
   return (
-    <section className="relative h-full w-full py-8 md:py-12 bg-[#f3f4f4] flex flex-col justify-center overflow-hidden">
+    <section className="relative min-h-fit py-20 md:py-32 bg-white flex flex-col justify-center overflow-hidden">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -55,33 +55,45 @@ export default function LearningMethod() {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-6 md:px-12 w-full"
       >
-        <div className="mb-10">
-          <motion.h2 variants={itemVariants} className="text-2xl md:text-3xl font-bold text-[#191c1c] leading-tight font-headline uppercase mb-4">
-            PHƯƠNG PHÁP <br />
-            <span className="text-[#B6914C]">KIẾN TẠO TRI THỨC</span>
-          </motion.h2>
-          <motion.p variants={itemVariants} className="text-base md:text-lg text-[#5b403f] font-body leading-relaxed max-w-2xl border-l-4 border-[#B6914C] pl-6">
-            Học 1–1 trực tuyến qua nền tảng tương tác cao, đảm bảo sự tập trung và hiệu quả tối ưu.
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
+          <div className="max-w-2xl">
+            <motion.div variants={itemVariants} className="text-brand-crimson font-bold text-[10px] tracking-[3px] uppercase mb-4">
+              Triết lý đào tạo
+            </motion.div>
+            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-brand-dark leading-tight font-headline">
+              Đi từ <span className="text-brand-crimson italic">Biết tiếng Anh</span> <br />đến <span className="text-brand-gold">Dùng được tiếng Anh</span>.
+            </motion.h2>
+          </div>
+          <motion.p variants={itemVariants} className="text-lg text-brand-muted font-be-vietnam-pro max-w-md border-l-2 border-brand-gold pl-6">
+            Chúng tôi không dạy bạn ghi nhớ thụ động. Chúng tôi kiến tạo môi trường để bạn luyện tập thật, phản hồi thật và sử dụng thật.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 border border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border border-brand-dark/10">
           {methods.map((method, i) => (
             <motion.div 
               key={i} 
               variants={itemVariants}
-              className="bg-white p-6 md:p-8 hover:bg-[#f8f9f9] transition-all duration-300 group"
+              className="relative group p-10 border-r border-b last:border-r-0 lg:border-b-0 border-brand-dark/10 hover:bg-brand-surface/30 transition-all duration-500 overflow-hidden"
             >
-              <div className="text-4xl font-bold font-headline text-[#f3f4f4] group-hover:text-[#BE202F]/10 transition-colors mb-6">
+              {/* Large background number */}
+              <div className="absolute bottom-4 right-4 text-7xl font-bold font-headline text-brand-dark/[0.03] group-hover:text-brand-crimson/[0.05] transition-colors duration-500 select-none pointer-events-none">
                 {method.icon}
               </div>
-              <h4 className="text-lg font-bold mb-3 uppercase tracking-[1.5px] font-headline text-[#191c1c]">
-                {method.title}
-              </h4>
-              <p className="text-[#5b403f] font-body leading-relaxed text-xs md:text-sm">
-                {method.desc}
-              </p>
-              <div className="mt-6 w-10 h-1 bg-[#BE202F] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+              
+              <div className="relative z-10">
+                <div className="w-10 h-1 bg-brand-gold mb-8 group-hover:bg-brand-crimson group-hover:w-16 transition-all duration-500"></div>
+                
+                <h4 className="text-xl font-bold mb-4 font-headline text-brand-dark leading-tight">
+                  {method.title}
+                </h4>
+                <p className="text-brand-muted font-be-vietnam-pro leading-relaxed text-sm">
+                  {method.desc}
+                </p>
+              </div>
+              
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 w-0 h-0 border-t-[12px] border-r-[12px] border-t-transparent border-r-brand-gold/20 group-hover:border-r-brand-crimson/40 transition-all"></div>
             </motion.div>
           ))}
         </div>

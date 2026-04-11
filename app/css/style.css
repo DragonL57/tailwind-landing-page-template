@@ -19,7 +19,9 @@
 }
 
 @theme {
-  --font-montserrat: Montserrat, sans-serif;
+  --font-headline: var(--font-bricolage), sans-serif;
+  --font-montserrat: var(--font-montserrat), sans-serif;
+  --font-be-vietnam-pro: var(--font-be-vietnam-pro), sans-serif;
   --font-mono: Roboto Mono, monospace;
 
   --color-vmg-navy: #0a2f5b;
@@ -32,6 +34,9 @@
 
   --color-brand-crimson: #BE202F;
   --color-brand-gold: #B6914C;
+  --color-brand-dark: #1a1a1a;
+  --color-brand-muted: #5b403f;
+  --color-brand-surface: #fdfcfb;
 
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.5;
