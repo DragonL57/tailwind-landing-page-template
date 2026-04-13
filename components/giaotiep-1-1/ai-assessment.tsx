@@ -18,13 +18,59 @@ import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants"
 import type { AssessmentPhase, FullResult, SurveyData } from "@/lib/ai-assessment/types";
 import type { RawRecording } from "@/lib/ai-assessment/types";
 import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
+import { motion } from "framer-motion";
+
+function LeadInfoStep({ onSubmit }: { onSubmit: (data: { name: string; email: string; phone: string }) => void }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  return (
+    <div className="py-8">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 p-8">
+        <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2 text-center">Nhận kết quả đánh giá</h3>
+        <p className="font-body text-sm text-[#5b403f] mb-6 text-center">
+          Vui lòng để lại thông tin để hệ thống xử lý và gửi báo cáo chi tiết cho bạn.
+        </p>
+        <form onSubmit={async (e) => {
+          e.preventDefault();
+          setIsSubmitting(true);
+          const formData = new FormData(e.currentTarget);
+          onSubmit({
+            name: formData.get("name") as string,
+            email: formData.get("email") as string,
+            phone: formData.get("phone") as string,
+          });
+        }} className="space-y-5">
+          <div>
+            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Họ tên (*)</label>
+            <input type="text" required name="name" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+          </div>
+          <div>
+            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Email (*)</label>
+            <input type="email" required name="email" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+          </div>
+          <div>
+            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Số điện thoại (*)</label>
+            <input type="tel" required name="phone" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+          </div>
+          <button type="submit" disabled={isSubmitting} className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer disabled:opacity-50">
+            {isSubmitting ? "Đang xử lý..." : "Tiếp tục để xem kết quả"}
+          </button>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
+// Extend phase type locally for lead collection
+type FlowPhase = AssessmentPhase | "lead";
 
 export default function AIAssessmentFlow() {
   const router = useRouter();
   const pathname = usePathname();
   
-  const [phase, setPhase] = useState<AssessmentPhase>("part1");
+  const [phase, setPhase] = useState<FlowPhase>("part1");
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
+  const [leadData, setLeadData] = useState<{ name: string; email: string; phone: string } | null>(null);
   const [currentPart, setCurrentPart] = useState<"part1" | "part2">("part1");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
@@ -93,14 +139,15 @@ export default function AIAssessmentFlow() {
     };
   }, [cleanup, audioUrl]);
 
-  const navigateTo = useCallback((targetPhase: AssessmentPhase) => {
+  const navigateTo = useCallback((targetPhase: FlowPhase) => {
     setPhase(targetPhase);
     
-    const routeMap: Record<AssessmentPhase, string> = {
+    const routeMap: Record<FlowPhase, string> = {
       survey: "/giaotiep-1-1/danh-gia-lo-trinh/khao-sat",
       intro: "/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu",
       part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      lead: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       results: "/giaotiep-1-1/danh-gia-lo-trinh/test",
     };
@@ -207,6 +254,7 @@ export default function AIAssessmentFlow() {
       isPart1,
     };
 
+    // UI state reset
     setAudioUrl(null);
     setTranscript("");
     setCurrentBlob(null);
@@ -224,7 +272,7 @@ export default function AIAssessmentFlow() {
       setCurrentIndex(0);
       navigateTo("part2");
     } else {
-      navigateTo("processing");
+      navigateTo("lead"); // Go to lead collection before processing
     }
   }, [currentBlob, currentPart, currentIndex, navigateTo]);
 
@@ -276,13 +324,53 @@ export default function AIAssessmentFlow() {
     });
     const result = computeFullResult(storedRecordings, PART1_SENTENCES.length, surveyData || undefined);
 
+    // Save lead info if we have it
+    if (leadData) {
+      try {
+        await fetch("/api/assessment-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...leadData,
+            industry: surveyData?.industry,
+            goal: surveyData?.skills,
+            currentLevel: result.currentLevel,
+            targetLevel: result.targetLevel,
+            gapHours: result.gapHours,
+            packageLabel: result.packageLabel,
+            scores: {
+              grandTotal: result.grandTotal,
+              grandMax: result.grandMax,
+              part1: result.part1.total,
+              part2: result.part2.total,
+            },
+          }),
+        });
+      } catch (error) {
+        console.error("Failed to submit lead:", error);
+      }
+    }
+
     setFinalResult(result);
     sessionStorage.setItem("assessmentResult", JSON.stringify(result));
     navigateTo("results");
-  }, [recordings, surveyData, navigateTo]);
+  }, [recordings, surveyData, navigateTo, leadData]);
 
   const isPart1 = currentPart === "part1";
   const totalItems = PART1_SENTENCES.length + PART2_SCENARIOS.length;
+
+  if (phase === "lead") {
+    return (
+      <div className="h-[calc(100vh-4rem)] flex justify-center overflow-y-auto py-8 px-8">
+        <div className="w-full max-w-lg">
+          <LeadInfoStep onSubmit={(data) => {
+            setLeadData(data);
+            navigateTo("processing");
+          }} />
+        </div>
+      </div>
+    );
+  }
 
   if (phase === "processing") {
     return (
@@ -296,7 +384,7 @@ export default function AIAssessmentFlow() {
   }
 
   if (phase === "results" && finalResult) {
-    return <AssessmentResults result={finalResult} onReset={resetAssessment} surveyData={surveyData} onBackToSurvey={backToSurvey} />;
+    return <AssessmentResults result={finalResult} onReset={resetAssessment} onBackToSurvey={backToSurvey} />;
   }
 
   const items = isPart1 ? PART1_SENTENCES : PART2_SCENARIOS;

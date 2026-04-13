@@ -17,7 +17,7 @@ export default function AssessmentIntro({ onStart, onBack, surveyData }: Assessm
       <div className="max-w-lg mx-auto px-8 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
           {/* Header */}
-          <h2 className="font-headline font-black text-3xl md:text-4xl uppercase text-[#191c1c] leading-[1.3] tracking-tight mb-4">
+          <h2 className="font-headline font-black text-2xl md:text-3xl uppercase text-[#191c1c] leading-[1.3] tracking-tight mb-4">
             Bài Đánh Giá<br />Nói Tiếng Anh
           </h2>
           <p className="font-body text-sm text-gray-500 mb-8">

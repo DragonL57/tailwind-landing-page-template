@@ -1,12 +1,13 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import { MoveRight } from "lucide-react";
 
 export default function PricingPackages() {
   const roadmaps = [
     {
       name: "Lộ trình Chuyên nghiệp",
-      path: "A1 → B1",
+      path: { from: "A1", to: "B1" },
       courses: "3 Khóa học",
       hours: "144 Giờ",
       qc: "12 Giờ",
@@ -15,7 +16,7 @@ export default function PricingPackages() {
     },
     {
       name: "Lộ trình Bứt phá",
-      path: "A1 → B2",
+      path: { from: "A1", to: "B2" },
       courses: "4 Khóa học",
       hours: "216 Giờ",
       qc: "16 Giờ",
@@ -25,7 +26,7 @@ export default function PricingPackages() {
     },
     {
       name: "Lộ trình Tinh hoa",
-      path: "A1 → C1",
+      path: { from: "A1", to: "C1" },
       courses: "5 Khóa học",
       hours: "288 Giờ",
       qc: "20 Giờ",
@@ -87,7 +88,7 @@ export default function PricingPackages() {
           </motion.div>
           <motion.h2 
             variants={itemVariants} 
-            className="text-4xl md:text-5xl font-bold text-brand-dark leading-tight font-headline"
+            className="text-3xl md:text-4xl font-bold text-brand-dark leading-tight font-headline"
           >
             Thiết kế <span className="text-brand-crimson italic">lộ trình tương lai</span>.
           </motion.h2>
@@ -118,8 +119,16 @@ export default function PricingPackages() {
                 <h3 className="text-xl font-bold font-headline text-brand-dark mb-1">
                   {pkg.name}
                 </h3>
-                <div className="text-2xl font-bold text-brand-crimson font-headline">
-                  {pkg.path}
+                <div className="text-2xl font-bold text-brand-crimson font-headline flex items-center gap-3">
+                  {typeof pkg.path === 'string' ? (
+                    pkg.path
+                  ) : (
+                    <>
+                      {pkg.path.from}
+                      <MoveRight className="w-5 h-5 text-brand-gold" />
+                      {pkg.path.to}
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -139,7 +148,6 @@ export default function PricingPackages() {
                   &quot;{pkg.focus}&quot;
                 </p>
                 <div className="flex items-center gap-3 text-[10px] font-bold text-brand-gold uppercase tracking-wider">
-                   <span className="w-1 h-1 bg-brand-gold rounded-full"></span>
                    +{pkg.qc} kiểm soát chất lượng
                 </div>
               </div>
@@ -150,9 +158,7 @@ export default function PricingPackages() {
                 : 'bg-brand-dark text-white hover:bg-brand-crimson'
               }`}>
                 TƯ VẤN CHI TIẾT
-                <svg className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                <MoveRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
               </button>
             </motion.div>
           ))}
@@ -165,16 +171,17 @@ export default function PricingPackages() {
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-brand-crimson/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="max-wxl">
-              <h3 className="text-3xl md:text-4xl font-bold font-headline text-white mb-6">
+            <div className="max-w-2xl">
+              <h3 className="text-2xl md:text-3xl font-bold font-headline text-white mb-6">
                 Chưa biết lộ trình nào <span className="text-brand-gold italic">thuộc về bạn?</span>
               </h3>
               <p className="text-white/60 font-be-vietnam-pro leading-relaxed">
                 Dù bạn là cá nhân đang tìm kiếm sự đột phá hay doanh nghiệp cần nâng tầm đội ngũ, chuyên gia của chúng tôi luôn sẵn sàng trực tiếp phân tích để kiến tạo một bản đồ thành công độc bản.
               </p>
             </div>
-            <button className="bg-brand-gold text-brand-dark px-10 py-6 font-bold tracking-[2px] uppercase text-xs hover:bg-white transition-all whitespace-nowrap shadow-xl shadow-brand-gold/10">
+            <button className="bg-brand-gold text-brand-dark px-10 py-6 font-bold tracking-[2px] uppercase text-xs hover:bg-white transition-all whitespace-nowrap shadow-xl shadow-brand-gold/10 flex items-center gap-3">
               KIẾN TẠO LỘ TRÌNH RIÊNG
+              <MoveRight className="w-4 h-4" />
             </button>
           </div>
         </motion.div>

@@ -11,7 +11,7 @@ export default function CTASection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="bg-white p-8 md:p-16 border-t-2 border-[#B6914C] text-center max-w-5xl mx-auto relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#B6914C]/5 rotate-45 translate-x-24 -translate-y-24"></div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-8 text-[#191c1c] uppercase tracking-[1.5px] font-headline">
+          <h2 className="text-2xl md:text-4xl font-bold mb-8 text-[#191c1c] uppercase tracking-[1.5px] font-headline">
             Sẵn Sàng Cho Chuyến Hành Trình <br /> 
             <span className="text-[#BE202F]">Trí Tuệ Mới?</span>
           </h2>

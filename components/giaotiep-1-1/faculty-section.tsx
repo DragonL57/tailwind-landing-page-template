@@ -70,7 +70,7 @@ export default function FacultySection() {
             </motion.div>
             <motion.h2 
               variants={itemVariants} 
-              className="text-4xl md:text-5xl font-bold text-brand-dark leading-tight font-headline"
+              className="text-3xl md:text-4xl font-bold text-brand-dark leading-tight font-headline"
             >
               Hội đồng <span className="text-brand-crimson italic">chuyên gia</span> đồng hành cùng bạn.
             </motion.h2>
@@ -120,7 +120,7 @@ export default function FacultySection() {
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold font-headline text-brand-dark mb-1">
+                  <h3 className="text-xl font-bold font-headline text-brand-dark mb-1">
                     {teacher.name}
                   </h3>
                   <div className="text-brand-crimson font-bold text-[10px] tracking-[2px] uppercase">

@@ -66,7 +66,7 @@ export default function TargetAudience() {
             <motion.div variants={itemVariants} className="text-brand-crimson font-bold text-[10px] tracking-[3px] uppercase mb-4">
               Ứng dụng thực tiễn
             </motion.div>
-            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-dark leading-tight font-headline mb-8">
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-dark leading-tight font-headline mb-8">
               Thiết kế cho <br />
               <span className="text-brand-gold italic">mọi ngữ cảnh</span>.
             </motion.h2>

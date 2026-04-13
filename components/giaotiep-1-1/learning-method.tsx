@@ -60,7 +60,7 @@ export default function LearningMethod() {
             <motion.div variants={itemVariants} className="text-brand-crimson font-bold text-[10px] tracking-[3px] uppercase mb-4">
               Triết lý đào tạo
             </motion.div>
-            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-brand-dark leading-tight font-headline">
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-brand-dark leading-tight font-headline">
               Đi từ <span className="text-brand-crimson italic">Biết tiếng Anh</span> <br />đến <span className="text-brand-gold">Dùng được tiếng Anh</span>.
             </motion.h2>
           </div>

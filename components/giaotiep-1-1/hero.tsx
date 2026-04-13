@@ -66,7 +66,7 @@ export default function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-[1440px] mx-auto w-full px-6 md:px-12 py-12 lg:py-20"
+        className="max-w-[1440px] mx-auto w-full px-6 md:px-12 py-10 lg:py-16"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
@@ -74,15 +74,15 @@ export default function Hero() {
           <div className="lg:col-span-7 z-10">
             <motion.h1 
               variants={itemVariants}
-              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-brand-dark leading-[0.95] tracking-[-0.04em] mb-8 font-headline"
+              className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-brand-dark leading-[0.95] tracking-[-0.04em] mb-6 font-headline"
             >
               Tiếng Anh 1–1 <br />
               <span className="text-brand-crimson italic">Tương tác thực</span>.<br />
               Phản hồi thực.
             </motion.h1>
             
-            <motion.div variants={itemVariants} className="max-w-xl mb-10">
-              <p className="text-lg md:text-xl text-brand-muted font-be-vietnam-pro leading-relaxed mb-6">
+            <motion.div variants={itemVariants} className="max-w-xl mb-8">
+              <p className="text-base md:text-lg text-brand-muted font-be-vietnam-pro leading-relaxed mb-6">
                 Hệ chương trình đào tạo trực tuyến cá nhân hóa chuyên biệt, giúp bạn biến kiến thức thành năng lực sử dụng thực tế ngay sau mỗi buổi học.
               </p>
               
@@ -93,7 +93,7 @@ export default function Hero() {
                   { label: "Chuyên sâu", value: "Ngành nghề" }
                 ].map((stat, i) => (
                   <div key={i} className="flex flex-col">
-                    <span className="text-2xl font-bold text-brand-dark font-headline">{stat.value}</span>
+                    <span className="text-xl font-bold text-brand-dark font-headline">{stat.value}</span>
                     <span className="text-[10px] uppercase tracking-wider text-brand-muted font-bold">{stat.label}</span>
                   </div>
                 ))}
@@ -105,7 +105,7 @@ export default function Hero() {
                 <motion.button 
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full sm:w-auto bg-brand-crimson text-white px-10 py-5 font-bold tracking-[1px] text-sm transition-all hover:bg-brand-dark shadow-xl shadow-brand-crimson/20 flex items-center justify-center gap-3 group"
+                  className="w-full sm:w-auto bg-brand-crimson text-white px-10 py-4 font-bold tracking-[1px] text-sm transition-all hover:bg-brand-dark shadow-xl shadow-brand-crimson/20 flex items-center justify-center gap-3 group"
                 >
                   XÁC ĐỊNH LỘ TRÌNH NGAY
                   <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,7 +128,7 @@ export default function Hero() {
             variants={itemVariants}
             className="lg:col-span-5 relative"
           >
-            <div className="relative z-10 aspect-[4/5] w-full max-w-[480px] ml-auto overflow-hidden group shadow-2xl">
+            <div className="relative z-10 aspect-[4/5] w-full max-w-[420px] ml-auto overflow-hidden group shadow-2xl">
               <Image 
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
                 alt="Student learning"
@@ -137,20 +137,20 @@ export default function Hero() {
               />
               
               {/* Glass Overlay Card */}
-              <div className="absolute bottom-8 left-8 right-8 p-6 backdrop-blur-md bg-white/80 border border-white/20 shadow-2xl">
+              <div className="absolute bottom-6 left-6 right-6 p-5 backdrop-blur-md bg-white/80 border border-white/20 shadow-2xl">
                 <div className="flex items-center gap-4 mb-3">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden relative">
+                      <div key={i} className="w-7 h-7 rounded-full border-2 border-white bg-slate-200 overflow-hidden relative">
                         <Image src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User avatar" fill className="object-cover" />
                       </div>
                     ))}
                   </div>
-                  <div className="text-[10px] font-bold text-brand-dark uppercase tracking-wider">
+                  <div className="text-[9px] font-bold text-brand-dark uppercase tracking-wider">
                     Đã cá nhân hóa 500+ lộ trình
                   </div>
                 </div>
-                <p className="text-xs text-brand-muted font-medium italic leading-relaxed">
+                <p className="text-[11px] text-brand-muted font-medium italic leading-relaxed">
                   &quot;Chương trình giúp tôi đi từ &apos;biết&apos; tiếng Anh đến thực sự &apos;dùng&apos; được tiếng Anh trong công việc.&quot;
                 </p>
               </div>
@@ -160,8 +160,8 @@ export default function Hero() {
             </div>
 
             {/* Decorative Background Elements */}
-            <div className="absolute -top-8 -left-8 w-32 h-32 bg-brand-gold/10 -z-10 rotate-12"></div>
-            <div className="absolute -bottom-12 -right-4 w-48 h-48 border-2 border-brand-crimson/10 -z-10 rounded-full"></div>
+            <div className="absolute -top-8 -left-8 w-24 h-24 bg-brand-gold/10 -z-10 rotate-12"></div>
+            <div className="absolute -bottom-12 -right-4 w-40 h-48 border-2 border-brand-crimson/10 -z-10 rounded-full"></div>
           </motion.div>
 
         </div>

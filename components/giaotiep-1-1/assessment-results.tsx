@@ -1,29 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { levelColor, levelBg, scoreToLevel, levelToVietnamese } from "@/lib/ai-assessment/utils";
 import type { FullResult } from "@/lib/ai-assessment/types";
-import type { SurveyData } from "@/lib/ai-assessment/types";
 
 interface AssessmentResultsProps {
   result: FullResult;
   onReset: () => void;
-  surveyData?: SurveyData | null;
   onBackToSurvey?: () => void;
 }
 
-export default function AssessmentResults({ result, onReset, surveyData, onBackToSurvey }: AssessmentResultsProps) {
-  const [showRegistration, setShowRegistration] = useState(false);
-  const [regSubmitted, setRegSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+export default function AssessmentResults({ result, onReset, onBackToSurvey }: AssessmentResultsProps) {
   return (
     <div className="py-8 md:py-12">
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-
           <h2 className="font-headline font-bold text-2xl md:text-3xl uppercase text-[#191c1c]">Kết quả đánh giá</h2>
         </motion.div>
 
@@ -128,16 +120,10 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
           transition={{ delay: 0.3 }}
           className="bg-white border border-slate-200 p-6 md:p-10 text-center"
         >
-          <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Nhận báo cáo chi tiết & lộ trình học</h3>
+          <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Báo cáo chi tiết đã được gửi</h3>
           <p className="font-body text-sm text-[#5b403f] mb-6 max-w-lg mx-auto">
-            Đăng ký để nhận phân tích chi tiết từng tiêu chí, điểm mạnh/yếu và lộ trình học tập được thiết kế riêng cho bạn qua email.
+            Cảm ơn bạn đã thực hiện bài đánh giá. Báo cáo chi tiết từng tiêu chí, điểm mạnh/yếu và lộ trình học tập được thiết kế riêng cho bạn đã được gửi qua email của bạn.
           </p>
-          <button
-            onClick={() => setShowRegistration(true)}
-            className="bg-brand-crimson text-white px-8 py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer"
-          >
-            Đăng ký nhận báo cáo
-          </button>
         </motion.div>
 
         <div className="flex justify-center gap-6 mt-8 pb-8">
@@ -150,89 +136,6 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
           <Link href="/giaotiep-1-1" className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Quay lại trang chủ</Link>
         </div>
       </div>
-
-      {showRegistration && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white max-w-md w-full p-8 relative">
-            <button onClick={() => setShowRegistration(false)} className="absolute top-4 right-4 text-[#191c1c]/30 hover:text-brand-crimson transition-colors cursor-pointer">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {regSubmitted ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-3">Đăng ký thành công</h3>
-                <p className="font-body text-sm text-[#5b403f]">Báo cáo chi tiết và lộ trình học tập sẽ được gửi đến email của bạn trong 24h.</p>
-              </div>
-            ) : (
-              <>
-                <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Nhận báo cáo chi tiết</h3>
-                <p className="font-body text-sm text-[#5b403f] mb-6">
-                  Tổng điểm của bạn: <strong>{result.grandTotal.toFixed(1)}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal))})
-                </p>
-                <form onSubmit={async (e) => {
-                  e.preventDefault();
-                  setIsSubmitting(true);
-                  
-                  const formData = new FormData(e.currentTarget);
-                  const leadData = {
-                    name: formData.get("name"),
-                    email: formData.get("email"),
-                    phone: formData.get("phone"),
-                    industry: surveyData?.industry,
-                    goal: surveyData?.skills,
-                    currentLevel: result.currentLevel,
-                    targetLevel: result.targetLevel,
-                    gapHours: result.gapHours,
-                    packageLabel: result.packageLabel,
-                    scores: {
-                      grandTotal: result.grandTotal,
-                      grandMax: result.grandMax,
-                      part1: result.part1.total,
-                      part2: result.part2.total,
-                    },
-                  };
-                  
-                  try {
-                    await fetch("/api/assessment-lead", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify(leadData),
-                    });
-                    setRegSubmitted(true);
-                  } catch (error) {
-                    console.error("Failed to submit lead:", error);
-                  } finally {
-                    setIsSubmitting(false);
-                  }
-                }} className="space-y-5">
-                  <div>
-                    <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Họ tên (*)</label>
-                    <input type="text" required name="name" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Email (*)</label>
-                    <input type="email" required name="email" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Số điện thoại (*)</label>
-                    <input type="tel" required name="phone" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-                  </div>
-                  <button type="submit" disabled={isSubmitting} className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer disabled:opacity-50">
-                    {isSubmitting ? "Đang gửi..." : "Gửi báo cáo cho tôi"}
-                  </button>
-                </form>
-              </>
-            )}
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 }

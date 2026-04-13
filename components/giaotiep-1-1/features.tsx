@@ -24,7 +24,7 @@ export default function Features() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#191c1c] leading-tight font-headline uppercase">
               Nền Tảng Tri Thức Với <br />
               <span className="text-[#BE202F]">Độ Chính Xác Tuyệt Đối</span>
             </h2>
