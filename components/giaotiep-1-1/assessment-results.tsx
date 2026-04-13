@@ -34,7 +34,7 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
         >
           <p className="font-body text-xs uppercase tracking-[1.5px] text-[#191c1c]/40 mb-2">Tổng điểm</p>
           <p className={`font-headline font-bold text-5xl md:text-6xl ${levelColor(scoreToLevel(result.grandTotal))}`}>
-            {result.grandTotal}<span className="text-2xl text-[#191c1c]/30">/{result.grandMax}</span>
+            {result.grandTotal.toFixed(1)}<span className="text-2xl text-[#191c1c]/30">/{result.grandMax}</span>
           </p>
           <span className={`inline-block mt-3 px-4 py-1 text-xs font-bold uppercase tracking-[1.5px] rounded-none ${levelBg(scoreToLevel(result.grandTotal))}`}>
             {levelToVietnamese(scoreToLevel(result.grandTotal))}
@@ -79,7 +79,7 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
               <div className="flex justify-between items-center">
                 <h3 className="font-headline font-bold text-base uppercase text-[#191c1c]">{part.name}</h3>
                 <p className="font-headline font-bold text-lg text-[#191c1c]">
-                  {part.total}<span className="text-sm text-[#191c1c]/30">/{part.maxTotal}</span>
+                  {part.total.toFixed(1)}<span className="text-sm text-[#191c1c]/30">/{part.maxTotal}</span>
                 </p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
                       </td>
                       <td className="p-4 text-center">
                         <span className={`font-headline font-bold text-lg ${levelColor(criterion.level)}`}>
-                          {criterion.score}
+                          {criterion.score.toFixed(1)}
                         </span>
                         <span className="text-[#191c1c]/20 text-xs">/{criterion.maxScore}</span>
                       </td>
@@ -174,7 +174,7 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
               <>
                 <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2">Nhận báo cáo chi tiết</h3>
                 <p className="font-body text-sm text-[#5b403f] mb-6">
-                  Tổng điểm của bạn: <strong>{result.grandTotal}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal))})
+                  Tổng điểm của bạn: <strong>{result.grandTotal.toFixed(1)}/{result.grandMax}</strong> ({levelToVietnamese(scoreToLevel(result.grandTotal))})
                 </p>
                 <form onSubmit={async (e) => {
                   e.preventDefault();
@@ -214,15 +214,15 @@ export default function AssessmentResults({ result, onReset, surveyData, onBackT
                 }} className="space-y-5">
                   <div>
                     <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Họ tên (*)</label>
-                    <input type="text" required className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+                    <input type="text" required name="name" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
                   </div>
                   <div>
                     <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Email (*)</label>
-                    <input type="email" required className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+                    <input type="email" required name="email" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
                   </div>
                   <div>
                     <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Số điện thoại (*)</label>
-                    <input type="tel" required className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
+                    <input type="tel" required name="phone" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
                   </div>
                   <button type="submit" disabled={isSubmitting} className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer disabled:opacity-50">
                     {isSubmitting ? "Đang gửi..." : "Gửi báo cáo cho tôi"}

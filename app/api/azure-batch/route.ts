@@ -1,4 +1,5 @@
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+import type { AzureResult } from "@/lib/ai-assessment/types";
 
 const AZURE_KEY = process.env.AZURE_SPEECH_KEY;
 const AZURE_REGION = process.env.AZURE_SPEECH_REGION;
@@ -59,14 +60,7 @@ export async function POST(req: Request) {
   });
 }
 
-function processItem(audioBuffer: Buffer, referenceText: string): Promise<{
-  transcript: string;
-  accuracyScore: number;
-  fluencyScore: number;
-  completenessScore: number;
-  pronScore: number;
-  prosodyScore: number;
-}> {
+function processItem(audioBuffer: Buffer, referenceText: string): Promise<AzureResult> {
   return new Promise((resolve) => {
     const speechConfig = sdk.SpeechConfig.fromSubscription(AZURE_KEY!, AZURE_REGION!);
     speechConfig.speechRecognitionLanguage = "en-US";
@@ -87,14 +81,7 @@ function processItem(audioBuffer: Buffer, referenceText: string): Promise<{
     const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
     pronConfig.applyTo(recognizer);
 
-    const finish = (result: {
-      transcript: string;
-      accuracyScore: number;
-      fluencyScore: number;
-      completenessScore: number;
-      pronScore: number;
-      prosodyScore: number;
-    }) => {
+    const finish = (result: AzureResult) => {
       try { recognizer.close(); } catch {}
       try { speechConfig.close(); } catch {}
       try { audioConfig.close(); } catch {}
@@ -112,24 +99,26 @@ function processItem(audioBuffer: Buffer, referenceText: string): Promise<{
           const json = JSON.parse(result.properties.getProperty(sdk.PropertyId.SpeechServiceResponse_JsonResult));
           const nbest = json.NBest?.[0];
           const pron = nbest?.PronunciationAssessment;
+          
           console.log("[AZURE-BATCH] Transcript:", nbest?.Display);
           console.log("[AZURE-BATCH] Pron scores:", JSON.stringify(pron));
+
           finish({
             transcript: json.DisplayText || nbest?.Display || "",
-            accuracyScore: pron?.AccuracyScore ?? -1,
-            fluencyScore: pron?.FluencyScore ?? -1,
-            completenessScore: pron?.CompletenessScore ?? -1,
-            pronScore: pron?.PronScore ?? -1,
-            prosodyScore: pron?.ProsodyScore ?? -1,
+            accuracyScore: pron?.AccuracyScore ?? 0,
+            fluencyScore: pron?.FluencyScore ?? 0,
+            completenessScore: pron?.CompletenessScore ?? 0,
+            pronScore: pron?.PronScore ?? 0,
+            prosodyScore: pron?.ProsodyScore ?? 0,
           });
         } else {
-          // No speech recognized - return null scores to indicate no audio
-          finish({ transcript: "", accuracyScore: -1, fluencyScore: -1, completenessScore: -1, pronScore: -1, prosodyScore: -1 });
+          // No speech recognized (NoMatch or Canceled)
+          finish({ transcript: "", accuracyScore: 0, fluencyScore: 0, completenessScore: 0, pronScore: 0, prosodyScore: 0 });
         }
       },
       (err: string) => {
         console.error("[AZURE-BATCH] Recognition error:", err);
-        finish({ transcript: "", accuracyScore: -1, fluencyScore: -1, completenessScore: -1, prosodyScore: -1, pronScore: -1 });
+        finish({ transcript: "", accuracyScore: 0, fluencyScore: 0, completenessScore: 0, prosodyScore: 0, pronScore: 0 });
       }
     );
   });
@@ -139,29 +128,23 @@ async function processBatch(
   items: BatchAudioItem[],
   sendProgress: (progress: number, message: string) => void
 ) {
-  const results: Array<{
-    transcript: string;
-    accuracyScore: number;
-    fluencyScore: number;
-    completenessScore: number;
-    pronScore: number;
-    prosodyScore: number;
-  }> = [];
+  const results: AzureResult[] = [];
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    console.log(`[AZURE-BATCH] Processing item ${i + 1}, reference: "${item.referenceText.substring(0, 50)}"`);
+    console.log(`[AZURE-BATCH] Processing item ${i + 1}, reference: "${item.referenceText.substring(0, 50)}", base64 length: ${item.audioBase64.length}`);
 
     const progress = Math.round(((i + 1) / items.length) * 80);
     sendProgress(progress, `Đang chấm câu ${i + 1}/${items.length}...`);
 
     try {
       const audioBuffer = Buffer.from(item.audioBase64, "base64");
+      console.log(`[AZURE-BATCH] Item ${i + 1} buffer size: ${audioBuffer.length} bytes`);
       const result = await processItem(audioBuffer, item.referenceText);
       results.push(result);
     } catch (e) {
       console.error(`[AZURE-BATCH] Item ${i} error:`, e);
-      results.push({ transcript: "", accuracyScore: -1, fluencyScore: -1, completenessScore: -1, pronScore: -1, prosodyScore: -1 });
+      results.push({ transcript: "", accuracyScore: 0, fluencyScore: 0, completenessScore: 0, pronScore: 0, prosodyScore: 0 });
     }
   }
 

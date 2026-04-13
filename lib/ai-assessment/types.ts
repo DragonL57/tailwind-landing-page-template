@@ -2,7 +2,7 @@ import type { IndustryId, SkillId, GoalId } from "./constants";
 
 export type CriterionLevel = "Excellent" | "Good" | "Adequate" | "Inadequate" | "Weak";
 
-export type CriterionKey = "vocabulary" | "grammar" | "pronunciation" | "fluency" | "prosody" | "completeness" | "questionHandling";
+export type CriterionKey = "vocabulary" | "grammar" | "pronunciation" | "fluency" | "prosody" | "completeness" | "questionHandling" | "overall";
 
 export type AssessmentPhase = "survey" | "intro" | "part1" | "part2" | "processing" | "results";
 
@@ -19,9 +19,19 @@ export interface CriterionScore {
   comment: string;
 }
 
+export interface RawRecording {
+  audioBlob: Blob;
+  reference: string;
+  transcript: string;
+  scenarioPrompt?: string;
+  isPart1: boolean;
+}
+
 export interface StoredRecording {
   audioBlob: Blob;
   reference: string;
+  transcript: string;
+  scores: RecordingScores;
 }
 
 export interface PartResult {
@@ -33,6 +43,38 @@ export interface PartResult {
 
 export interface LevelInfo {
   cefr: string;
+}
+
+export interface AzureResult {
+  transcript: string;
+  accuracyScore: number;
+  fluencyScore: number;
+  completenessScore: number;
+  prosodyScore: number;
+  pronScore: number;
+}
+
+export interface LlmScore {
+  vocabulary: number;
+  grammar: number;
+  questionHandling: number;
+}
+
+export interface RecordingScores {
+  vocabulary: number;
+  grammar: number;
+  pronunciation: number;
+  fluency: number;
+  prosody: number;
+  completeness: number;
+  questionHandling: number;
+  overall: number;
+}
+
+export interface BatchTranscript {
+  transcript: string;
+  referenceText: string;
+  scenarioPrompt?: string;
 }
 
 export interface FullResult {

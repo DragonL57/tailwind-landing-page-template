@@ -1,10 +1,11 @@
-import type { CriterionKey, CriterionLevel, CriterionScore } from "./types";
+import type { CriterionLevel, CriterionScore } from "./types";
+import { THRESHOLDS } from "./constants";
 
 export function scoreToLevel(score: number): CriterionLevel {
-  if (score >= 80) return "Excellent";
-  if (score >= 60) return "Good";
-  if (score >= 40) return "Adequate";
-  if (score >= 20) return "Inadequate";
+  if (score >= THRESHOLDS.excellent) return "Excellent";
+  if (score >= THRESHOLDS.good) return "Good";
+  if (score >= THRESHOLDS.adequate) return "Adequate";
+  if (score >= THRESHOLDS.inadequate) return "Inadequate";
   return "Weak";
 }
 
@@ -36,37 +37,6 @@ export function levelToVietnamese(level: CriterionLevel): string {
     case "Inadequate": return "Chưa đạt";
     case "Weak": return "Yếu";
     default: return level;
-  }
-}
-
-export function estimateCriterion(
-  criterion: CriterionKey,
-  accuracyScore: number,
-  fluencyScore: number,
-  prosodyScore: number,
-  completenessScore: number,
-  wordCount: number,
-  errorWords: number
-): number {
-  switch (criterion) {
-    case "pronunciation":
-      return Math.round(accuracyScore);
-    case "fluency":
-      return Math.round((fluencyScore * 0.6 + completenessScore * 0.4));
-    case "vocabulary": {
-      const vocabBase = wordCount > 15 ? 70 : wordCount > 8 ? 50 : 30;
-      const vocabPenalty = (errorWords / Math.max(wordCount, 1)) * 40;
-      return Math.max(0, Math.min(100, Math.round(vocabBase - vocabPenalty)));
-    }
-    case "grammar": {
-      const grammarBase = accuracyScore > 80 ? 70 : accuracyScore > 60 ? 50 : 30;
-      const grammarPenalty = (errorWords / Math.max(wordCount, 1)) * 30;
-      return Math.max(0, Math.min(100, Math.round(grammarBase - grammarPenalty)));
-    }
-    case "questionHandling":
-      return Math.round(completenessScore * 0.5 + accuracyScore * 0.3 + fluencyScore * 0.2);
-    default:
-      return 50;
   }
 }
 
@@ -113,6 +83,20 @@ export function buildComment(criterion: string, level: string): string {
       Adequate: "Trả lời đủ và thường rõ. Có thể cần làm rõ thêm.",
       Inadequate: "Thường trả lời yếu. Vấn đề nghiêm trọng về hiểu câu hỏi.",
       Weak: "Trả lời gây nhầm lẫn. Hầu như không hiểu câu hỏi.",
+    },
+    completeness: {
+      Excellent: "Đọc đầy đủ và chính xác tất cả các từ trong câu.",
+      Good: "Đọc hầu hết các từ chính xác, bỏ sót rất ít.",
+      Adequate: "Đọc được các từ chính, bỏ sót một số từ nối.",
+      Inadequate: "Bỏ sót nhiều từ quan trọng.",
+      Weak: "Bỏ sót hầu hết các từ hoặc đọc sai hoàn toàn.",
+    },
+    overall: {
+      Excellent: "Kỹ năng nói toàn diện xuất sắc.",
+      Good: "Kỹ năng nói tốt, giao tiếp hiệu quả.",
+      Adequate: "Kỹ năng nói đạt mức trung bình, đủ dùng.",
+      Inadequate: "Kỹ năng nói còn nhiều hạn chế.",
+      Weak: "Kỹ năng nói rất yếu, cần cải thiện nhiều.",
     },
   };
   return comments[criterion]?.[level] || "";

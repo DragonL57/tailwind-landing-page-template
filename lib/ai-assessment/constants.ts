@@ -174,3 +174,10 @@ export const INDUSTRY_ROADMAPS: Record<IndustryId, string[]> = {
     "Email chuyên nghiệp",
   ],
 };
+
+export const THRESHOLDS = {
+  excellent: 80,
+  good: 60,
+  adequate: 40,
+  inadequate: 20,
+};

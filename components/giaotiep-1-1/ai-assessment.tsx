@@ -16,7 +16,7 @@ import ProcessingScreen from "@/components/giaotiep-1-1/assessment/processing-sc
 import { useAzureSpeech } from "@/hooks/use-azure-speech";
 import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants";
 import type { AssessmentPhase, FullResult, SurveyData } from "@/lib/ai-assessment/types";
-import type { RawRecording } from "@/lib/ai-assessment/scoring";
+import type { RawRecording } from "@/lib/ai-assessment/types";
 import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
 
 export default function AIAssessmentFlow() {
@@ -36,6 +36,9 @@ export default function AIAssessmentFlow() {
   const [countdown, setCountdown] = useState(0);
   const [processingProgress, setProcessingProgress] = useState(0);
   const [processingMessage, setProcessingMessage] = useState("");
+  
+  // Explicitly store the blob for the CURRENT item in state
+  const [currentBlob, setCurrentBlob] = useState<Blob | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -55,16 +58,33 @@ export default function AIAssessmentFlow() {
     console.log("[GA4] Page view:", pathname);
   }, [pathname]);
 
-  const cleanup = useCallback(() => {
+  const stopActiveStream = useCallback(() => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
     }
+  }, []);
+
+  const stopActiveRecorder = useCallback(() => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      mediaRecorderRef.current.stop();
+      // Unsubscribe from events to prevent late data delivery
+      mediaRecorderRef.current.ondataavailable = null;
+      mediaRecorderRef.current.onstop = null;
+      try {
+        mediaRecorderRef.current.stop();
+      } catch (e) {
+        console.warn("[ASSESS] Error stopping recorder:", e);
+      }
     }
+    mediaRecorderRef.current = null;
+  }, []);
+
+  const cleanup = useCallback(() => {
+    stopActiveStream();
+    stopActiveRecorder();
     azure.stopRecognition();
-  }, [azure]);
+    audioChunksRef.current = []; // Clear the reference buffer
+  }, [stopActiveStream, stopActiveRecorder, azure]);
 
   useEffect(() => {
     return () => {
@@ -89,7 +109,10 @@ export default function AIAssessmentFlow() {
   }, [router]);
 
   const startRecording = useCallback(async () => {
+    // 1. Force a complete cleanup before starting a new one
+    cleanup(); 
     setTranscript("");
+    setCurrentBlob(null);
     setCountdown(3);
 
     let count = 3;
@@ -101,24 +124,30 @@ export default function AIAssessmentFlow() {
         setCountdown(0);
         setIsRecording(true);
 
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator.mediaDevices.getUserMedia({ 
+          audio: true 
+        })
           .then((stream) => {
             streamRef.current = stream;
-            audioChunksRef.current = [];
+            // Clear chunks one more time to be absolutely sure
+            audioChunksRef.current = []; 
 
             const mr = new MediaRecorder(stream);
             mr.ondataavailable = (e) => {
-              if (e.data.size > 0) audioChunksRef.current.push(e.data);
+              if (e.data.size > 0) {
+                audioChunksRef.current.push(e.data);
+              }
             };
             mr.start();
             mediaRecorderRef.current = mr;
           })
-          .catch(() => {
+          .catch((err) => {
+            console.error("[ASSESS] Mic error:", err);
             setIsRecording(false);
           });
       }
     }, 1000);
-  }, []);
+  }, [cleanup]);
 
   const cancelCountdown = useCallback(() => {
     if (countdownRef.current) clearInterval(countdownRef.current);
@@ -130,35 +159,38 @@ export default function AIAssessmentFlow() {
 
     if (!mediaRecorderRef.current) return;
 
+    // Define the stop handler to capture the final blob
     mediaRecorderRef.current.onstop = () => {
       const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+      console.log("[ASSESS] Recording finalized, size:", blob.size);
+      
+      setCurrentBlob(blob); // Save to state immediately
+      
       if (audioUrl) URL.revokeObjectURL(audioUrl);
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
       setIsRecording(false);
       setIsReviewing(true);
 
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((t) => t.stop());
-        streamRef.current = null;
-      }
+      stopActiveStream();
     };
 
     mediaRecorderRef.current.stop();
-  }, [cancelCountdown, audioUrl]);
+  }, [cancelCountdown, audioUrl, stopActiveStream]);
 
   const recordAgain = useCallback(() => {
     if (audioUrl) URL.revokeObjectURL(audioUrl);
     setAudioUrl(null);
     setTranscript("");
+    setCurrentBlob(null);
     setIsReviewing(false);
     startRecording();
   }, [audioUrl, startRecording]);
 
   const acceptRecording = useCallback(async () => {
-    if (!audioUrl) return;
+    // 2. Use the blob from STATE, not from the mutable REF
+    if (!currentBlob) return;
 
-    const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
     const isPart1 = currentPart === "part1";
     const referenceText = isPart1
       ? PART1_SENTENCES[currentIndex]
@@ -168,15 +200,16 @@ export default function AIAssessmentFlow() {
       : undefined;
 
     const newRecording: RawRecording = {
-      audioBlob: blob,
+      audioBlob: currentBlob,
       reference: referenceText,
-      transcript: transcript,
+      transcript: "", 
       scenarioPrompt,
       isPart1,
     };
 
     setAudioUrl(null);
     setTranscript("");
+    setCurrentBlob(null);
     setIsReviewing(false);
     audioChunksRef.current = [];
 
@@ -193,7 +226,7 @@ export default function AIAssessmentFlow() {
     } else {
       navigateTo("processing");
     }
-  }, [audioUrl, currentPart, currentIndex, transcript, navigateTo]);
+  }, [currentBlob, currentPart, currentIndex, navigateTo]);
 
   const resetAssessment = useCallback(() => {
     cleanup();
@@ -205,6 +238,7 @@ export default function AIAssessmentFlow() {
     setFinalResult(null);
     setAudioUrl(null);
     setTranscript("");
+    setCurrentBlob(null);
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
@@ -223,6 +257,7 @@ export default function AIAssessmentFlow() {
     setFinalResult(null);
     setAudioUrl(null);
     setTranscript("");
+    setCurrentBlob(null);
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);

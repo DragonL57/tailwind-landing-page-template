@@ -1,30 +1,38 @@
-import type { CriterionKey, CriterionScore, PartResult, FullResult, LevelInfo, SurveyData } from "@/lib/ai-assessment/types";
-import { scoreToLevel, buildComment } from "@/lib/ai-assessment/utils";
-import { blobToWav } from "@/lib/ai-assessment/audio-utils";
+import type { 
+  CriterionKey, 
+  CriterionScore, 
+  PartResult, 
+  FullResult, 
+  SurveyData, 
+  StoredRecording, 
+  RawRecording, 
+  AzureResult, 
+  LlmScore 
+} from "./types";
+import { scoreToLevel, buildComment } from "./utils";
+import { prepareAudioBatch, streamAzureBatchResults } from "./batch-utils";
 import { HOURS_RECOMMENDATION, INDUSTRY_ROADMAPS, type IndustryId } from "./constants";
 
 /**
- * Maps a 0-100 score to the 0, 2, 4, 6, 8, 10 rubric score
+ * Maps a 0-100 score to a 0-10 rubric score linearly.
+ * This provides high granularity (e.g., 86 -> 8.6) as requested.
  */
 export function mapToRubric(score: number): number {
   if (score <= 0) return 0;
-  if (score >= 80) return 10;
-  if (score >= 60) return 8;
-  if (score >= 40) return 6;
-  if (score >= 20) return 4;
-  return 2;
+  // Linear mapping: 0-100 -> 0-10
+  return Math.round(score) / 10;
 }
 
 /**
- * Maps the percentage score (0-100%) to CEFR level
+ * Maps the percentage score (0-100%) to CEFR and EPLUS level based on the rubric.
  */
-export function getCEFRLevel(percentage: number): LevelInfo {
-  if (percentage >= 90) return { cefr: "B1+" };
-  if (percentage >= 80) return { cefr: "B1" };
-  if (percentage >= 70) return { cefr: "A2+" };
-  if (percentage >= 60) return { cefr: "A2" };
-  if (percentage >= 40) return { cefr: "A1" };
-  return { cefr: "< A1" };
+export function getCEFRLevel(percentage: number): { cefr: string; level: string } {
+  if (percentage >= 90) return { cefr: "B1+", level: "EPLUS 4" };
+  if (percentage >= 80) return { cefr: "B1", level: "EPLUS 3" };
+  if (percentage >= 70) return { cefr: "A2+", level: "EPLUS 2" };
+  if (percentage >= 60) return { cefr: "A2", level: "EPLUS 1" };
+  if (percentage >= 40) return { cefr: "A1", level: "Pre EPLUS" };
+  return { cefr: "< A1", level: "-" };
 }
 
 const CEFR_ORDER = ["< A1", "A1", "A2", "A2+", "B1", "B1+", "B2", "C1", "C2"];
@@ -56,7 +64,7 @@ export function getStrengthsAndWeaknesses(criteria: Record<CriterionKey, Criteri
   Object.values(criteria).forEach((c) => {
     if (c.score >= 8) {
       strengths.push(c.comment);
-    } else if (c.score <= 4 && c.score !== -1) {
+    } else if (c.score <= 4 && c.score !== -1 && c.score !== 0) {
       weaknesses.push(c.comment);
     }
   });
@@ -64,63 +72,27 @@ export function getStrengthsAndWeaknesses(criteria: Record<CriterionKey, Criteri
   return { strengths, weaknesses };
 }
 
-export interface RecordingScores {
-  vocabulary: number;
-  grammar: number;
-  pronunciation: number;
-  fluency: number;
-  prosody: number;
-  completeness: number;
-  questionHandling: number;
-}
-
-export interface RawRecording {
-  audioBlob: Blob;
-  reference: string;
-  transcript: string;
-  scenarioPrompt?: string;
-  isPart1: boolean;
-}
-
-export interface StoredRecording {
-  audioBlob: Blob;
-  reference: string;
-  transcript: string;
-  scores: RecordingScores;
-}
-
-export interface AzureResult {
-  transcript: string;
-  accuracyScore: number;
-  fluencyScore: number;
-  completenessScore: number;
-  prosodyScore: number;
-  pronScore: number;
-}
-
-export interface LlmScore {
-  vocabulary: number;
-  grammar: number;
-  questionHandling: number;
-}
-
-// PART 1 (Scripted): Focus on delivery only
+// PART 1 (Scripted Reading): Pure delivery assessment via Azure
 export const PART1_CRITERIA: CriterionKey[] = [
-  "pronunciation",
-  "fluency",
-  "prosody",
-  "completeness",
+  "pronunciation", // accuracyScore
+  "fluency",       // fluencyScore
+  "prosody",       // prosodyScore
+  "completeness",  // completenessScore
+  "overall",       // pronScore
 ];
 
-// PART 2 (Unscripted): Focus on content and delivery
+// PART 2 (Unscripted Role Play): Content (LLM) and Delivery (Azure)
 export const PART2_CRITERIA: CriterionKey[] = [
-  "vocabulary",
-  "grammar",
-  "pronunciation",
-  "fluency",
-  "questionHandling",
+  "vocabulary",       // LLM
+  "grammar",          // LLM
+  "questionHandling", // LLM
+  "pronunciation",    // Azure accuracyScore
+  "fluency",          // Azure fluencyScore
 ];
 
+/**
+ * Orchestrates batch assessment of multiple recordings.
+ */
 export async function batchAssessRecordings(
   rawRecordings: RawRecording[],
   onProgress?: (progress: number, message: string) => void,
@@ -128,30 +100,7 @@ export async function batchAssessRecordings(
   console.log("[BATCH] Starting batch assessment for", rawRecordings.length, "recordings");
 
   onProgress?.(5, "Đang chuẩn bị dữ liệu âm thanh...");
-
-  const audioItems = await Promise.all(rawRecordings.map(async (raw, i) => {
-    try {
-      const wavBlob = await blobToWav(raw.audioBlob);
-      const arrayBuffer = await wavBlob.arrayBuffer();
-      
-      const bytes = new Uint8Array(arrayBuffer);
-      let binary = "";
-      const chunkSize = 8192;
-      for (let j = 0; j < bytes.length; j += chunkSize) {
-        binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(j, j + chunkSize)));
-      }
-      const base64 = btoa(binary);
-      
-      return {
-        index: i,
-        audioBase64: base64,
-        referenceText: raw.reference,
-      };
-    } catch (e) {
-      console.error(`[BATCH] Error preparing item ${i}:`, e);
-      return { index: i, audioBase64: "", referenceText: raw.reference };
-    }
-  }));
+  const audioItems = await prepareAudioBatch(rawRecordings);
 
   let azureResults: AzureResult[] = [];
 
@@ -163,134 +112,95 @@ export async function batchAssessRecordings(
       body: JSON.stringify({ items: audioItems }),
     });
 
-    if (!resp.ok) {
-      const errorText = await resp.text();
-      console.error("[BATCH] Azure batch API failed:", resp.status, errorText);
-      throw new Error(`Azure batch failed: ${resp.status}`);
-    }
-
-    const reader = resp.body?.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-
-    if (reader) {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-        
-        for (const line of lines) {
-          if (line.trim() === "") continue;
-          if (line.startsWith("data: ")) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              if (data.error) {
-                console.error("[BATCH] Server error:", data.error);
-              } else if (data.progress !== undefined) {
-                onProgress?.(data.progress, data.message || "");
-                if (data.results) {
-                  azureResults = data.results;
-                }
-              }
-            } catch (e) {
-              console.error("[BATCH] JSON parse error in SSE:", line, e);
-            }
-          }
-        }
-      }
-    }
+    if (!resp.ok) throw new Error(`Azure batch API failed: ${resp.status}`);
+    azureResults = await streamAzureBatchResults(resp, onProgress);
+    
   } catch (e) {
     console.error("[BATCH] Azure batch fetch error:", e);
   }
 
+  // Ensure azureResults matches rawRecordings length
   if (azureResults.length === 0) {
-    azureResults = rawRecordings.map((raw) => ({
-      transcript: raw.transcript,
-      accuracyScore: -1,
-      fluencyScore: -1,
-      completenessScore: -1,
-      prosodyScore: -1,
-      pronScore: -1,
+    azureResults = rawRecordings.map(() => ({
+      transcript: "",
+      accuracyScore: 0,
+      fluencyScore: 0,
+      completenessScore: 0,
+      prosodyScore: 0,
+      pronScore: 0,
     }));
   }
 
   onProgress?.(85, "Đang đánh giá nội dung...");
 
-  const part2Items: { transcript: string; reference: string; scenarioPrompt?: string; originalIdx: number }[] = [];
-  
-  rawRecordings.forEach((raw, i) => {
-    if (!raw.isPart1) {
-      const azure = azureResults[i];
-      if (azure && azure.accuracyScore !== -1) {
-        part2Items.push({
-          transcript: azure.transcript,
-          reference: raw.reference,
-          scenarioPrompt: raw.scenarioPrompt,
-          originalIdx: i
-        });
-      }
-    }
-  });
+  // Only send Part 2 items to the LLM
+  const part2Items = rawRecordings
+    .map((raw, i) => ({ raw, i, azure: azureResults[i] }))
+    .filter(({ raw, azure }) => !raw.isPart1 && azure?.transcript && azure.transcript.trim().length > 0)
+    .map(({ raw, azure, i }) => ({
+      transcript: azure.transcript,
+      referenceText: raw.reference,
+      scenarioPrompt: raw.scenarioPrompt,
+      originalIdx: i
+    }));
 
   let llmScores: LlmScore[] = [];
   if (part2Items.length > 0) {
-    console.log("[BATCH] Calling /api/assess-batch with actual transcripts...");
-    llmScores = await fetchBatchContentScores(part2Items.map(item => ({
-      transcript: item.transcript,
-      referenceText: item.reference,
-      scenarioPrompt: item.scenarioPrompt
-    })));
+    console.log("[BATCH] Calling server-side LLM assessment...");
+    try {
+      const resp = await fetch("/api/assess-batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transcripts: part2Items, isPart2: true }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        llmScores = data.scores || [];
+      } else {
+        console.error("[BATCH] LLM API responded with error:", resp.status);
+      }
+    } catch (e) {
+      console.error("[BATCH] LLM assessment error:", e);
+    }
   }
 
   const contentMap = new Map<number, LlmScore>();
   part2Items.forEach((item, i) => {
-    if (llmScores[i]) {
-      contentMap.set(item.originalIdx, llmScores[i]);
-    }
+    if (llmScores[i]) contentMap.set(item.originalIdx, llmScores[i]);
   });
 
   onProgress?.(95, "Đang tính điểm tổng...");
 
   const stored: StoredRecording[] = rawRecordings.map((raw, i) => {
-    const azure = azureResults[i];
+    const azure = azureResults[i] || { transcript: "", accuracyScore: 0, fluencyScore: 0, completenessScore: 0, prosodyScore: 0, pronScore: 0 };
     const content = contentMap.get(i);
-    const hasAudio = azure?.accuracyScore !== -1;
+    const hasTranscript = azure.transcript && azure.transcript.trim().length > 0;
 
-    if (!hasAudio) {
-      return {
-        audioBlob: raw.audioBlob,
-        reference: raw.reference,
-        transcript: "",
-        scores: {
-          vocabulary: -1,
-          grammar: -1,
-          pronunciation: -1,
-          fluency: -1,
-          prosody: -1,
-          completeness: -1,
-          questionHandling: -1,
-        },
-      };
-    }
-
-    const llm = content ?? { vocabulary: -1, grammar: -1, questionHandling: -1 };
+    const scores = !hasTranscript ? {
+      vocabulary: 0,
+      grammar: 0,
+      pronunciation: 0,
+      fluency: 0,
+      prosody: 0,
+      completeness: 0,
+      questionHandling: 0,
+      overall: 0,
+    } : {
+      vocabulary: content?.vocabulary ?? 0,
+      grammar: content?.grammar ?? 0,
+      pronunciation: azure.accuracyScore,
+      fluency: azure.fluencyScore,
+      prosody: azure.prosodyScore,
+      completeness: azure.completenessScore,
+      questionHandling: content?.questionHandling ?? 0,
+      overall: azure.pronScore,
+    };
 
     return {
       audioBlob: raw.audioBlob,
       reference: raw.reference,
       transcript: azure.transcript,
-      scores: {
-        vocabulary: llm.vocabulary,
-        grammar: llm.grammar,
-        pronunciation: azure.accuracyScore,
-        fluency: azure.fluencyScore,
-        prosody: azure.prosodyScore,
-        completeness: azure.completenessScore,
-        questionHandling: llm.questionHandling,
-      },
+      scores,
     };
   });
 
@@ -298,49 +208,29 @@ export async function batchAssessRecordings(
   return stored;
 }
 
-interface BatchTranscript {
-  transcript: string;
-  referenceText: string;
-  scenarioPrompt?: string;
-}
-
-async function fetchBatchContentScores(
-  items: BatchTranscript[],
-): Promise<LlmScore[]> {
-  try {
-    const resp = await fetch("/api/assess-batch", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ transcripts: items, isPart2: true }),
-    });
-
-    if (!resp.ok) return items.map(() => ({ vocabulary: -1, grammar: -1, questionHandling: -1 }));
-
-    const data = await resp.json();
-    return (data.scores || []).map((s: LlmScore) => ({
-      vocabulary: Math.max(0, Math.min(100, s.vocabulary ?? -1)),
-      grammar: Math.max(0, Math.min(100, s.grammar ?? -1)),
-      questionHandling: Math.max(0, Math.min(100, s.questionHandling ?? -1)),
-    }));
-  } catch {
-    return items.map(() => ({ vocabulary: -1, grammar: -1, questionHandling: -1 }));
-  }
-}
-
 export function computePart(recs: StoredRecording[], name: string, criteriaKeys: CriterionKey[]): PartResult {
+  console.log(`[SCORING] Computing part: ${name}`);
   const maxScorePerCriterion = 10;
   const criteria: Partial<Record<CriterionKey, CriterionScore>> = {};
 
   criteriaKeys.forEach((key) => {
-    const values = recs.map(r => r.scores[key]).filter(v => v !== -1);
-    const avgRaw = values.length > 0 ? values.reduce((s, v) => s + v, 0) / values.length : 0;
+    // Strict rubric mapping per recording, then average the rubric scores
+    const rubricValues = recs.map((r, i) => {
+      const rubric = mapToRubric(r.scores[key]);
+      console.log(`  - Item ${i+1} [${key}]: raw=${r.scores[key]} -> rubric=${rubric}`);
+      return rubric;
+    });
+    const avgRubric = rubricValues.length > 0 ? rubricValues.reduce((s, v) => s + v, 0) / rubricValues.length : 0;
     
-    const level = scoreToLevel(avgRaw);
+    // Round to 1 decimal place
+    const finalScore = Math.round(avgRubric * 10) / 10;
+    console.log(`  - Average [${key}]: ${finalScore}`);
+    
+    const level = scoreToLevel(finalScore * 10); 
     const comment = buildComment(key, level);
-    const rubricScore = mapToRubric(avgRaw);
 
     criteria[key] = {
-      score: rubricScore,
+      score: finalScore,
       maxScore: maxScorePerCriterion,
       level,
       comment
@@ -350,7 +240,11 @@ export function computePart(recs: StoredRecording[], name: string, criteriaKeys:
   const total = criteriaKeys.reduce((s, key) => s + (criteria[key]?.score || 0), 0);
   const maxTotal = criteriaKeys.length * maxScorePerCriterion;
 
-  return { name, criteria: criteria as Record<CriterionKey, CriterionScore>, total, maxTotal };
+  // Round the final total as well
+  const roundedTotal = Math.round(total * 10) / 10;
+  console.log(`[SCORING] Finished ${name}: Total=${roundedTotal}/${maxTotal}`);
+
+  return { name, criteria: criteria as Record<CriterionKey, CriterionScore>, total: roundedTotal, maxTotal };
 }
 
 export function computeFullResult(
@@ -358,36 +252,29 @@ export function computeFullResult(
   part1Count: number,
   surveyData?: SurveyData
 ): FullResult {
-  const part1Result = computePart(recordings.slice(0, part1Count), "Part 1: Interview", PART1_CRITERIA);
+  const part1Result = computePart(recordings.slice(0, part1Count), "Part 1: Scripted Reading", PART1_CRITERIA);
   const part2Result = computePart(recordings.slice(part1Count), "Part 2: Role Play", PART2_CRITERIA);
 
-  const grandTotal = part1Result.total + part2Result.total;
+  const grandTotal = Math.round((part1Result.total + part2Result.total) * 10) / 10;
   const grandMax = part1Result.maxTotal + part2Result.maxTotal;
   
   const percentage = grandMax > 0 ? (grandTotal / grandMax) * 100 : 0;
-  const currentLevel = getCEFRLevel(percentage);
+  const { cefr } = getCEFRLevel(percentage);
 
-  let targetLevel: LevelInfo = { cefr: "B1" };
-  let gapHours = 0;
-  let packageLabel = "Gói 36h";
+  console.log(`[SCORING] Final Assessment: Total=${grandTotal}/${grandMax} -> CEFR=${cefr}`);
 
-  if (surveyData?.targetCEFR) {
-    const targetCEFR = surveyData.targetCEFR;
-    const gapResult = calculateGapAndRecommendation(currentLevel.cefr, targetCEFR);
-    gapHours = gapResult.recommendedHours;
-    packageLabel = gapResult.packageLabel;
-    targetLevel = { cefr: targetCEFR };
-  }
+  const targetCEFR = surveyData?.targetCEFR || "B1";
+  const gapResult = calculateGapAndRecommendation(cefr, targetCEFR);
 
   return {
     part1: part1Result,
     part2: part2Result,
     grandTotal,
     grandMax,
-    currentLevel,
-    targetLevel,
-    gapHours,
-    packageLabel,
+    currentLevel: { cefr }, 
+    targetLevel: { cefr: targetCEFR },
+    gapHours: gapResult.recommendedHours,
+    packageLabel: gapResult.packageLabel,
     rubricScores: {
       part1: part1Result.total,
       part2: part2Result.total,
