@@ -181,3 +181,30 @@ export const THRESHOLDS = {
   adequate: 40,
   inadequate: 20,
 };
+
+export const ASSESSMENT_PHASES = {
+  SURVEY: "survey",
+  INTRO: "intro",
+  PART1: "part1",
+  PART2: "part2",
+  LEAD: "lead",
+  PROCESSING: "processing",
+  RESULTS: "results",
+} as const;
+
+export type AssessmentPhase = (typeof ASSESSMENT_PHASES)[keyof typeof ASSESSMENT_PHASES];
+
+export const ROUTE_MAP: Record<AssessmentPhase, string> = {
+  [ASSESSMENT_PHASES.SURVEY]: "/giaotiep-1-1/danh-gia-lo-trinh/khao-sat",
+  [ASSESSMENT_PHASES.INTRO]: "/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu",
+  [ASSESSMENT_PHASES.PART1]: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+  [ASSESSMENT_PHASES.PART2]: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+  [ASSESSMENT_PHASES.LEAD]: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+  [ASSESSMENT_PHASES.PROCESSING]: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+  [ASSESSMENT_PHASES.RESULTS]: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+};
+
+export const SESSION_STORAGE_KEYS = {
+  SURVEY_DATA: "surveyData",
+  ASSESSMENT_RESULT: "assessmentResult",
+} as const;

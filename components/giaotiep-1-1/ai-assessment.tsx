@@ -13,61 +13,18 @@ import {
   StartRecordingButton,
 } from "@/components/giaotiep-1-1/assessment/recording-controls";
 import ProcessingScreen from "@/components/giaotiep-1-1/assessment/processing-screen";
+import LeadInfoStep from "@/components/giaotiep-1-1/assessment/lead-info-step";
 import { useAzureSpeech } from "@/hooks/use-azure-speech";
-import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants";
-import type { AssessmentPhase, FullResult, SurveyData } from "@/lib/ai-assessment/types";
-import type { RawRecording } from "@/lib/ai-assessment/types";
+import { PART1_SENTENCES, PART2_SCENARIOS, SESSION_STORAGE_KEYS } from "@/lib/ai-assessment/constants";
+import type { FullResult, SurveyData, RawRecording } from "@/lib/ai-assessment/types";
 import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
-import { motion } from "framer-motion";
 
-function LeadInfoStep({ onSubmit }: { onSubmit: (data: { name: string; email: string; phone: string }) => void }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  return (
-    <div className="py-8">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 p-8">
-        <h3 className="font-headline font-bold text-lg uppercase text-[#191c1c] mb-2 text-center">Nhận kết quả đánh giá</h3>
-        <p className="font-body text-sm text-[#5b403f] mb-6 text-center">
-          Vui lòng để lại thông tin để hệ thống xử lý và gửi báo cáo chi tiết cho bạn.
-        </p>
-        <form onSubmit={async (e) => {
-          e.preventDefault();
-          setIsSubmitting(true);
-          const formData = new FormData(e.currentTarget);
-          onSubmit({
-            name: formData.get("name") as string,
-            email: formData.get("email") as string,
-            phone: formData.get("phone") as string,
-          });
-        }} className="space-y-5">
-          <div>
-            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Họ tên (*)</label>
-            <input type="text" required name="name" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-          </div>
-          <div>
-            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Email (*)</label>
-            <input type="email" required name="email" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-          </div>
-          <div>
-            <label className="block font-body text-[10px] uppercase tracking-[1.5px] text-[#191c1c]/50 font-bold mb-2">Số điện thoại (*)</label>
-            <input type="tel" required name="phone" className="w-full bg-[#f3f4f4] border border-slate-200 p-3 outline-none font-body text-sm rounded-none focus:border-brand-crimson transition-colors" />
-          </div>
-          <button type="submit" disabled={isSubmitting} className="w-full bg-brand-crimson text-white py-3 font-bold tracking-[1.5px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer disabled:opacity-50">
-            {isSubmitting ? "Đang xử lý..." : "Tiếp tục để xem kết quả"}
-          </button>
-        </form>
-      </motion.div>
-    </div>
-  );
-}
-
-// Extend phase type locally for lead collection
-type FlowPhase = AssessmentPhase | "lead";
+type FlowPhase = "part1" | "part2" | "lead" | "processing" | "results";
 
 export default function AIAssessmentFlow() {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const [phase, setPhase] = useState<FlowPhase>("part1");
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
   const [leadData, setLeadData] = useState<{ name: string; email: string; phone: string } | null>(null);
@@ -82,8 +39,7 @@ export default function AIAssessmentFlow() {
   const [countdown, setCountdown] = useState(0);
   const [processingProgress, setProcessingProgress] = useState(0);
   const [processingMessage, setProcessingMessage] = useState("");
-  
-  // Explicitly store the blob for the CURRENT item in state
+
   const [currentBlob, setCurrentBlob] = useState<Blob | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -94,7 +50,7 @@ export default function AIAssessmentFlow() {
   const azure = useAzureSpeech();
 
   useEffect(() => {
-    const storedSurvey = sessionStorage.getItem("surveyData");
+    const storedSurvey = sessionStorage.getItem(SESSION_STORAGE_KEYS.SURVEY_DATA);
     if (storedSurvey) {
       setSurveyData(JSON.parse(storedSurvey));
     }
@@ -113,7 +69,6 @@ export default function AIAssessmentFlow() {
 
   const stopActiveRecorder = useCallback(() => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      // Unsubscribe from events to prevent late data delivery
       mediaRecorderRef.current.ondataavailable = null;
       mediaRecorderRef.current.onstop = null;
       try {
@@ -129,7 +84,7 @@ export default function AIAssessmentFlow() {
     stopActiveStream();
     stopActiveRecorder();
     azure.stopRecognition();
-    audioChunksRef.current = []; // Clear the reference buffer
+    audioChunksRef.current = [];
   }, [stopActiveStream, stopActiveRecorder, azure]);
 
   useEffect(() => {
@@ -141,23 +96,20 @@ export default function AIAssessmentFlow() {
 
   const navigateTo = useCallback((targetPhase: FlowPhase) => {
     setPhase(targetPhase);
-    
+
     const routeMap: Record<FlowPhase, string> = {
-      survey: "/giaotiep-1-1/danh-gia-lo-trinh/khao-sat",
-      intro: "/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu",
       part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       lead: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
       results: "/giaotiep-1-1/danh-gia-lo-trinh/test",
     };
-    
+
     router.push(routeMap[targetPhase]);
   }, [router]);
 
   const startRecording = useCallback(async () => {
-    // 1. Force a complete cleanup before starting a new one
-    cleanup(); 
+    cleanup();
     setTranscript("");
     setCurrentBlob(null);
     setCountdown(3);
@@ -171,13 +123,10 @@ export default function AIAssessmentFlow() {
         setCountdown(0);
         setIsRecording(true);
 
-        navigator.mediaDevices.getUserMedia({ 
-          audio: true 
-        })
+        navigator.mediaDevices.getUserMedia({ audio: true })
           .then((stream) => {
             streamRef.current = stream;
-            // Clear chunks one more time to be absolutely sure
-            audioChunksRef.current = []; 
+            audioChunksRef.current = [];
 
             const mr = new MediaRecorder(stream);
             mr.ondataavailable = (e) => {
@@ -206,13 +155,12 @@ export default function AIAssessmentFlow() {
 
     if (!mediaRecorderRef.current) return;
 
-    // Define the stop handler to capture the final blob
     mediaRecorderRef.current.onstop = () => {
       const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       console.log("[ASSESS] Recording finalized, size:", blob.size);
-      
-      setCurrentBlob(blob); // Save to state immediately
-      
+
+      setCurrentBlob(blob);
+
       if (audioUrl) URL.revokeObjectURL(audioUrl);
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
@@ -235,26 +183,20 @@ export default function AIAssessmentFlow() {
   }, [audioUrl, startRecording]);
 
   const acceptRecording = useCallback(async () => {
-    // 2. Use the blob from STATE, not from the mutable REF
     if (!currentBlob) return;
 
     const isPart1 = currentPart === "part1";
-    const referenceText = isPart1
-      ? PART1_SENTENCES[currentIndex]
-      : "";
-    const scenarioPrompt = !isPart1
-      ? PART2_SCENARIOS[currentIndex]?.prompt
-      : undefined;
+    const referenceText = isPart1 ? PART1_SENTENCES[currentIndex] : "";
+    const scenarioPrompt = !isPart1 ? PART2_SCENARIOS[currentIndex]?.prompt : undefined;
 
     const newRecording: RawRecording = {
       audioBlob: currentBlob,
       reference: referenceText,
-      transcript: "", 
+      transcript: "",
       scenarioPrompt,
       isPart1,
     };
 
-    // UI state reset
     setAudioUrl(null);
     setTranscript("");
     setCurrentBlob(null);
@@ -272,14 +214,14 @@ export default function AIAssessmentFlow() {
       setCurrentIndex(0);
       navigateTo("part2");
     } else {
-      navigateTo("lead"); // Go to lead collection before processing
+      navigateTo("lead");
     }
   }, [currentBlob, currentPart, currentIndex, navigateTo]);
 
   const resetAssessment = useCallback(() => {
     cleanup();
     if (audioUrl) URL.revokeObjectURL(audioUrl);
-    setPhase("survey");
+    setPhase("part1");
     setCurrentPart("part1");
     setCurrentIndex(0);
     setRecordings([]);
@@ -290,15 +232,15 @@ export default function AIAssessmentFlow() {
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
-    sessionStorage.removeItem("surveyData");
-    sessionStorage.removeItem("assessmentResult");
+    sessionStorage.removeItem(SESSION_STORAGE_KEYS.SURVEY_DATA);
+    sessionStorage.removeItem(SESSION_STORAGE_KEYS.ASSESSMENT_RESULT);
     router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
   }, [cleanup, audioUrl, router]);
 
   const backToSurvey = useCallback(() => {
     cleanup();
     if (audioUrl) URL.revokeObjectURL(audioUrl);
-    setPhase("survey");
+    setPhase("part1");
     setCurrentPart("part1");
     setCurrentIndex(0);
     setRecordings([]);
@@ -324,7 +266,6 @@ export default function AIAssessmentFlow() {
     });
     const result = computeFullResult(storedRecordings, PART1_SENTENCES.length, surveyData || undefined);
 
-    // Save lead info if we have it
     if (leadData) {
       try {
         await fetch("/api/assessment-lead", {
@@ -352,7 +293,7 @@ export default function AIAssessmentFlow() {
     }
 
     setFinalResult(result);
-    sessionStorage.setItem("assessmentResult", JSON.stringify(result));
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.ASSESSMENT_RESULT, JSON.stringify(result));
     navigateTo("results");
   }, [recordings, surveyData, navigateTo, leadData]);
 

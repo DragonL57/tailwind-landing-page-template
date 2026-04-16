@@ -4,8 +4,6 @@ export type CriterionLevel = "Excellent" | "Good" | "Adequate" | "Inadequate" | 
 
 export type CriterionKey = "vocabulary" | "grammar" | "pronunciation" | "fluency" | "prosody" | "completeness" | "questionHandling" | "overall";
 
-export type AssessmentPhase = "survey" | "intro" | "part1" | "part2" | "processing" | "results";
-
 export interface SurveyData {
   industry: IndustryId;
   skills: SkillId[];
