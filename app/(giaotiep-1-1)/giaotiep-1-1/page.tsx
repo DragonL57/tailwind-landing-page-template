@@ -2,14 +2,16 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import Hero from "@/components/giaotiep-1-1/hero";
-import EvaluationPaths from "@/components/giaotiep-1-1/evaluation-paths";
-import LearningMethod from "@/components/giaotiep-1-1/learning-method";
-import PricingPackages from "@/components/giaotiep-1-1/pricing-packages";
-import TargetAudience from "@/components/giaotiep-1-1/target-audience";
-import FacultySection from "@/components/giaotiep-1-1/faculty-section";
-import ConsultationForm from "@/components/giaotiep-1-1/consultation-form";
-import Footer from "@/components/giaotiep-1-1/footer";
+import dynamic from "next/dynamic";
+
+const Hero = dynamic(() => import("@/components/giaotiep-1-1/hero"), { ssr: false });
+const EvaluationPaths = dynamic(() => import("@/components/giaotiep-1-1/evaluation-paths"), { ssr: false });
+const LearningMethod = dynamic(() => import("@/components/giaotiep-1-1/learning-method"), { ssr: false });
+const PricingPackages = dynamic(() => import("@/components/giaotiep-1-1/pricing-packages"), { ssr: false });
+const TargetAudience = dynamic(() => import("@/components/giaotiep-1-1/target-audience"), { ssr: false });
+const FacultySection = dynamic(() => import("@/components/giaotiep-1-1/faculty-section"), { ssr: false });
+const ConsultationForm = dynamic(() => import("@/components/giaotiep-1-1/consultation-form"), { ssr: false });
+const Footer = dynamic(() => import("@/components/giaotiep-1-1/footer"), { ssr: false });
 
 const SECTIONS = [
   { id: "hero", component: Hero },
