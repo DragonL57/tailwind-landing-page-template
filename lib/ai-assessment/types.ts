@@ -84,6 +84,7 @@ export interface FullResult {
   targetLevel: LevelInfo;
   gapHours: number;
   packageLabel: string;
+  isTargetNotSure?: boolean;
   rubricScores: { part1: number; part2: number; total: number };
 }
 

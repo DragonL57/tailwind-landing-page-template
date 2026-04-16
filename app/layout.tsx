@@ -23,8 +23,57 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata = {
-  title: "VMG TESOL e-PATH - Lộ trình giảng dạy tiếng Anh chuẩn quốc tế",
-  description: "Chương trình TESOL trực tuyến 100% online với chứng chỉ ALAP quốc tế, mentor đồng hành, livestream  và cam kết việc làm.",
+  title: {
+    default: "VMG Education - Nền tảng giáo dục tiếng Anh chuẩn quốc tế",
+    template: "%s | VMG Education",
+  },
+  description: "Nền tảng giáo dục tiếng Anh hàng đầu Việt Nam với chứng chỉ TESOL quốc tế và chương trình giao tiếp 1-1 cá nhân hóa FlexTrack.",
+  keywords: ["TESOL", "tiếng Anh giao tiếp", "học tiếng Anh 1-1", "chứng chỉ TESOL", "VMG Education", "FlexTrack"],
+  authors: [{ name: "VMG Education" }],
+  creator: "VMG Education",
+  publisher: "VMG Education",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://vmg-tesol.edu.vn"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "VMG Education - Nền tảng giáo dục tiếng Anh chuẩn quốc tế",
+    description: "Nền tảng giáo dục tiếng Anh hàng đầu Việt Nam với chứng chỉ TESOL quốc tế và chương trình giao tiếp 1-1 cá nhân hóa FlexTrack.",
+    url: "https://vmg-tesol.edu.vn",
+    siteName: "VMG Education",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VMG Education - Nền tảng giáo dục tiếng Anh chuẩn quốc tế",
+      },
+    ],
+    locale: "vi_VN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VMG Education - Nền tảng giáo dục tiếng Anh chuẩn quốc tế",
+    description: "Nền tảng giáo dục tiếng Anh hàng đầu Việt Nam với chứng chỉ TESOL quốc tế và chương trình giao tiếp 1-1 cá nhân hóa FlexTrack.",
+    images: ["/images/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

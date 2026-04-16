@@ -2,8 +2,20 @@ import { Metadata } from "next";
 import Header from "@/components/giaotiep-1-1/header";
 
 export const metadata: Metadata = {
-  title: "Giao Tiếp 1-1 | VMG Education",
-  description: "Hệ thống học tập linh hoạt - Kiến tạo tương lai thông qua giáo dục kiến trúc.",
+  title: "FlexTrack 1-1 | Tiếng Anh Giao Tiếp Cá Nhân Hóa",
+  description: "Hệ chương trình tiếng Anh 1-1 trực tuyến được thiết kế riêng biệt cho mục tiêu học thuật và sự nghiệp với lộ trình linh hoạt.",
+  openGraph: {
+    title: "FlexTrack 1-1 - Giao Tiếp Tiếng Anh Cá Nhân Hóa",
+    description: "Học tiếng Anh 1-1 trực tuyến với lộ trình thiết kế riêng, tập trung vào mục tiêu của bạn.",
+    images: ["/images/flextrack-og.jpg"],
+    url: "https://vmg-tesol.edu.vn/giaotiep-1-1",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FlexTrack 1-1 - Giao Tiếp Tiếng Anh Cá Nhân Hóa",
+    description: "Học tiếng Anh 1-1 trực tuyến với lộ trình thiết kế riêng.",
+    images: ["/images/flextrack-og.jpg"],
+  },
 };
 
 export default function Giaotiep11Layout({

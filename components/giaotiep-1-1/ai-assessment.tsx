@@ -140,6 +140,11 @@ export default function AIAssessmentFlow() {
           .catch((err) => {
             console.error("[ASSESS] Mic error:", err);
             setIsRecording(false);
+            if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+              alert("Không thể truy cập Micro. Vui lòng cấp quyền truy cập Micro trong cài đặt trình duyệt để tiếp tục.");
+            } else {
+              alert("Lỗi kết nối Micro. Vui lòng kiểm tra lại thiết bị thu âm của bạn.");
+            }
           });
       }
     }, 1000);
@@ -279,6 +284,7 @@ export default function AIAssessmentFlow() {
             targetLevel: result.targetLevel,
             gapHours: result.gapHours,
             packageLabel: result.packageLabel,
+            isTargetNotSure: result.isTargetNotSure,
             scores: {
               grandTotal: result.grandTotal,
               grandMax: result.grandMax,

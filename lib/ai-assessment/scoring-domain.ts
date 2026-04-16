@@ -20,16 +20,25 @@ const CEFR_ORDER = ["< A1", "A1", "A2", "A2+", "B1", "B1+", "B2", "C1", "C2"];
 export function calculateGapAndRecommendation(
   currentCEFR: string,
   targetCEFR: string
-): { gap: number; recommendedHours: number; packageLabel: string } {
+): { gap: number; recommendedHours: number; packageLabel: string; adjustedTarget?: string } {
   const currentIdx = CEFR_ORDER.indexOf(currentCEFR);
-  const targetIdx = CEFR_ORDER.indexOf(targetCEFR);
-  const gap = Math.max(0, targetIdx - currentIdx);
+  let targetIdx = CEFR_ORDER.indexOf(targetCEFR);
+  let adjustedTarget = undefined;
+
+  // Business Logic: If user reached or exceeded target, encourage them to reach the NEXT level
+  if (currentIdx >= targetIdx) {
+    targetIdx = Math.min(currentIdx + 1, CEFR_ORDER.length - 1);
+    adjustedTarget = CEFR_ORDER[targetIdx];
+  }
+
+  const gap = Math.max(0.5, targetIdx - currentIdx); // Minimum gap of 0.5 to ensure a package is always recommended
   
   const rec = HOURS_RECOMMENDATION.find(h => gap <= h.maxGap);
   return { 
     gap, 
     recommendedHours: rec?.hours ?? 180, 
-    packageLabel: rec?.label ?? "Gói 180h" 
+    packageLabel: rec?.label ?? "Gói 180h",
+    adjustedTarget
   };
 }
 

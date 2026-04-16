@@ -5,7 +5,7 @@ import { appendLeadToSheet, type LeadRecord } from "@/lib/sheets-service";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, phone, industry, goal, currentLevel, targetLevel, gapHours, packageLabel, scores } = body;
+    const { name, email, phone, industry, goal, currentLevel, targetLevel, gapHours, packageLabel, scores, isTargetNotSure } = body;
 
     console.log("[LEAD] New assessment lead:", { name, email, phone, industry, goal });
 
@@ -23,6 +23,7 @@ export async function POST(req: Request) {
         targetLevel: targetLevel?.cefr || "",
         gapHours,
         packageLabel,
+        isTargetNotSure,
         grandTotal: scores?.grandTotal || 0,
         grandMax: scores?.grandMax || 100,
 

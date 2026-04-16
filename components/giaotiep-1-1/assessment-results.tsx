@@ -47,7 +47,7 @@ export default function AssessmentResults({ result, onReset, onBackToSurvey }: A
             </div>
             <div>
               <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Mục tiêu</p>
-              <p className="font-headline font-bold text-3xl">{result.targetLevel?.cefr || "B1"}</p>
+              <p className="font-headline font-bold text-3xl">{result.isTargetNotSure ? "Tôi chưa biết" : result.targetLevel?.cefr || "B1"}</p>
             </div>
             <div>
               <p className="font-body text-xs uppercase tracking-[1.5px] text-white/60 mb-2">Khuyến nghị</p>

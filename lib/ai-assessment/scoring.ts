@@ -144,7 +144,9 @@ export function computeFullResult(
   const percentage = grandMax > 0 ? (grandTotal / grandMax) * 100 : 0;
   const { cefr } = getCEFRLevel(percentage);
 
+  const isTargetNotSure = !surveyData?.targetCEFR || surveyData.targetCEFR === "B1"; // Since B1 is the default for "Not sure"
   const targetCEFR = surveyData?.targetCEFR || "B1";
+  
   const gapResult = calculateGapAndRecommendation(cefr, targetCEFR);
 
   return {
@@ -153,9 +155,10 @@ export function computeFullResult(
     grandTotal,
     grandMax,
     currentLevel: { cefr }, 
-    targetLevel: { cefr: targetCEFR },
+    targetLevel: { cefr: gapResult.adjustedTarget || targetCEFR },
     gapHours: gapResult.recommendedHours,
     packageLabel: gapResult.packageLabel,
+    isTargetNotSure,
     rubricScores: {
       part1: part1Result.total,
       part2: part2Result.total,

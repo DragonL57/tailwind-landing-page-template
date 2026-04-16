@@ -1,21 +1,24 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Mic, ShieldCheck, AlertCircle, CheckCircle2, Play, Square, RotateCcw } from "lucide-react";
 import { PART1_SENTENCES, PART2_SCENARIOS } from "@/lib/ai-assessment/constants";
 
 export default function AssessmentIntroPage() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [hasMicPermission, setHasMicPermission] = useState(false);
 
   useEffect(() => {
     console.log("[GA4] Page view:", pathname);
   }, [pathname]);
 
   return (
-    <div className="h-[calc(100vh-4rem)] overflow-hidden bg-white">
-      <div className="h-full overflow-y-auto py-10 px-8 md:px-16 lg:px-24">
+    <div className="bg-white">
+      <div className="py-12 px-6 md:px-16 lg:px-24">
         <motion.div 
           initial={{ opacity: 0, y: 10 }} 
           animate={{ opacity: 1, y: 0 }} 
@@ -29,7 +32,7 @@ export default function AssessmentIntroPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 border-t border-slate-100 pt-12">
             {/* Left - Info */}
             <div>
               {/* Why take this test */}
@@ -101,24 +104,34 @@ export default function AssessmentIntroPage() {
 
               {/* CTA */}
               <div className="flex flex-col items-center gap-3">
-                <Link
-                  href="/giaotiep-1-1/danh-gia-lo-trinh/khao-sat"
-                  className="bg-[var(--color-crimson)] text-white px-10 py-3 font-bold tracking-[2px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer"
+                <button
+                  disabled={!hasMicPermission}
+                  onClick={() => router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat")}
+                  className={`px-10 py-3 font-bold tracking-[2px] uppercase text-xs rounded-none transition-all ${
+                    hasMicPermission 
+                    ? "bg-[var(--color-crimson)] text-white hover:opacity-90 cursor-pointer shadow-lg" 
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  }`}
                 >
                   Bắt đầu khảo sát
-                </Link>
+                </button>
                 <Link
                   href="/giaotiep-1-1"
                   className="font-body text-xs text-gray-400 hover:text-[var(--color-crimson)] transition-colors cursor-pointer"
                 >
                   Quay lại
                 </Link>
+                {!hasMicPermission && (
+                  <p className="text-[10px] text-brand-crimson font-bold uppercase tracking-wider mt-2 animate-pulse">
+                    * Vui lòng thiết lập Micro để tiếp tục
+                  </p>
+                )}
               </div>
             </div>
 
             {/* Right - Mic Test */}
             <div>
-              <MicTest />
+              <MicTest onGranted={() => setHasMicPermission(true)} />
             </div>
           </div>
         </motion.div>
@@ -127,53 +140,92 @@ export default function AssessmentIntroPage() {
   );
 }
 
-function MicTest() {
+function MicTest({ onGranted }: { onGranted: () => void }) {
   const [micState, setMicState] = useState<"idle" | "checking" | "allowed" | "denied">("idle");
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const handleGetStream = useCallback(async () => {
+    try {
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setStream(s);
+      setMicState("allowed");
+      onGranted();
+      return s;
+    } catch (err: unknown) {
+      const errorName = err instanceof Error ? err.name : "";
+      if (errorName === "NotAllowedError" || errorName === "PermissionDeniedError") {
+        setMicState("denied");
+      }
+      return null;
+    }
+  }, [onGranted]);
+
+  // Auto-check permission on mount
+  useEffect(() => {
+    const checkExistingPermission = async () => {
+      try {
+        // Permissions API is not supported in all browsers (e.g. Safari), so we check first
+        if (navigator.permissions && navigator.permissions.query) {
+          const result = await navigator.permissions.query({ name: 'microphone' as PermissionName });
+          if (result.state === 'granted') {
+            // Already granted, just trigger the stream to be sure
+            await handleGetStream();
+          }
+          
+          result.onchange = () => {
+            if (result.state === 'denied') setMicState("denied");
+            if (result.state === 'granted') handleGetStream();
+          };
+        }
+      } catch (e) {
+        console.warn("[MIC] Permissions API not supported", e);
+      }
+    };
+    checkExistingPermission();
+  }, [handleGetStream]);
 
   const checkPermission = async () => {
     setMicState("checking");
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(t => t.stop());
-      setMicState("allowed");
-    } catch {
-      setMicState("denied");
-    }
+    await handleGetStream();
   };
 
   const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-      audioChunksRef.current = [];
-
-      const mr = new MediaRecorder(stream);
-      mr.ondataavailable = (e) => {
-        if (e.data.size > 0) audioChunksRef.current.push(e.data);
-      };
-      mr.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-        const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
-      };
-      mr.start();
-      mediaRecorderRef.current = mr;
-      setIsRecording(true);
-      setRecordingTime(0);
-      
-      timerRef.current = setInterval(() => {
-        setRecordingTime(t => t + 1);
-      }, 1000);
-    } catch {
-      setMicState("denied");
+    let currentStream = stream;
+    if (!currentStream) {
+      currentStream = await handleGetStream();
     }
+
+    if (currentStream) {
+      runRecording(currentStream);
+    }
+  };
+
+  const runRecording = (s: MediaStream) => {
+    audioChunksRef.current = [];
+    const mr = new MediaRecorder(s);
+    mr.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunksRef.current.push(e.data);
+    };
+    mr.onstop = () => {
+      const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+    };
+    mr.start();
+    mediaRecorderRef.current = mr;
+    setIsRecording(true);
+    setRecordingTime(0);
+    
+    timerRef.current = setInterval(() => {
+      setRecordingTime(t => t + 1);
+    }, 1000);
   };
 
   const stopRecording = () => {
@@ -181,10 +233,6 @@ function MicTest() {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       if (timerRef.current) clearInterval(timerRef.current);
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach(t => t.stop());
-        streamRef.current = null;
-      }
     }
   };
 
@@ -192,7 +240,6 @@ function MicTest() {
     if (audioUrl) URL.revokeObjectURL(audioUrl);
     setAudioUrl(null);
     setRecordingTime(0);
-    setMicState("idle");
   };
 
   const formatTime = (seconds: number) => {
@@ -202,107 +249,103 @@ function MicTest() {
   };
 
   return (
-    <div className="bg-[#f8f9f9] p-6 h-full">
-      <p className="font-headline font-bold text-sm uppercase text-[#191c1c] mb-4">Kiểm tra micro</p>
+    <div className="bg-[#f8f9f9] p-8 border border-slate-100 h-full flex flex-col">
+      <h4 className="font-headline font-bold text-sm uppercase tracking-wider text-[#191c1c] mb-8 flex items-center gap-2">
+        <Mic size={18} className="text-brand-crimson" />
+        Thiết lập âm thanh
+      </h4>
 
-      {/* Status */}
-      <div className="flex items-center gap-2 mb-4">
-        {micState === "allowed" && (
-          <>
-            <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
-              <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
+      <div className="flex flex-col">
+        {micState !== "allowed" ? (
+          <div className="space-y-6">
+            <p className="font-body text-sm text-[#5b403f] leading-relaxed">
+              Để thực hiện bài đánh giá, hệ thống cần quyền truy cập vào Microphone của bạn.
+            </p>
+            
+            <button
+              onClick={checkPermission}
+              disabled={micState === "checking"}
+              className="w-full bg-[#191c1c] text-white py-4 font-bold tracking-[1.5px] uppercase text-xs hover:bg-brand-crimson transition-all flex items-center justify-center gap-2"
+            >
+              {micState === "checking" ? (
+                <RotateCcw size={16} className="animate-spin" />
+              ) : (
+                <>
+                  <ShieldCheck size={16} />
+                  Cấp quyền Micro
+                </>
+              )}
+            </button>
+
+            {micState === "denied" && (
+              <div className="flex items-start gap-2 p-3 bg-red-50 text-red-600 rounded-sm">
+                <AlertCircle size={14} className="shrink-0 mt-0.5" />
+                <p className="text-[11px] leading-tight">
+                  Quyền truy cập bị từ chối. Vui lòng nhấn vào biểu tượng ổ khóa trên trình duyệt để cho phép và tải lại trang.
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 text-green-600 font-bold text-xs bg-green-50 p-2 justify-center">
+              <CheckCircle2 size={14} />
+              Đã kết nối Microphone
             </div>
-            <span className="text-xs text-green-600">Micro sẵn sàng</span>
-          </>
-        )}
-        {micState === "denied" && (
-          <>
-            <div className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center">
-              <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-              </svg>
+
+            <div className="text-center space-y-4">
+              <p className="font-headline font-bold text-3xl tabular-nums">
+                {formatTime(recordingTime)}
+              </p>
+
+              <div className="flex justify-center">
+                {!audioUrl && !isRecording && (
+                  <button
+                    onClick={startRecording}
+                    className="w-16 h-16 rounded-full bg-brand-crimson text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg"
+                  >
+                    <Play size={24} fill="currentColor" className="ml-1" />
+                  </button>
+                )}
+
+                {isRecording && (
+                  <button
+                    onClick={stopRecording}
+                    className="w-16 h-16 rounded-full bg-[#191c1c] text-white flex items-center justify-center animate-pulse"
+                  >
+                    <Square size={24} fill="currentColor" />
+                  </button>
+                )}
+
+                {audioUrl && (
+                  <div className="w-full space-y-4">
+                    <audio src={audioUrl} controls className="w-full h-10" />
+                    <button
+                      onClick={reset}
+                      className="w-full py-3 border border-slate-200 text-[#191c1c] font-bold text-[10px] uppercase tracking-widest hover:border-brand-crimson transition-colors flex items-center justify-center gap-2"
+                    >
+                      <RotateCcw size={12} />
+                      Ghi lại
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              {isRecording && (
+                <p className="text-xs text-brand-crimson font-bold animate-pulse uppercase tracking-widest">Đang thu âm...</p>
+              )}
             </div>
-            <span className="text-xs text-red-600">Micro bị chặn</span>
-          </>
+
+            <div className="pt-4 border-t border-slate-100">
+              <p className="font-body text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 text-left">Mẹo nhỏ:</p>
+              <ul className="text-[11px] text-gray-500 space-y-1 text-left">
+                <li>• Sử dụng tai nghe để có kết quả tốt nhất.</li>
+                <li>• Đảm bảo không gian yên tĩnh.</li>
+                <li>• Nói rõ chữ, âm lượng vừa phải.</li>
+              </ul>
+            </div>
+          </div>
         )}
-      </div>
-
-      {/* Timer */}
-      <p className={`font-headline font-bold text-center text-2xl mb-4 ${isRecording ? "text-brand-crimson" : "text-[#191c1c]"}`}>
-        {formatTime(recordingTime)}
-      </p>
-
-      {/* Record Button */}
-      <div className="flex justify-center mb-4">
-        {!audioUrl && !isRecording && (
-          <button
-            onClick={startRecording}
-            className="w-14 h-14 rounded-full bg-[var(--color-crimson)] hover:bg-[var(--color-crimson)]/90 flex items-center justify-center transition-all cursor-pointer"
-          >
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="6"/>
-            </svg>
-          </button>
-        )}
-
-        {isRecording && (
-          <button
-            onClick={stopRecording}
-            className="w-14 h-14 rounded-full bg-[#191c1c] hover:bg-[#191c1c]/90 flex items-center justify-center transition-all cursor-pointer"
-          >
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <rect x="6" y="6" width="12" height="12" rx="1"/>
-            </svg>
-          </button>
-        )}
-      </div>
-
-      {/* Playback */}
-      {audioUrl && (
-        <div className="space-y-3">
-          <audio controls src={audioUrl} className="w-full h-8" />
-          <button
-            onClick={reset}
-            className="w-full py-2 border border-gray-200 font-bold text-xs uppercase tracking-[1px] hover:border-[var(--color-crimson)] transition-colors cursor-pointer"
-          >
-            Ghi lại
-          </button>
-        </div>
-      )}
-
-      {/* Check Permission */}
-      {micState === "idle" && (
-        <button
-          onClick={checkPermission}
-          className="text-xs text-gray-400 hover:text-[var(--color-crimson)] transition-colors cursor-pointer"
-        >
-          Kiểm tra quyền
-        </button>
-      )}
-
-      {micState === "checking" && (
-        <p className="text-xs text-gray-400">Đang kiểm tra...</p>
-      )}
-
-      {/* Tips */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <p className="font-body text-xs text-gray-400 mb-2">Mẹo để có kết quả tốt</p>
-        <ul className="space-y-1 text-xs text-gray-500">
-          <li className="flex items-start gap-2">
-            <span className="text-[var(--color-crimson)]">•</span>
-            <span>Nói rõ ràng, tốc độ bình thường</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-[var(--color-crimson)]">•</span>
-            <span>Chọn nơi yên tĩnh</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-[var(--color-crimson)]">•</span>
-            <span>Giữ khoảng cách với micro 20-30cm</span>
-          </li>
-        </ul>
       </div>
     </div>
   );

@@ -51,6 +51,7 @@ export interface LeadRecord {
   targetLevel: string;
   gapHours: number;
   packageLabel: string;
+  isTargetNotSure?: boolean;
   grandTotal: number;
   grandMax: number;
   
@@ -104,7 +105,7 @@ export async function appendLeadToSheet(data: LeadRecord) {
         Industry: data.industry,
         Goals: data.goals,
         CurrentLevel: data.currentLevel,
-        TargetLevel: data.targetLevel,
+        TargetLevel: data.isTargetNotSure ? "Tôi chưa biết" : data.targetLevel,
         GapHours: data.gapHours,
         Package: data.packageLabel,
         TotalScore: data.grandTotal,
