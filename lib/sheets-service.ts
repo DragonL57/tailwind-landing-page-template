@@ -92,7 +92,7 @@ export async function appendLeadToSheet(data: LeadRecord) {
       if (sheet.headerValues.length < headers.length) {
         await sheet.setHeaderRow(headers);
       }
-    } catch (e) {
+    } catch {
       await sheet.setHeaderRow(headers);
     }
 

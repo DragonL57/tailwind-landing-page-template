@@ -47,9 +47,9 @@ export async function POST(req: Request) {
 
       try {
         await appendLeadToSheet(sheetRecord);
-      } catch (sheetError: any) {
-        console.error("[LEAD] Google Sheets save failed:", sheetError.message);
-        // We don't throw here to ensure user gets the result even if sheets fail
+      } catch (sheetError: unknown) {
+        const errorMessage = sheetError instanceof Error ? sheetError.message : "Unknown error";
+        console.error("[LEAD] Google Sheets save failed:", errorMessage);
       }
     }
 
