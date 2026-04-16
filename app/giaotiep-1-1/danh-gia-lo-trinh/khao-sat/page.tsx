@@ -14,7 +14,7 @@ export default function SurveyPage() {
 
   const handleComplete = (data: SurveyData) => {
     sessionStorage.setItem("surveyData", JSON.stringify(data));
-    window.location.href = "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu";
+    window.location.href = "/giaotiep-1-1/danh-gia-lo-trinh/gioi-thieu";
   };
 
   return <SurveyStep onComplete={handleComplete} />;

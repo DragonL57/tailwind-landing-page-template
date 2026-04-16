@@ -84,7 +84,7 @@ export default function EvaluationPaths() {
                 ))}
               </ul>
               <Link
-                href="/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh"
+                href="/giaotiep-1-1/danh-gia-lo-trinh"
                 className="inline-flex items-center justify-center w-full bg-brand-crimson text-white py-5 font-bold tracking-[1px] text-sm hover:bg-brand-dark transition-all group/btn"
               >
                 BẮT ĐẦU NGAY

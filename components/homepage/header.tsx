@@ -10,7 +10,7 @@ export default function Header() {
 
   const products = [
     { name: "TESOL E-path", href: "/tesolmooc" },
-    { name: "Flextrack (giao tiếp 1-1)", href: "/landing/giaotiep-1-1" },
+    { name: "Flextrack (giao tiếp 1-1)", href: "/giaotiep-1-1" },
   ];
 
   return (
@@ -74,7 +74,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2 md:gap-6">
           <Link
-            href="/landing/giaotiep-1-1"
+            href="/giaotiep-1-1"
             className="hidden sm:inline-block bg-brand-crimson text-white px-4 md:px-7 py-2 md:py-2.5 font-bold tracking-[1px] md:tracking-[1.5px] text-[10px] md:text-sm hover:opacity-90 transition-all uppercase rounded-none whitespace-nowrap"
           >
             Đăng ký tư vấn
@@ -115,7 +115,7 @@ export default function Header() {
 
             <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
               <Link
-                href="/landing/giaotiep-1-1"
+                href="/giaotiep-1-1"
                 className="w-full text-center bg-brand-crimson text-white font-bold tracking-[1.5px] uppercase py-4"
               >
                 Đăng ký tư vấn

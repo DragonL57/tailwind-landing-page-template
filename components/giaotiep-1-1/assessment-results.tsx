@@ -133,7 +133,7 @@ export default function AssessmentResults({ result, onReset, onBackToSurvey }: A
             </button>
           )}
           <button onClick={onReset} className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Làm lại bài đánh giá</button>
-          <Link href="/public" className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Quay lại trang chủ</Link>
+          <Link href="/" className="font-body text-sm text-[#191c1c]/50 hover:text-brand-crimson transition-colors cursor-pointer">Quay lại trang chủ</Link>
         </div>
       </div>
     </div>

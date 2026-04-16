@@ -10,7 +10,7 @@ export default function Header() {
 
   const products = [
     { name: "TESOL E-path", href: "/tesolmooc" },
-    { name: "Flextrack (giao tiếp 1-1)", href: "/landing/giaotiep-1-1" },
+    { name: "Flextrack (giao tiếp 1-1)", href: "/giaotiep-1-1" },
   ];
 
   const scrollToForm = () => {
@@ -25,7 +25,7 @@ export default function Header() {
     <>
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b-2 border-brand-gold">
         <div className="flex justify-between items-center px-6 md:px-12 h-16">
-          <Link href="/landing/giaotiep-1-1" className="relative h-6 md:h-8 w-48 md:w-64">
+          <Link href="/giaotiep-1-1" className="relative h-6 md:h-8 w-48 md:w-64">
             <Image
               src="/flextrack/flextrack_logo_white.png"
               alt="VMG FlexTrack Logo"

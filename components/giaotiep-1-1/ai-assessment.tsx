@@ -98,11 +98,11 @@ export default function AIAssessmentFlow() {
     setPhase(targetPhase);
 
     const routeMap: Record<FlowPhase, string> = {
-      part1: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
-      part2: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
-      lead: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
-      processing: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
-      results: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
+      part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      lead: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      results: "/giaotiep-1-1/danh-gia-lo-trinh/test",
     };
 
     router.push(routeMap[targetPhase]);
@@ -234,7 +234,7 @@ export default function AIAssessmentFlow() {
     setCountdown(0);
     sessionStorage.removeItem(SESSION_STORAGE_KEYS.SURVEY_DATA);
     sessionStorage.removeItem(SESSION_STORAGE_KEYS.ASSESSMENT_RESULT);
-    router.push("/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
   }, [cleanup, audioUrl, router]);
 
   const backToSurvey = useCallback(() => {
@@ -251,7 +251,7 @@ export default function AIAssessmentFlow() {
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
-    router.push("/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
   }, [cleanup, audioUrl, router]);
 
   const handleBatchAssessment = useCallback(async () => {
@@ -283,7 +283,18 @@ export default function AIAssessmentFlow() {
               grandTotal: result.grandTotal,
               grandMax: result.grandMax,
               part1: result.part1.total,
+              p1_pronunciation: result.part1.criteria.pronunciation?.score || 0,
+              p1_fluency: result.part1.criteria.fluency?.score || 0,
+              p1_prosody: result.part1.criteria.prosody?.score || 0,
+              p1_completeness: result.part1.criteria.completeness?.score || 0,
+              p1_overall: result.part1.criteria.overall?.score || 0,
+
               part2: result.part2.total,
+              p2_vocabulary: result.part2.criteria.vocabulary?.score || 0,
+              p2_grammar: result.part2.criteria.grammar?.score || 0,
+              p2_questionHandling: result.part2.criteria.questionHandling?.score || 0,
+              p2_pronunciation: result.part2.criteria.pronunciation?.score || 0,
+              p2_fluency: result.part2.criteria.fluency?.score || 0,
             },
           }),
         });

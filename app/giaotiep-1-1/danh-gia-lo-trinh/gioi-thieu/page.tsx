@@ -21,11 +21,11 @@ export default function IntroPage() {
   }, []);
 
   const handleStart = () => {
-    window.location.href = "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test";
+    window.location.href = "/giaotiep-1-1/danh-gia-lo-trinh/test";
   };
 
   const handleBack = () => {
-    window.location.href = "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat";
+    window.location.href = "/giaotiep-1-1/danh-gia-lo-trinh/khao-sat";
   };
 
   return <AssessmentIntro onStart={handleStart} onBack={handleBack} surveyData={surveyData} />;
