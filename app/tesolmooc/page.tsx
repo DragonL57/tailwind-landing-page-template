@@ -3,7 +3,7 @@ export const metadata = {
   description: "Chương trình TESOL trực tuyến 100% online với chứng chỉ ALAP quốc tế, mentor đồng hành, livestream  và cam kết việc làm.",
 };
 
-import HeroTesol from "@/components/hero-tesol";
+import HeroTesol from "@/components/tesol/hero";
 import ExitIntentPopup from "@/components/exit-intent-popup";
 
 export default function TesolMoocPage() {
