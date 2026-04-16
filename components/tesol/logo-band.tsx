@@ -84,7 +84,7 @@ export default function LogoBand() {
               </div>
 
               {/* Certificate Image - Reordered on Mobile */}
-              <div className="order-1 md:order-2 md:col-span-7 relative group w-full px-2 md:px-0">
+              <div className="order-1 md:order-2 md:col-span-7 relative group w-full px-2 md:px-0 flex justify-center">
                 <div className="absolute -inset-1 md:-inset-2 bg-vmg-green/10 rounded-[28px] blur-xl group-hover:bg-vmg-green/20 transition-colors duration-500"></div>
                 <div 
                   className="relative bg-white p-1 md:p-1.5 rounded-xl shadow-lg border border-vmg-blue/5 rotate-1 md:rotate-2 group-hover:rotate-0 transition-transform duration-500 cursor-zoom-in"
@@ -93,8 +93,9 @@ export default function LogoBand() {
                   <Image
                     src="/images/tesol_certificate.avif"
                     alt="TESOL Certificate"
-                    fill
-                    className="rounded-lg object-cover shadow-sm"
+                    width={600}
+                    height={450}
+                    className="w-full h-auto rounded-lg object-contain shadow-sm"
                   />
                   {/* Zoom Indicator */}
                   <div className="absolute bottom-4 right-4 bg-vmg-navy/60 backdrop-blur-md rounded-full p-2 text-white opacity-0 group-hover:opacity-100 transition-opacity">
