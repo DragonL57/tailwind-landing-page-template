@@ -98,11 +98,11 @@ export default function AIAssessmentFlow() {
     setPhase(targetPhase);
 
     const routeMap: Record<FlowPhase, string> = {
-      part1: "/giaotiep-1-1/danh-gia-lo-trinh/test",
-      part2: "/giaotiep-1-1/danh-gia-lo-trinh/test",
-      lead: "/giaotiep-1-1/danh-gia-lo-trinh/test",
-      processing: "/giaotiep-1-1/danh-gia-lo-trinh/test",
-      results: "/giaotiep-1-1/danh-gia-lo-trinh/test",
+      part1: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
+      part2: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
+      lead: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
+      processing: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
+      results: "/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/test",
     };
 
     router.push(routeMap[targetPhase]);
@@ -234,7 +234,7 @@ export default function AIAssessmentFlow() {
     setCountdown(0);
     sessionStorage.removeItem(SESSION_STORAGE_KEYS.SURVEY_DATA);
     sessionStorage.removeItem(SESSION_STORAGE_KEYS.ASSESSMENT_RESULT);
-    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+    router.push("/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
   }, [cleanup, audioUrl, router]);
 
   const backToSurvey = useCallback(() => {
@@ -251,7 +251,7 @@ export default function AIAssessmentFlow() {
     setIsRecording(false);
     setIsReviewing(false);
     setCountdown(0);
-    router.push("/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
+    router.push("/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat");
   }, [cleanup, audioUrl, router]);
 
   const handleBatchAssessment = useCallback(async () => {

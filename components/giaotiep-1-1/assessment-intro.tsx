@@ -101,7 +101,7 @@ export default function AssessmentIntro({ onStart, onBack, surveyData }: Assessm
               </button>
             ) : (
               <Link
-                href="/giaotiep-1-1"
+                href="/public"
                 className="font-body text-xs text-gray-400 hover:text-[var(--color-crimson)] transition-colors cursor-pointer"
               >
                 Quay lại

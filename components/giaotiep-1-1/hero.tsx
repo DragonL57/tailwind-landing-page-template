@@ -101,7 +101,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
-              <Link href="/giaotiep-1-1/danh-gia-lo-trinh" className="w-full sm:w-auto">
+              <Link href="/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh" className="w-full sm:w-auto">
                 <motion.button 
                   whileHover={{ y: -4, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}

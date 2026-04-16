@@ -19,7 +19,7 @@ export default function AssessmentBreadcrumb({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs">
             <Link
-              href="/giaotiep-1-1"
+              href="/public"
               className="text-[#191c1c]/40 hover:text-brand-crimson transition-colors cursor-pointer"
             >
               Trang chủ

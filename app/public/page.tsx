@@ -42,7 +42,7 @@ const programs = [
     title: "FlexTrack 1-1",
     subtitle: "Giao tiếp tiếng Anh cá nhân hóa",
     description: "Hệ chương trình tiếng Anh 1-1 trực tuyến được thiết kế riêng biệt cho mục tiêu học thuật và sự nghiệp.",
-    href: "/giaotiep-1-1",
+    href: "/landing/giaotiep-1-1",
     icon: Users,
     badge: "LỘ TRÌNH CÁ NHÂN",
   },
@@ -113,7 +113,7 @@ export default function Home() {
                   KHÁM PHÁ TESOL
                 </Link>
                 <Link
-                  href="/giaotiep-1-1"
+                  href="/landing/giaotiep-1-1"
                   className="border-2 border-brand-crimson text-brand-crimson px-8 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none hover:bg-brand-crimson hover:text-white"
                 >
                   FLEXTRACK 1-1
@@ -286,7 +286,7 @@ export default function Home() {
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-4">
               <Link
-                href="/giaotiep-1-1"
+                href="/landing/giaotiep-1-1"
                 className="bg-white text-brand-crimson px-10 py-4 font-bold tracking-[2px] uppercase text-xs md:text-sm transition-all rounded-none hover:bg-brand-gold hover:text-white"
               >
                 ĐĂNG KÝ TƯ VẤN

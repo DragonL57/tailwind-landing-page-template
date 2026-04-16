@@ -102,13 +102,13 @@ export default function AssessmentIntroPage() {
               {/* CTA */}
               <div className="flex flex-col items-center gap-3">
                 <Link
-                  href="/giaotiep-1-1/danh-gia-lo-trinh/khao-sat"
+                  href="/assessment-flow/giaotiep-1-1/danh-gia-lo-trinh/khao-sat"
                   className="bg-[var(--color-crimson)] text-white px-10 py-3 font-bold tracking-[2px] uppercase text-xs rounded-none hover:opacity-90 transition-all cursor-pointer"
                 >
                   Bắt đầu khảo sát
                 </Link>
                 <Link
-                  href="/giaotiep-1-1"
+                  href="/landing/giaotiep-1-1"
                   className="font-body text-xs text-gray-400 hover:text-[var(--color-crimson)] transition-colors cursor-pointer"
                 >
                   Quay lại
