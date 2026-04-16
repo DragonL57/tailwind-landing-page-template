@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Logo from "./logo";
 import LoginModal from "@/components/login-modal";
-import RegisterModal from "@/components/register-modal";
+import RegisterModal from "@/components/ui/register-modal";
 
 export default function Header() {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
