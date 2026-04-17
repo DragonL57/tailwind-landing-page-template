@@ -9,7 +9,7 @@ export async function batchAssessRecordings(
 ): Promise<StoredRecording[]> {
   console.log("[BATCH] Starting batch assessment for", rawRecordings.length, "recordings");
 
-  let azureResults: AzureResult[] = [];
+  const azureResults: AzureResult[] = [];
 
   for (let i = 0; i < rawRecordings.length; i++) {
     const raw = rawRecordings[i];
