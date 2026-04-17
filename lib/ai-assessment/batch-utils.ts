@@ -13,18 +13,20 @@ export async function prepareAudioBatch(
       const wavBlob = await blobToWav(rec.audioBlob);
       console.log(`[BATCH-UTILS] Item ${i} converted to WAV, size: ${wavBlob.size}`);
       
-      const arrayBuffer = await wavBlob.arrayBuffer();
-      const bytes = new Uint8Array(arrayBuffer);
-      
-      let binary = "";
-      const chunkSize = 8192;
-      for (let j = 0; j < bytes.length; j += chunkSize) {
-        binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(j, j + chunkSize)));
-      }
+      const audioBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = reader.result as string;
+          const base64 = dataUrl.split(",")[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(wavBlob);
+      });
       
       return {
         index: i,
-        audioBase64: btoa(binary),
+        audioBase64,
         referenceText: rec.reference,
       };
     } catch (e) {

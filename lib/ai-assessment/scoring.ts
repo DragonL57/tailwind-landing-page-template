@@ -9,33 +9,56 @@ export async function batchAssessRecordings(
 ): Promise<StoredRecording[]> {
   console.log("[BATCH] Starting batch assessment for", rawRecordings.length, "recordings");
 
-  onProgress?.(5, "Đang chuẩn bị dữ liệu âm thanh...");
-  const audioItems = await prepareAudioBatch(rawRecordings);
-
   let azureResults: AzureResult[] = [];
 
-  try {
-    const resp = await fetch("/api/azure-batch", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: audioItems }),
-    });
+  for (let i = 0; i < rawRecordings.length; i++) {
+    const raw = rawRecordings[i];
+    const currentStep = i + 1;
+    const totalSteps = rawRecordings.length;
+    
+    // Update progress: preparation is ~10% of each item's time
+    const baseProgress = (i / totalSteps) * 80;
+    onProgress?.(baseProgress + 2, `Chuẩn bị câu ${currentStep}/${totalSteps}...`);
 
-    if (!resp.ok) throw new Error(`Azure batch API failed: ${resp.status}`);
-    azureResults = await streamAzureBatchResults(resp, onProgress);
-  } catch (e) {
-    console.error("[BATCH] Azure batch fetch error:", e);
-  }
+    try {
+      const audioItems = await prepareAudioBatch([raw]);
+      
+      const resp = await fetch("/api/azure-batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: audioItems }),
+      });
 
-  if (azureResults.length === 0) {
-    azureResults = rawRecordings.map(() => ({
-      transcript: "",
-      accuracyScore: 0,
-      fluencyScore: 0,
-      completenessScore: 0,
-      prosodyScore: 0,
-      pronScore: 0,
-    }));
+      if (!resp.ok) {
+        if (resp.status === 413) {
+          throw new Error("Dữ liệu âm thanh quá lớn. Vui lòng thử lại với bản ghi ngắn hơn.");
+        }
+        throw new Error(`Azure batch API failed: ${resp.status}`);
+      }
+
+      const singleResults = await streamAzureBatchResults(resp, (p, m) => {
+        // p is 0-100 for this single item. Map it to the overall 80% range for Azure tasks.
+        const stepSize = 80 / totalSteps;
+        const mappedP = baseProgress + (p / 100) * stepSize;
+        onProgress?.(mappedP, `Đang chấm câu ${currentStep}/${totalSteps}: ${m}`);
+      });
+
+      if (singleResults && singleResults.length > 0) {
+        azureResults.push(singleResults[0]);
+      } else {
+        throw new Error("No results returned for item " + i);
+      }
+    } catch (e) {
+      console.error(`[BATCH] Azure assessment error for item ${i}:`, e);
+      azureResults.push({
+        transcript: "",
+        accuracyScore: 0,
+        fluencyScore: 0,
+        completenessScore: 0,
+        prosodyScore: 0,
+        pronScore: 0,
+      });
+    }
   }
 
   onProgress?.(85, "Đang đánh giá nội dung...");
