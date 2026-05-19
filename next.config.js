@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/giaotiep-1-1",
+        permanent: true,
+      },
+      {
+        source: "/tesolmooc",
+        destination: "/giaotiep-1-1",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
