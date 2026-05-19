@@ -114,7 +114,7 @@ export default function Hero() {
                 </motion.button>
               </Link>
               
-              <button className="flex items-center gap-3 text-brand-dark font-bold text-sm group">
+              <button onClick={() => document.getElementById('method')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center gap-3 text-brand-dark font-bold text-sm group cursor-pointer">
                 <div className="w-10 h-10 rounded-full border border-brand-dark/10 flex items-center justify-center group-hover:bg-brand-dark group-hover:text-white transition-all">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </div>

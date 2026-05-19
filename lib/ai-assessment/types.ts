@@ -91,6 +91,7 @@ export interface FullResult {
 export interface AssessmentReport {
   userEmail?: string;
   userName?: string;
+  phone?: string;
   industry: IndustryId;
   goal: GoalId;
   currentLevel: LevelInfo;
@@ -107,4 +108,5 @@ export interface AssessmentReport {
   strengths: string[];
   weaknesses: string[];
   roadmap: string[];
+  fullResult?: FullResult;
 }

@@ -74,6 +74,42 @@ export interface LeadRecord {
   submittedAt: string;
 }
 
+export interface ConsultationRecord {
+  name: string;
+  email: string;
+  phone: string;
+  roadmap: string;
+  timeSlot: string;
+  submittedAt: string;
+}
+
+export async function appendConsultationToSheet(data: ConsultationRecord) {
+  try {
+    const sheet = await getSheet();
+    const headers = ["Name", "Email", "Phone", "Roadmap", "TimeSlot", "SubmittedAt"];
+    try {
+      await sheet.loadHeaderRow();
+      if (sheet.headerValues.length < headers.length) {
+        await sheet.setHeaderRow(headers);
+      }
+    } catch {
+      await sheet.setHeaderRow(headers);
+    }
+    await sheet.addRows([{
+      Name: data.name,
+      Email: data.email,
+      Phone: data.phone,
+      Roadmap: data.roadmap,
+      TimeSlot: data.timeSlot,
+      SubmittedAt: data.submittedAt,
+    }]);
+    return true;
+  } catch (error) {
+    console.error("[SHEETS] Error appending consultation:", error);
+    throw error;
+  }
+}
+
 export async function appendLeadToSheet(data: LeadRecord) {
   try {
     const sheet = await getSheet();

@@ -16,8 +16,10 @@ import ProcessingScreen from "@/components/giaotiep-1-1/assessment/processing-sc
 import LeadInfoStep from "@/components/giaotiep-1-1/assessment/lead-info-step";
 import { useAzureSpeech } from "@/hooks/use-azure-speech";
 import { PART1_SENTENCES, PART2_SCENARIOS, SESSION_STORAGE_KEYS } from "@/lib/ai-assessment/constants";
-import type { FullResult, SurveyData, RawRecording } from "@/lib/ai-assessment/types";
+import type { FullResult, SurveyData, RawRecording, AssessmentReport, CriterionKey, CriterionScore } from "@/lib/ai-assessment/types";
 import { batchAssessRecordings, computeFullResult } from "@/lib/ai-assessment/scoring";
+import { getStrengthsAndWeaknesses, getRoadmap } from "@/lib/ai-assessment/scoring-domain";
+import type { IndustryId, GoalId } from "@/lib/ai-assessment/constants";
 
 type FlowPhase = "part1" | "part2" | "lead" | "processing" | "results";
 
@@ -306,6 +308,47 @@ export default function AIAssessmentFlow() {
         });
       } catch (error) {
         console.error("Failed to submit lead:", error);
+      }
+    }
+
+    // Send assessment email
+    if (leadData?.email) {
+      try {
+        const allCriteria = { ...result.part1.criteria, ...result.part2.criteria } as Record<CriterionKey, CriterionScore>;
+        const { strengths, weaknesses } = getStrengthsAndWeaknesses(allCriteria);
+        const roadmap = getRoadmap((surveyData?.industry || "general") as IndustryId);
+        const goal = surveyData?.skills?.[0] || "fluent-communication";
+
+        const report: AssessmentReport = {
+          userEmail: leadData.email,
+          userName: leadData.name,
+          phone: leadData.phone,
+          industry: (surveyData?.industry || "general") as IndustryId,
+          goal: goal as GoalId,
+          currentLevel: result.currentLevel,
+          targetLevel: result.targetLevel,
+          gapHours: result.gapHours,
+          packageLabel: result.packageLabel,
+          scores: {
+            pronunciation: result.part1.criteria.pronunciation?.score || 0,
+            fluency: result.part1.criteria.fluency?.score || 0,
+            vocabulary: result.part2.criteria.vocabulary?.score || 0,
+            grammar: result.part2.criteria.grammar?.score || 0,
+            questionHandling: result.part2.criteria.questionHandling?.score || 0,
+          },
+          strengths,
+          weaknesses,
+          roadmap,
+          fullResult: result,
+        };
+
+        await fetch("/api/send-assessment-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(report),
+        });
+      } catch (error) {
+        console.error("Failed to send assessment email:", error);
       }
     }
 

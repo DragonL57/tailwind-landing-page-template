@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>VMG_Report_A4_4_Rows_Style</title>
+    <style>
+        :root {
+            --brand-crimson: #BE202F;
+            --brand-gold: #B6914C;
+            --brand-navy: #232d3b;
+            --bg-light-red: #fff5f5;
+            --bg-light-gold: #fdfaf3;
+            --bg-light-navy: #f0f4f8; /* Màu xanh Navy nhạt cho hàng trình độ */
+            --bg-light-gray: #f9f9f9;
+        }
+
+        @page { size: A4; margin: 0; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #ffffff; -webkit-print-color-adjust: exact; }
+
+        .a4-container {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            box-sizing: border-box;
+            padding: 15mm;
+            position: relative;
+        }
+
+        /* Header VMG */
+       /* Header VMG - Thiết kế lại để chống tràn */
+.header {
+    background-color: var(--brand-crimson);
+    padding: 25px 0; /* Chỉ padding trên dưới */
+    text-align: center;
+    border-bottom: 5px solid var(--brand-gold);
+    margin: -15mm -15mm 30px -15mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% + 30mm); /* Đảm bảo phủ kín chiều ngang giấy */
+}
+
+.logo-header {
+    height: 60px;        /* Chiều cao chuẩn */
+    width: auto;         /* Rộng tự động */
+    max-width: 85%;      /* Không bao giờ được rộng quá 85% trang giấy */
+    display: block;
+    margin: 0 auto 10px auto; 
+    object-fit: contain; /* Giữ nguyên tỉ lệ logo */
+    /* Dòng dưới đây là "phép thuật" để bỏ qua khoảng trắng thừa của ảnh */
+    filter: drop-shadow(0 0 0 transparent); 
+}
+
+.header h1 { 
+    color: #ffffff; 
+    margin: 0; 
+    font-size: 20px; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    width: 100%;
+}
+/* SECTION TITLE - FIX THANH VÀNG CHUẨN */
+        .section-title {
+            display: flex;
+            align-items: center; /* Căn thanh vàng thẳng hàng chính giữa chữ */
+            margin-top: 40px;    /* Tăng khoảng cách phía trên để không dính vào header */
+            margin-bottom: 20px;
+            width: 100%;         /* Đảm bảo thanh vàng chạy hết chiều ngang */
+        }
+
+        .section-title h2 { 
+            color: var(--brand-crimson); 
+            font-size: 18px; 
+            margin: 0; 
+            text-transform: uppercase; 
+            padding-right: 15px; /* Khoảng cách giữa chữ và thanh vàng */
+            white-space: nowrap; /* Không cho chữ bị xuống dòng */
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .section-title .line { 
+            flex-grow: 1; 
+            height: 1.5px; /* Độ dày thanh vàng mỏng và sắc nét */
+            background-color: var(--brand-gold); 
+        }
+
+        /* BẢNG THÔNG TIN KIỂU PHÂN CẤP 4 HÀNG */
+        .info-table-modern {
+            width: 100%;
+            border: 2px solid var(--brand-gold);
+            border-radius: 15px;
+            overflow: hidden;
+            border-collapse: collapse;
+        }
+
+        .info-row { display: flex; border-bottom: 1px solid #eee; }
+        .info-row:last-child { border-bottom: none; }
+
+        /* Cột trái - Nhãn (Label) */
+        .info-label {
+            width: 30%;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid #eee;
+        }
+
+        .info-label b { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Cột phải - Nội dung (Value) */
+        .info-content {
+            width: 70%;
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-content .value { font-size: 15px; font-weight: 600; color: #333; }
+
+        /* PHỐI MÀU 4 HÀNG */
+        /* Hàng 1: Đỏ (Học viên) */
+        .row-student .info-label { background-color: var(--bg-light-red); color: var(--brand-crimson); }
+        .row-student .value { color: var(--brand-crimson); font-size: 18px; text-transform: uppercase; }
+
+        /* Hàng 2: Vàng (Ngành nghề) */
+        .row-industry .info-label { background-color: var(--bg-light-gold); color: var(--brand-gold); }
+
+        /* Hàng 3: Xanh Navy (Trình độ mong muốn) */
+        .row-level .info-label { background-color: var(--bg-light-navy); color: var(--brand-navy); }
+        .row-level .value { color: var(--brand-gold); font-weight: 800; font-size: 17px; }
+
+        /* Hàng 4: Xám (Mục tiêu học tập) */
+        .row-goal .info-label { background-color: var(--bg-light-gray); color: #555; }
+
+        .footer {
+            position: absolute;
+            bottom: 15mm;
+            width: 180mm;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            color: #888;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="a4-container">
+
+        <!-- HEADER - ĐÃ CHÈN LOGO VÀO GIỮA -->
+    <div class="header">
+        <img src="logo.png" alt="VMG Logo" class="logo-header">
+        <h1>BÁO CÁO PHÂN TÍCH NĂNG LỰC</h1>
+       
+    </div>
+
+    <!-- PHẦN B, C, D SẼ NỐI TIẾP Ở ĐÂY -->
+   <style>
+    :root {
+        --brand-crimson: #BE202F;
+        --brand-gold: #B6914C;
+        --bg-light: #fdfaf3;
+    }
+
+    .performance-container {
+        width: 100%;
+        margin-top: 30px;
+        box-sizing: border-box;
+    }
+
+    /* Tiêu đề chính dạng Header Bar */
+    .table-header-bar {
+        background-color: var(--brand-crimson);
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 18px;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-radius: 15px 15px 0 0;
+        letter-spacing: 2px;
+    }
+
+    /* Khung bảng chứa nhãn dọc */
+    .table-flex-wrapper {
+        display: flex;
+        border: 2px solid var(--brand-crimson);
+        border-radius: 0 0 15px 15px;
+        background: white;
+        overflow: hidden;
+    }
+
+    /* Nhãn dọc đặc trưng phong cách TAEC */
+    .side-vertical-label {
+        background-color: var(--bg-light);
+        color: var(--brand-crimson);
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 2px solid var(--brand-gold);
+    }
+
+    .side-vertical-label span {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 3px;
+    }
+
+    /* Bảng nội dung chi tiết */
+    .diagnosis-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .diagnosis-table th {
+        background-color: #fcfcfc;
+        color: var(--brand-crimson);
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 12px;
+        text-align: center;
+        border-bottom: 2px solid var(--brand-gold);
+    }
+
+    .diagnosis-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Thẻ Badge bo tròn cho tiêu chí */
+    .pill-badge {
+        display: inline-block;
+        color: white;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 800;
+        min-width: 110px;
+        text-transform: uppercase;
+    }
+    .badge-crimson { background-color: var(--brand-crimson); }
+    .badge-gold { background-color: var(--brand-gold); }
+
+    /* Nội dung nhận xét căn trái */
+    .text-comment {
+        text-align: left !important;
+        font-size: 12px;
+        color: #555;
+        line-height: 1.5;
+        padding-left: 15px !important;
+    }
+
+    /* Dòng phân cách Part */
+    .part-divider-row {
+        background-color: var(--bg-light);
+        color: #333;
+        font-weight: 800;
+        font-size: 12px;
+        text-align: left !important;
+        padding: 10px 20px !important;
+        border-top: 1px solid var(--brand-gold);
+        border-bottom: 1px solid var(--brand-gold);
+    }
+
+    .score-bold { font-weight: 800; color: #000; font-size: 14px; }
+    .level-bold { font-weight: bold; color: var(--brand-crimson); }
+</style>
+
+<div class="performance-container">
+    <!-- TIÊU ĐỀ PHẦN B -->
+    <div class="section-title">
+        <h2>A. Chẩn đoán năng lực chi tiết</h2>
+        <div class="line"></div>
+    </div>
+
+    <!-- KHUNG BẢNG CHẨN ĐOÁN -->
+    <div class="table-header-bar">KẾT QUẢ PHÂN TÍCH NĂNG LỰC</div>
+    
+    <div class="table-flex-wrapper">
+        <!-- Nhãn dọc bên trái -->
+        <div class="side-vertical-label">
+            <span>DETAILED DIAGNOSIS</span>
+        </div>
+
+        <!-- Bảng nội dung 10 tiêu chí -->
+        <table class="diagnosis-table">
+            <thead>
+                <tr>
+                    <th width="25%">TIÊU CHÍ ĐÁNH GIÁ</th>
+                    <th width="15%">ĐIỂM SỐ</th>
+                    <th width="15%">MỨC ĐỘ</th>
+                    <th>NHẬN XÉT CHI TIẾT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- NHÓM 1: SCRIPTED READING -->
+                <tr>
+                    <td colspan="4" class="part-divider-row">PART 1: SCRIPTED READING (TỔNG: <span style="color:var(--brand-crimson)">[0.0]/50</span>)</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-crimson">PHÁT ÂM</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-crimson">LƯU LOÁT</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-crimson">GIỌNG ĐIỆU</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-crimson">COMPLETENESS</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-crimson">OVERALL</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+
+                <!-- NHÓM 2: ROLE PLAY -->
+                <tr>
+                    <td colspan="4" class="part-divider-row" style="background-color: #fff9ed;">PART 2: ROLE PLAY (TỔNG: <span style="color:var(--brand-gold)">[0.0]/50</span>)</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-gold">TỪ VỰNG</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold" style="color:var(--brand-gold)">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-gold">NGỮ PHÁP</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold" style="color:var(--brand-gold)">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-gold">XỬ LÝ CÂU HỎI</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold" style="color:var(--brand-gold)">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Nhận xét chi tiết cho tiêu chí này...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-gold">PHÁT ÂM</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold" style="color:var(--brand-gold)">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Dữ liệu đồng bộ từ Part 1...]</td>
+                </tr>
+                <tr>
+                    <td><div class="pill-badge badge-gold">LƯU LOÁT</div></td>
+                    <td class="score-bold">[0.0]/10</td>
+                    <td class="level-bold" style="color:var(--brand-gold)">[MỨC ĐỘ]</td>
+                    <td class="text-comment">[Dữ liệu đồng bộ từ Part 1...]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    :root {
+        --brand-crimson: #BE202F;
+        --brand-gold: #B6914C;
+        --brand-navy: #232d3b;
+        --bg-light: #fdfaf3;
+        --bg-gray-light: #fafafa;
+    }
+
+    .section-c-final { width: 100%; margin-top: 30px; box-sizing: border-box; }
+
+    /* Khung bao ngoài phong cách Side-label chuyên nghiệp */
+    .c-main-wrapper {
+        display: flex;
+        border: 2px solid var(--brand-gold);
+        border-radius: 15px;
+        background: white;
+        overflow: hidden;
+    }
+
+    /* Nhãn dọc bên trái */
+    .c-side-vertical {
+        background-color: var(--bg-light);
+        color: var(--brand-gold);
+        width: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 2px solid var(--brand-gold);
+    }
+
+    .c-side-vertical span {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    .c-inner-body { width: 100%; }
+
+    /* ---  CEFR + LOGIC MŨI TÊN --- */
+    .c-mapping-section {
+        padding: 25px 20px 50px 20px; /* Thêm padding dưới để chứa mũi tên và nhãn */
+        background-color: #ffffff;
+        border-bottom: 1px solid #eee;
+        position: relative;
+    }
+    .c-mapping-title { font-size: 13px; font-weight: 800; color: var(--brand-navy); text-transform: uppercase; margin-bottom: 15px; display: block; }
+
+    .excel-grid-map { 
+        display: grid; 
+        grid-template-columns: repeat(5, 1fr); 
+        gap: 10px; 
+        margin-top: 15px; 
+        position: relative; 
+    }
+    
+    .map-block { display: flex; flex-direction: column; text-align: center; border-radius: 4px; overflow: hidden; background: white; z-index: 2; }
+    .map-level { background-color: var(--brand-crimson); color: white; padding: 8px 0; font-weight: bold; font-size: 14px; }
+    .map-hour { background-color: var(--brand-gold); color: white; padding: 4px 0; font-size: 11px; font-style: italic; font-weight: bold; }
+    .map-range { font-size: 10px; color: #777; margin-top: 4px; font-weight: bold; }
+
+    /* Highlight Hiện tại & Mục tiêu */
+    .map-block.current { border: 2.5px solid var(--brand-crimson); position: relative; }
+    .map-block.current::before { content: 'HIỆN TẠI'; position: absolute; top: -15px; width: 100%; font-size: 8px; color: var(--brand-crimson); font-weight: 900; }
+
+/* --- THANH ROADMAP HÌNH CHỮ NHẬT MỚI --- */
+.path-arrow-layer {
+    position: absolute;
+    bottom: 30px; /* Vị trí cách đáy khung mapping */
+    left: 25px; 
+    right: 25px;
+    height: 45px;
+}
+
+.dynamic-arrow-bar {
+    position: absolute;
+    height: 40px;
+    /* Hiệu ứng màu gradient từ Đỏ sang Vàng */
+    background: linear-gradient(to right, #BE202F 0%, #B6914C 100%);
+    border-radius: 6px;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    padding: 0 15px; 
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+/* Mũi tên nhọn ở đầu thanh bar */
+.dynamic-arrow-bar::after {
+    content: ''; 
+    position: absolute; 
+    right: -15px;
+    border-top: 20px solid transparent; 
+    border-bottom: 20px solid transparent;
+    border-left: 18px solid #B6914C;
+}
+
+.bar-point { display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.point-label { font-size: 8px; font-weight: 800; opacity: 0.9; text-transform: uppercase; }
+.level-tag { 
+    background: rgba(255,255,255,0.2); 
+    border: 1px solid rgba(255,255,255,0.4); 
+    border-radius: 3px; 
+    padding: 1px 5px; 
+    font-size: 10px; 
+    font-weight: 900; 
+    margin-top: 2px; 
+}
+.center-text { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Quan trọng: Tăng padding cho khung chứa để không bị đè chữ */
+.c-mapping-section {
+    padding: 25px 25px 95px 25px !important; 
+    position: relative;
+}
+    .roadmap-block::before { left: 0; }
+    .roadmap-block::after { right: 0; }
+
+    .arrow-text-start { position: absolute; left: 0; top: 8px; font-size: 10px; font-weight: bold; color: var(--brand-crimson); white-space: nowrap; }
+    .arrow-text-end { position: absolute; right: 0; top: 8px; font-size: 10px; font-weight: bold; color: var(--brand-navy); white-space: nowrap; }
+
+    /* --- CÁC TRƯỜNG THÔNG TIN CHI TIẾT --- */
+    .c-field-row { display: flex; padding: 18px 25px; border-top: 1px solid #f2f2f2; align-items: flex-start; }
+    .c-field-label { width: 30%; flex-shrink: 0; }
+    .pill-tag { display: inline-block; background-color: var(--brand-gold); color: white; padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .c-field-value { width: 70%; font-size: 13.5px; color: #333; line-height: 1.6; }
+
+    /* --- CHƯƠNG TRÌNH HỌC 5 GIAI ĐOẠN --- */
+    .timeline-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+    .stage-row { display: flex; align-items: center; background: #fff; padding: 6px 12px; border-radius: 4px; border-left: 3px solid var(--brand-gold); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .stage-label { color: var(--brand-gold); font-weight: bold; font-size: 11px; text-transform: uppercase; min-width: 90px; }
+    .stage-desc { font-size: 12.5px; color: #444; }
+</style>
+
+<div class="section-c-final">
+    <div class="section-title">
+        <h2>B. Lộ trình đào tạo</h2>
+        <div class="line"></div>
+    </div>
+
+    <div class="c-main-wrapper">
+        <div class="c-side-vertical">
+            <span>ROADMAP</span>
+        </div>
+
+        <div class="c-inner-body">
+            
+            <!-- 1. MAPPING CEFR CÓ MŨI TÊN LOGIC -->
+ <div class="c-mapping-section">
+    <span class="c-mapping-title">MAPPING CEFR </span>
+    
+    <!-- Các ô Grid trình độ -->
+    <div class="excel-grid-map">
+        <div class="map-block"><div class="map-level">A1</div><div class="map-hour">36h</div></div>
+        <div class="map-block"><div class="map-level">A2</div><div class="map-hour">36h</div></div>
+        <div class="map-block current"><div class="map-level">B1</div><div class="map-hour">72h</div></div>
+        <div class="map-block"><div class="map-level">B2</div><div class="map-hour">72h</div></div>
+        <div class="map-block target"><div class="map-level" style="background:var(--brand-gold); color:white;">C1</div><div class="map-hour">72h</div></div>
+    </div>
+
+    <!-- THANH BAR HÌNH CHỮ NHẬT (CHỈNH TẠI ĐÂY) -->
+    <div class="path-arrow-layer">
+        <!-- Chỉnh left và width để khớp với vị trí ô phía trên -->
+        <!-- Ví dụ: Từ B1 (ô thứ 3 - 40%) đến C1 (ô thứ 5 - 80%) -> left: 45%; width: 45%; -->
+        <div class="dynamic-arrow-bar" style="left: 45%; width: 45%;">
+            <div class="bar-point">
+                <span class="point-label">HIỆN TẠI</span>
+                <span class="level-tag">(B1)</span>
+            </div>
+            
+            <div class="center-text">LỘ TRÌNH ĐÀO TẠO</div>
+            
+            <div class="bar-point">
+                <span class="point-label">MỤC TIÊU ➤</span>
+                <span class="level-tag">(C1)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+<style>
+    :root {
+        --brand-crimson: #BE202F;
+        --brand-gold: #B6914C;
+        --brand-navy: #232d3b;
+        /* Màu nền cho các nhãn bên trái */
+        --bg-label-red: #fff5f5;
+        --bg-label-gold: #fdfaf3;
+        --bg-label-blue: #f0f4f8;
+        --bg-label-gray: #f9f9f9;
+    }
+
+    .section-d-modern {
+        width: 100%;
+        margin-top: 30px;
+        box-sizing: border-box;
+    }
+
+    /* Khung bao ngoài bo góc viền Gold giống ảnh mẫu */
+    .modern-table-container {
+        width: 100%;
+        border: 2px solid var(--brand-gold);
+        border-radius: 15px;
+        overflow: hidden;
+        border-collapse: collapse;
+    }
+
+    .modern-row {
+        display: flex;
+        border-bottom: 1px solid #eee;
+    }
+
+    .modern-row:last-child {
+        border-bottom: none;
+    }
+
+    /* Cột nhãn bên trái */
+    .m-label {
+        width: 35%;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-right: 1px solid #eee;
+    }
+
+    /* Cột nội dung bên phải */
+    .m-value {
+        width: 65%;
+        padding: 20px 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 14px;
+        color: #333;
+    }
+</style>
+</body>
+</html>

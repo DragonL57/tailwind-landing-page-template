@@ -6,48 +6,46 @@ import { MoveRight } from "lucide-react";
 export default function PricingPackages() {
   const roadmaps = [
     {
-      name: "Lộ trình Chuyên nghiệp",
-      path: { from: "A1", to: "B1" },
-      courses: "3 Khóa học",
-      hours: "144 Giờ",
-      qc: "12 Giờ",
-      focus: "Từ mất gốc đến giao tiếp tự tin trong môi trường làm việc cơ bản.",
-      tag: "PHỔ BIẾN",
+      name: "Standard Package",
+      path: { from: "A1", to: "A2" },
+      duration: "2 tháng",
+      hours: "36 Giờ",
+      sessions: "3 buổi/tuần",
+      perSession: "1.5 giờ/buổi",
+      focus: "Xây dựng nền tảng giao tiếp cơ bản, tự tin trong các tình huống hội thoại đơn giản hàng ngày.",
+      tag: "CƠ BẢN",
     },
     {
-      name: "Lộ trình Bứt phá",
-      path: { from: "A1", to: "B2" },
-      courses: "4 Khóa học",
-      hours: "216 Giờ",
-      qc: "16 Giờ",
-      focus: "Làm chủ ngôn ngữ, sẵn sàng cho các vị trí quản lý và hội nhập quốc tế.",
-      tag: "TOÀN DIỆN",
+      name: "Advance Package",
+      path: { from: "A1", to: "B1" },
+      duration: "4 tháng",
+      hours: "72 Giờ",
+      sessions: "3 buổi/tuần",
+      perSession: "1.5 giờ/buổi",
+      focus: "Từ nền tảng đến giao tiếp độc lập, tự tin xử lý các tình huống công việc cơ bản bằng tiếng Anh.",
+      tag: "PHỔ BIẾN",
       isPopular: true,
     },
     {
-      name: "Lộ trình Tinh hoa",
-      path: { from: "A1", to: "C1" },
-      courses: "5 Khóa học",
-      hours: "288 Giờ",
-      qc: "20 Giờ",
-      focus: "Đạt đến sự tinh tế trong ngôn ngữ, tư duy phản biện và thuyết phục đỉnh cao.",
-      tag: "TỐI ƯU",
+      name: "Professional Package",
+      path: { from: "A1", to: "B2" },
+      duration: "8 tháng",
+      hours: "144 Giờ",
+      sessions: "3 buổi/tuần",
+      perSession: "1.5 giờ/buổi",
+      focus: "Làm chủ ngôn ngữ, sẵn sàng quản lý đội nhóm và hội nhập quốc tế chuyên sâu.",
+      tag: "TOÀN DIỆN",
     },
     {
-      name: "Giải pháp Doanh nghiệp",
-      path: "B2B Custom",
-      courses: "Quy mô lớn",
-      hours: "Thiết kế riêng",
-      qc: "Tiêu chuẩn cao",
-      focus: "Đào tạo đội ngũ, quy chuẩn hóa giao tiếp và nâng tầm thương hiệu quốc tế cho tổ chức.",
-      tag: "CHIẾN LƯỢC",
+      name: "Master Package",
+      path: { from: "A1", to: "C1" },
+      duration: "16 tháng",
+      hours: "216 Giờ",
+      sessions: "3 buổi/tuần",
+      perSession: "1.5 giờ/buổi",
+      focus: "Đạt đến sự tinh tế trong ngôn ngữ, tư duy phản biện, thuyết phục và thương thuyết đỉnh cao.",
+      tag: "TỐI ƯU",
     }
-  ];
-
-  const levels = [
-    { name: "Cấp độ A1/A2", hours: "36 Giờ", qc: "4h", desc: "Nền tảng căn bản" },
-    { name: "Cấp độ B1/B2", hours: "72 Giờ", qc: "4h", desc: "Giao tiếp độc lập" },
-    { name: "Cấp độ C1", hours: "72 Giờ", qc: "4h", desc: "Thành thạo chuyên sâu" }
   ];
 
   const containerVariants: Variants = {
@@ -136,10 +134,12 @@ export default function PricingPackages() {
                 <div className="flex flex-col">
                   <span className="text-[10px] font-bold uppercase text-brand-muted/50 tracking-wider">Thời lượng</span>
                   <span className="text-sm font-bold text-brand-dark">{pkg.hours}</span>
+                  <span className="text-[10px] text-brand-muted/60">~{pkg.duration}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase text-brand-muted/50 tracking-wider">Cấu trúc</span>
-                  <span className="text-sm font-bold text-brand-dark">{pkg.courses}</span>
+                  <span className="text-[10px] font-bold uppercase text-brand-muted/50 tracking-wider">Lịch học</span>
+                  <span className="text-sm font-bold text-brand-dark">{pkg.sessions}</span>
+                  <span className="text-[10px] text-brand-muted/60">{pkg.perSession}</span>
                 </div>
               </div>
 
@@ -147,12 +147,9 @@ export default function PricingPackages() {
                 <p className="text-sm font-medium italic leading-relaxed text-brand-dark">
                   &quot;{pkg.focus}&quot;
                 </p>
-                <div className="flex items-center gap-3 text-[10px] font-bold text-brand-gold uppercase tracking-wider">
-                   +{pkg.qc} kiểm soát chất lượng
-                </div>
               </div>
 
-              <button className={`w-full py-5 font-bold tracking-[1.5px] uppercase text-[10px] transition-all flex items-center justify-center gap-3 group/btn ${
+              <button onClick={() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full py-5 font-bold tracking-[1.5px] uppercase text-[10px] transition-all flex items-center justify-center gap-3 group/btn cursor-pointer ${
                 pkg.isPopular 
                 ? 'bg-brand-crimson text-white hover:bg-brand-dark shadow-xl shadow-brand-crimson/20' 
                 : 'bg-brand-dark text-white hover:bg-brand-crimson'
@@ -179,38 +176,14 @@ export default function PricingPackages() {
                 Dù bạn là cá nhân đang tìm kiếm sự đột phá hay doanh nghiệp cần nâng tầm đội ngũ, chuyên gia của chúng tôi luôn sẵn sàng trực tiếp phân tích để kiến tạo một bản đồ thành công độc bản.
               </p>
             </div>
-            <button className="bg-brand-gold text-brand-dark px-10 py-6 font-bold tracking-[2px] uppercase text-xs hover:bg-white transition-all whitespace-nowrap shadow-xl shadow-brand-gold/10 flex items-center gap-3">
+            <button onClick={() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })} className="bg-brand-gold text-brand-dark px-10 py-6 font-bold tracking-[2px] uppercase text-xs hover:bg-white transition-all whitespace-nowrap shadow-xl shadow-brand-gold/10 flex items-center gap-3 cursor-pointer">
               KIẾN TẠO LỘ TRÌNH RIÊNG
               <MoveRight className="w-4 h-4" />
             </button>
           </div>
         </motion.div>
 
-        {/* Small Level Section */}
-        <div className="max-w-5xl mx-auto border-t border-brand-dark/5 pt-20">
-           <div className="text-center mb-12">
-              <h4 className="font-headline font-bold text-xl text-brand-dark uppercase tracking-widest">
-                 Khóa học theo mục tiêu ngắn hạn
-              </h4>
-           </div>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-brand-dark/5 border border-brand-dark/5">
-              {levels.map((level, i) => (
-                <div key={i} className="bg-white p-8 group hover:bg-brand-surface/30 transition-colors">
-                   <div className="text-[10px] font-bold text-brand-gold uppercase tracking-widest mb-2">{level.desc}</div>
-                   <h5 className="font-bold text-lg text-brand-dark mb-4">{level.name}</h5>
-                   <div className="flex justify-between items-center text-sm font-medium">
-                      <span className="text-brand-muted">{level.hours} tương tác</span>
-                      <span className="text-brand-crimson font-bold">+{level.qc} QC</span>
-                   </div>
-                </div>
-              ))}
-           </div>
-           <div className="mt-12 text-center">
-              <p className="text-xs text-brand-muted/60 uppercase tracking-widest font-bold">
-                 Tất cả khóa học đều bao gồm tài khoản hệ thống học tập 24/7
-              </p>
-           </div>
-        </div>
+
       </motion.div>
     </section>
   );
