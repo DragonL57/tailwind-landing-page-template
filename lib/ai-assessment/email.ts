@@ -213,7 +213,7 @@ ${fullResult ? `
 </td></tr>
 
 <tr><td style="padding:5px 30px 25px;text-align:center">
-  <a href="https://vmg-tesol.edu.vn/giaotiep-1-1" style="display:inline-block;background:#BE202F;color:#fff;padding:12px 32px;text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:4px">Đăng ký tư vấn ngay</a>
+  <a href="https://vmg-online.vercel.app/giaotiep-1-1#form" style="display:inline-block;background:#BE202F;color:#fff;padding:12px 32px;text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:4px">Đăng ký tư vấn ngay</a>
 </td></tr>
 
 <tr><td style="background:#f5f5f5;padding:15px 30px;text-align:center;border-top:1px solid #ddd">

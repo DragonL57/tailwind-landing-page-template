@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -14,11 +16,8 @@ export default function Header() {
   ];
 
   const scrollToForm = () => {
-    const form = document.getElementById('name');
-    if (form) {
-      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     setMobileMenuOpen(false);
+    router.push("/giaotiep-1-1#form");
   };
 
   return (
