@@ -130,8 +130,8 @@ export default function Hero() {
           >
             <div className="relative z-10 aspect-[4/5] w-full max-w-[420px] ml-auto overflow-hidden group shadow-2xl">
               <Image 
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
-                alt="Student learning"
+                src="/images/hero-giaotiep.webp"
+                alt="Học viên đang học tiếng Anh 1-1"
                 fill
                 className="object-cover transition-all duration-1000 scale-105 group-hover:scale-100"
               />
