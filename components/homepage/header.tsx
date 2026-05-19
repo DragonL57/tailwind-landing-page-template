@@ -67,9 +67,6 @@ export default function Header() {
             Blog
           </Link>
 
-          <Link href="/contact" className="text-slate-600 font-bold hover:text-brand-crimson transition-colors font-body text-xs md:text-sm tracking-[1.5px] uppercase">
-            Liên hệ
-          </Link>
         </div>
 
         <div className="flex items-center gap-2 md:gap-6">
@@ -111,8 +108,6 @@ export default function Header() {
             </div>
 
             <Link href="/blog" className="block text-sm font-bold tracking-[1.5px] uppercase text-slate-700 hover:text-brand-crimson">Blog</Link>
-            <Link href="/contact" className="block text-sm font-bold tracking-[1.5px] uppercase text-slate-700 hover:text-brand-crimson">Liên hệ</Link>
-
             <div className="pt-6 border-t border-slate-100 flex flex-col gap-4">
               <Link
                 href="/giaotiep-1-1"

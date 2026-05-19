@@ -85,10 +85,6 @@ export default function Header() {
                 Blog
               </a>
 
-              <a href="/contact" className="text-vmg-navy hover:text-vmg-blue font-semibold text-sm transition-colors py-4">
-                Liên hệ
-              </a>
-
               {/* Products dropdown removed as requested */}
             </nav>
 
@@ -143,8 +139,6 @@ export default function Header() {
               </div>
 
               <a href="/blog" className="block text-lg font-medium text-gray-700 hover:text-vmg-blue">Blog</a>
-              <a href="/contact" className="block text-lg font-medium text-gray-700 hover:text-vmg-blue">Liên hệ</a>
-
               <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
                 <button
                   onClick={() => { openLogin(); setMobileMenuOpen(false); }}
